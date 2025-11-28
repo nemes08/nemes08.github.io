@@ -2,12 +2,12 @@
   "name": "Ayasofya Vakfı",
   "short_name": "Ayasofya",
   "description": "Pi Network ekosistemi için oluşturulmuş merkezi olmayan bir hayır kurumu DApp'i.",
-  "start_url": "https://nemes08.github.io/ayasofyacharity-new/",
+  "start_url": "https://nemes08.github.io/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#d4af37",
   "orientation": "portrait",
-  "scope": "https://nemes08.github.io/ayasofyacharity-new/",
+  "scope": "https://nemes08.github.io/",
   "icons": [
     {
       "src": "images/logo.png",
