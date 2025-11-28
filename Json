@@ -1,0 +1,18 @@
+{
+  "name": "Ayasofya Charity",
+  "short_name": "Ayasofya",
+  "description": "A decentralized charity DApp built for the Pi Network ecosystem.",
+  "start_url": "/ayasofyacharity-new/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#d4af37",
+  "orientation": "portrait",
+  "scope": "/ayasofyacharity-new/",
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
