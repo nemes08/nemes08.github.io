@@ -1,235 +1,169 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ayasofya Charity</title>
 
   <style>
     body {
-      margin: 0;
       font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
       background: #fdfdfd;
       color: #222;
-      text-align: center;
     }
 
     header {
-      padding: 25px 10px;
+      padding: 20px;
     }
 
     .logo {
       width: 160px;
-      animation: pulse 2.5s infinite;
+      height: auto;
+      margin-bottom: 10px;
+      animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.07); }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .heart {
+      font-size: 40px;
+      margin-top: 10px;
+      color: #a100ff;
+      animation: beat 1.3s infinite;
+    }
+
+    @keyframes beat {
+      0%, 40%, 80%, 100% { transform: scale(1); }
+      20%, 60% { transform: scale(1.3); }
     }
 
     h1 {
       font-size: 28px;
-      margin-top: 10px;
+      margin: 10px 0 5px 0;
     }
 
-    .heart-like {
-      font-size: 32px;
-      cursor: pointer;
-      transition: transform 0.3s;
-      color: #ff3b7a;
+    p {
+      color: #555;
     }
 
-    .heart-like.active {
-      transform: scale(1.4);
-      filter: drop-shadow(0px 0px 6px #ff3b7a);
-    }
-
-    .donation-box {
+    .donation-section {
       margin-top: 20px;
     }
 
     button {
-      background: #7b4bff;
+      background-color: #7b4bff;
       color: white;
       border: none;
-      padding: 10px 18px;
-      margin: 5px;
-      border-radius: 10px;
-      font-size: 16px;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 8px;
+      font-size: 15px;
       cursor: pointer;
-      transition: 0.25s;
+      transition: transform 0.2s, background 0.2s;
     }
 
     button:hover {
-      transform: scale(1.07);
+      transform: scale(1.05);
+      background-color: #6a3ee6;
+    }
+
+    .socials a {
+      margin: 0 5px;
+      text-decoration: none;
+      font-size: 24px;
     }
 
     footer {
       margin-top: 30px;
-      padding: 15px;
       font-size: 14px;
-      color: #666;
+      color: #777;
+      padding-bottom: 20px;
     }
 
-    /* İlerleme Çubuğu */
-    .progress-container {
-      width: 90%;
-      background: #eee;
-      border-radius: 12px;
-      height: 14px;
-      margin: 20px auto;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .progress {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #7b4bff, #b493ff);
-      border-radius: 12px;
-      transition: width 0.8s;
-    }
-
-    /* Dil seçici */
-    .lang-switch {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-    }
-
-    .lang-switch button {
-      background: #ddd;
-      color: #222;
-      padding: 6px 10px;
+    /* Mini Fiş */
+    .receipt {
+      position: fixed;
+      bottom: 40px;
+      right: 20px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 16px 20px;
+      display: none;
       font-size: 14px;
     }
-
   </style>
 </head>
+
 <body>
 
-<div class="lang-switch">
-  <button onclick="switchLang('tr')">TR</button>
-  <button onclick="switchLang('en')">EN</button>
-</div>
+  <header>
+    <img src="images/logo.png" class="logo" alt="Ayasofya Charity Logosu">
+    <div class="heart">💜</div>
+    <h1>Ayasofya Charity</h1>
+    <p>İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
+  </header>
 
-<header>
-  <img src="https://i.ibb.co/2kJfFbC/ayasofya.png" alt="Ayasofya Logo" class="logo" />
-  <h1 id="title">Ayasofya Yardım Platformu</h1>
-</header>
+  <section class="donation-section">
+    <h2>Bağış Yap</h2>
+    <p>✅ Valide bağlantı sağlandı!</p>
 
-<!-- SLIDER -->
-<div style="width: 100%; max-width: 500px; margin: auto;">
-  <img id="slider" src="https://i.ibb.co/5n7hX9x/slide1.jpg" 
-       style="width:100%; border-radius:15px; box-shadow:0 0 10px #999;">
-</div>
+    <button onclick="sendPi('1')">1 Pi</button>
+    <button onclick="sendPi('5')">5 Pi</button>
+    <button onclick="sendPi('10')">10 Pi</button>
+    <button onclick="customDonation()">Bağışı Gönder</button>
+  </section>
 
-<script>
-  let slideIndex = 0;
-  const slides = [
-    "https://i.ibb.co/5n7hX9x/slide1.jpg",
-    "https://i.ibb.co/5c6JqcH/slide2.jpg",
-    "https://i.ibb.co/vY16f1g/slide3.jpg"
-  ];
+  <section class="socials">
+    <h3>Destekle & Paylaş</h3>
+    <a href="https://x.com/uursemen2" target="_blank">🕊️</a>
+    <a href="https://facebook.com/share/1ZeKpjp33v" target="_blank">📘</a>
+    <a href="https://t.me/uur1453" target="_blank">💬</a>
+    <a href="https://instagram.com/uursemen08" target="_blank">📸</a>
+    <a href="https://tiktok.com/@semenuur" target="_blank">🎵</a>
+    <a href="https://youtube.com/@uursemen08" target="_blank">▶️</a>
+  </section>
 
-  setInterval(() => {
-    slideIndex = (slideIndex + 1) % slides.length;
-    document.getElementById("slider").src = slides[slideIndex];
-  }, 3500);
-</script>
+  <footer>
+    © 2025 Ayasofya Charity | Tüm hakları saklıdır
+  </footer>
 
-<!-- LIKE BUTONU -->
-<div>
-  <span class="heart-like" id="likeBtn">❤️</span>
-  <p id="likeCount">0 beğeni</p>
-</div>
+  <div class="receipt" id="receipt"></div>
 
-<script>
-  let likes = 0;
-  const likeBtn = document.getElementById("likeBtn");
-  const likeCount = document.getElementById("likeCount");
+  <script>
+    const recipient = "uur1453";
 
-  likeBtn.addEventListener("click", () => {
-    likes++;
-    likeBtn.classList.add("active");
-    setTimeout(() => likeBtn.classList.remove("active"), 300);
-    likeCount.innerText = likes + " beğeni";
-  });
-</script>
-<!-- BAĞIŞ BUTONU -->
-<div>
-  <a class="btn" href="pi://wallet/pay?username=ugurnemes08&amount=1&memo=Ayasofya%20Bagis">
-    <span id="donateText">1π Bağış Yap</span>
-  </a>
-</div>
+    function sendPi(amount) {
+      const memo = "Ayasofya Charity Bağışı";
+      const url = `pi://pay?recipient=${recipient}&amount=${amount}&memo=${memo}`;
 
-<!-- AÇIKLAMA METNİ -->
-<p id="infoText">
-  Bu platform, ihtiyaç sahibi ailelere destek olmak amacıyla oluşturulmuştur. 
-  Yapılan her bağış Blockchain üzerinde kayıtlıdır ve şeffaftır.
-</p>
-
-<!-- NFT Bağış Kartları -->
-<div class="nft-container">
-  <div class="nft-card">
-    <img src="https://i.ibb.co/qktzct2/nft1.jpg" alt="NFT 1">
-    <p id="nft1Text">Ayasofya Dijital Kart 1</p>
-  </div>
-  <div class="nft-card">
-    <img src="https://i.ibb.co/4TTHR8S/nft2.jpg" alt="NFT 2">
-    <p id="nft2Text">Ayasofya Dijital Kart 2</p>
-  </div>
-  <div class="nft-card">
-    <img src="https://i.ibb.co/8cxpKTd/nft3.jpg" alt="NFT 3">
-    <p id="nft3Text">Ayasofya Dijital Kart 3</p>
-  </div>
-</div>
-<script>
-  const langSwitch = document.getElementById("langSwitch");
-
-  const translations = {
-    tr: {
-      headerTitle: "Ayasofya Charity",
-      headerSubtitle: "Toplumsal yardım projesi",
-
-      donateText: "1π Bağış Yap",
-      infoText: "Bu platform, ihtiyaç sahibi ailelere destek olmak için oluşturulmuştur. Yapılan her bağış Blockchain üzerinde kayıtlıdır ve şeffaftır.",
-
-      nft1Text: "Ayasofya Dijital Kart 1",
-      nft2Text: "Ayasofya Dijital Kart 2",
-      nft3Text: "Ayasofya Dijital Kart 3",
-
-      sliderTitle1: "Toplumsal Dayanışma",
-      sliderTitle2: "Şeffaf Blockchain",
-      sliderTitle3: "Dijital Sanat Bağışları"
-    },
-
-    en: {
-      headerTitle: "Ayasofya Charity",
-      headerSubtitle: "Community support project",
-
-      donateText: "Donate 1π",
-      infoText: "This platform was created to support families in need. Every donation is recorded on the Blockchain and is transparent.",
-
-      nft1Text: "Ayasofya Digital Card 1",
-      nft2Text: "Ayasofya Digital Card 2",
-      nft3Text: "Ayasofya Digital Card 3",
-
-      sliderTitle1: "Social Solidarity",
-      sliderTitle2: "Transparent Blockchain",
-      sliderTitle3: "Digital Art Donations"
-    }
-  };
-
-  langSwitch.addEventListener("change", () => {
-    const selectedLang = langSwitch.value;
-
-    for (const [key, value] of Object.entries(translations[selectedLang])) {
-      const element = document.getElementById(key);
-      if (element) {
-        element.textContent = value;
+      if (navigator.userAgent.includes("PiBrowser")) {
+        window.location.href = url;
+      } else {
+        alert("Lütfen Pi Browser veya Pi Wallet üzerinden bağış yapın.");
       }
+
+      showReceipt(amount + " Pi");
     }
-  });
-</script>
+
+    function customDonation() {
+      let amount = prompt("Ne kadar Pi bağışlamak istiyorsunuz?");
+      if (amount) sendPi(amount);
+    }
+
+    function showReceipt(text) {
+      const r = document.getElementById("receipt");
+      r.innerHTML = text + " bağışı için teşekkür ederiz 💜";
+      r.style.display = "block";
+      setTimeout(() => r.style.display = "none", 2800);
+    }
+  </script>
+
+</body>
+</html>
