@@ -1,106 +1,153 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ayasofya Charity</title>
-    <meta name="description" content="Ayasofya Charity, Pi Network üzerinde yardım ve dayanışma amacıyla geliştirilen bağımsız bir DApp projesidir.">
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: #fafafa;
-            color: #333;
-        }
-
-        header {
-            background: #702f2f;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 26px;
-        }
-
-        .container {
-            max-width: 880px;
-            margin: 30px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-        }
-
-        h2 {
-            color: #702f2f;
-        }
-
-        footer {
-            margin-top: 40px;
-            padding: 15px;
-            text-align: center;
-            background: #eee;
-            font-size: 14px;
-        }
-
-        a {
-            color: #702f2f;
-            text-decoration: none;
-        }
-
-        .note {
-            background: #fff3cd;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ffeeba;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ayasofya Charity</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background: #fdfdfd;
+      color: #222;
+    }
+    header { padding: 20px; }
+    .logo { width: 160px; height: auto; margin-bottom: 10px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+    h1 { font-size: 26px; margin: 10px 0; }
+    p { color: #555; }
+    .donation-section { margin-top: 20px; }
+    button {
+      background-color: #7b4bff; color: white; border: none; border-radius: 8px;
+      padding: 10px 16px; margin: 5px; font-size: 15px; cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover { transform: scale(1.05); }
+    footer { margin-top: 30px; font-size: 14px; color: #777; }
+    .socials a { margin: 0 5px; text-decoration: none; font-size: 22px; }
+    .receipt {
+      position: fixed; bottom: 40px; right: 20px;
+      background: #fff; border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 16px 20px; display: none; animation: fadeIn 0.4s ease forwards;
+    }
+    @keyframes fadeIn { from {transform:translateY(20px); opacity:0;} to {transform:translateY(0); opacity:1;} }
+    .heart { color: #ff3b7a; font-size: 30px; animation: beat 1.3s infinite; }
+    @keyframes beat { 0%,40%,80%,100%{transform:scale(1);} 20%,60%{transform:scale(1.3);} }
+    .lang-select { margin-bottom: 10px; }
+    .lang-select button { background-color:#eee; color:#222; font-size:14px; padding:5px 10px; }
+    .lang-select button.active { background-color:#7b4bff; color:white; }
+    @media (max-width:600px) { h1{font-size:22px;} button{padding:8px 12px;font-size:14px;} .socials a{font-size:20px;} }
+  </style>
 </head>
-
 <body>
+  <div class="lang-select">
+    <button id="btn-tr" class="active" onclick="setLang('tr')">TR</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
 
-    <header>
-        <h1>Ayasofya Charity</h1>
-        <p>Pi Network üzerinde bağımsız bir yardım ve dayanışma DApp projesi</p>
-    </header>
+  <header>
+    <img src="images/logo.png" alt="Ayasofya Charity Logosu" class="logo">
+    <div class="heart">💜</div>
+    <h1 id="title">Ayasofya Charity</h1>
+    <p id="description">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
+  </header>
 
-    <div class="container">
-        <h2>Hakkında</h2>
-        <p>
-            Ayasofya Charity, tamamen gönüllü ve bağımsız bir sosyal yardım girişimidir.
-            Proje; ihtiyaç sahiplerini, gönüllüleri ve bağışçıları Pi Network üzerinde bir araya getirmeyi amaçlar.
-        </p>
-
-        <div class="note">
-            <strong>Önemli Açıklama:</strong> 
-            Bu proje Ayasofya Camii/Müzesi ile <b>resmi bir bağlantıya sahip değildir</b>.
-            Ayasofya ismi yalnızca manevi bir sembol olarak kullanılmaktadır.
-        </div>
-
-        <h2>Geliştirme Durumu</h2>
-        <p>
-            Uygulama şu anda test aşamasındadır. Pi Mainnet için gerekli entegrasyonlar ve güvenlik testleri devam etmektedir.
-        </p>
-
-        <h2>Belgeler</h2>
-        <p>
-            <a href="privacy.html">Gizlilik Politikası</a><br>
-            <a href="terms.html">Kullanım Şartları</a>
-        </p>
-
-        <h2>İletişim</h2>
-        <p>Email: ayasofyacharity@support.com (İstersen değiştiririz)</p>
+  <section class="donation-section">
+    <h2 id="donate-title">Bağış Yap</h2>
+    <p id="valid-msg">✅ Valide bağlantı sağlandı!</p>
+    <div>
+      <button onclick="sendPi('1')" id="btn1">1 Pi</button>
+      <button onclick="sendPi('5')" id="btn5">5 Pi</button>
+      <button onclick="sendPi('10')" id="btn10">10 Pi</button>
+      <button onclick="customDonation()" id="btnCustom">Bağışı Gönder</button>
     </div>
+  </section>
 
-    <footer>
-        © 2025 Ayasofya Charity – Bağımsız Pi Network DApp Projesi
-    </footer>
+  <section class="socials">
+    <h3 id="share-title">Destekle & Paylaş</h3>
+    <a href="https://x.com/uursemen2" target="_blank">🕊️</a>
+    <a href="https://facebook.com/share/1ZeKpjp33v" target="_blank">📘</a>
+    <a href="https://t.me/uur1453" target="_blank">💬</a>
+    <a href="https://instagram.com/uursemen08" target="_blank">📸</a>
+    <a href="https://tiktok.com/@semenuur" target="_blank">🎵</a>
+    <a href="https://youtube.com/@uursemen08" target="_blank">▶️</a>
+  </section>
 
+  <footer>
+    <span id="footer-text">© 2025 Ayasofya Charity | Tüm hakları saklıdır</span>
+  </footer>
+
+  <div class="receipt" id="receipt"></div>
+
+  <script>
+    const texts = {
+      tr: {
+        title: "Ayasofya Charity",
+        description: "İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış",
+        donateTitle: "Bağış Yap",
+        validMsg: "✅ Valide bağlantı sağlandı!",
+        btn1: "1 Pi", btn5: "5 Pi", btn10: "10 Pi", btnCustom: "Bağışı Gönder",
+        shareTitle: "Destekle & Paylaş",
+        thanks: "Teşekkürler!"
+      },
+      en: {
+        title: "Ayasofya Charity",
+        description: "Support people in need — Transparent donations via Pi Network",
+        donateTitle: "Donate",
+        validMsg: "✅ Connection validated!",
+        btn1: "1 Pi", btn5: "5 Pi", btn10: "10 Pi", btnCustom: "Send Donation",
+        shareTitle: "Support & Share",
+        thanks: "Thank you!"
+      }
+    };
+
+    let currentLang = 'tr';
+    const recipient = "uur1453"; // Pi Wallet kullanıcı adın
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.getElementById('title').innerText = texts[lang].title;
+      document.getElementById('description').innerText = texts[lang].description;
+      document.getElementById('donate-title').innerText = texts[lang].donateTitle;
+      document.getElementById('valid-msg').innerText = texts[lang].validMsg;
+      document.getElementById('btn1').innerText = texts[lang].btn1;
+      document.getElementById('btn5').innerText = texts[lang].btn5;
+      document.getElementById('btn10').innerText = texts[lang].btn10;
+      document.getElementById('btnCustom').innerText = texts[lang].btnCustom;
+      document.getElementById('share-title').innerText = texts[lang].shareTitle;
+      document.getElementById('footer-text').innerText = lang==='tr'? "© 2025 Ayasofya Charity | Tüm hakları saklıdır" : "© 2025 Ayasofya Charity | All rights reserved";
+
+      // Buton aktif durumu
+      document.getElementById('btn-tr').classList.toggle('active', lang==='tr');
+      document.getElementById('btn-en').classList.toggle('active', lang==='en');
+    }
+
+    function sendPi(amount) {
+      const memo = "Ayasofya Charity Bağışı";
+      const url = `pi://pay?recipient=${recipient}&amount=${amount}&memo=${memo}`;
+      if(navigator.userAgent.includes("PiBrowser")) {
+        window.location.href = url;
+      } else {
+        alert(currentLang==='tr'?"Lütfen Pi Browser veya Pi Wallet üzerinden bağış yapın.":"Please use Pi Browser or Pi Wallet to donate.");
+      }
+      showReceipt(amount + " Pi");
+    }
+
+    function customDonation() {
+      let amount = prompt(currentLang==='tr'?"Ne kadar Pi bağışlamak istiyorsunuz?":"How much Pi would you like to donate?");
+      if(amount) sendPi(amount);
+    }
+
+    function showReceipt(amount) {
+      const r = document.getElementById('receipt');
+      const date = new Date().toLocaleString('tr-TR');
+      r.innerHTML = `<strong>${texts[currentLang].thanks}</strong><br>${amount} bağışladınız 💜<br><small>${date}</small>`;
+      r.style.display = 'block';
+      setTimeout(() => r.style.display = 'none', 3000);
+    }
+  </script>
 </body>
 </html>
