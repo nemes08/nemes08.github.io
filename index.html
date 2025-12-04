@@ -2,199 +2,119 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ayasofya Charity</title>
 
 <style>
     body {
-        margin:0;
-        padding:0;
-        font-family:'Segoe UI', sans-serif;
-        text-align:center;
-        background: linear-gradient(to bottom right, #f7f5fc, #eceaf5);
-        color:#222;
+        font-family: 'Segoe UI', sans-serif;
+        background: #fafafa;
+        padding: 20px;
+        text-align: center;
+        color: #222;
     }
 
-    /* Ayasofya Filigran */
-    .watermark {
-        position: fixed;
-        top:50%;
-        left:50%;
-        width:80%;
-        height:80%;
-        background:url('images/ayasofya-real-photo.jpg') no-repeat center/contain;
-        opacity:0.10;
-        transform:translate(-50%,-50%);
-        pointer-events:none;
-        z-index:0;
+    .logo-area {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 20px;
+        font-weight: bold;
     }
 
-    /* Kart */
-    .card {
-        position:relative;
-        z-index:2;
-        max-width:400px;
-        margin:40px auto;
-        padding:20px;
-        border-radius:18px;
-        background:rgba(255,255,255,0.25);
-        backdrop-filter:blur(14px);
-        box-shadow:0 8px 30px rgba(0,0,0,0.1);
+    .heart {
+        font-size: 40px;
+        margin: 10px 0;
+        color: #b34bff;
     }
 
-    h2 { color:#7b4bff; }
-    p { font-size:16px; }
-
-    /* Dil seçici */
-    .lang-select {
-        margin-bottom:15px;
-        padding:8px 12px;
-        border-radius:8px;
-        border:none;
-        background:#7b4bff;
-        color:white;
-        font-size:15px;
+    h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        color: #7b4bff;
     }
 
-    /* Progress Bar */
-    .progress {
-        width:100%;
-        background:rgba(123,75,255,0.25);
-        height:12px;
-        border-radius:8px;
-        margin-top:10px;
-        overflow:hidden;
-    }
-    .progress-fill {
-        width:0%;
-        height:100%;
-        background:#7b4bff;
+    .description {
+        font-size: 18px;
+        margin-bottom: 20px;
     }
 
-    /* Gizlilik Modal */
-    .modal-bg {
-        display:none;
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        background:rgba(0,0,0,0.4);
-        z-index:99;
-        justify-content:center;
-        align-items:center;
-    }
-    .modal {
-        background:white;
-        max-width:450px;
-        padding:20px;
-        border-radius:12px;
-        text-align:left;
-    }
-    .close-btn {
-        background:#7b4bff;
-        color:white;
-        border:none;
-        padding:8px 16px;
-        margin-top:10px;
-        border-radius:8px;
+    .donation-section {
+        margin-top: 20px;
+        background: #ffffff;
+        padding: 20px;
+        display: inline-block;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     }
 
-    /* Bağış Butonu */
-    button {
-        background:#7b4bff;
-        color:white;
-        border:none;
-        padding:10px 16px;
-        margin:5px;
-        border-radius:8px;
-        cursor:pointer;
+    .donation-section button {
+        background: #7b4bff;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        margin: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .social {
+        margin-top: 25px;
+        font-size: 30px;
+    }
+
+    .social a {
+        margin: 0 8px;
+        text-decoration: none;
+    }
+
+    footer {
+        margin-top: 35px;
+        font-size: 14px;
+        color: #555;
     }
 </style>
 </head>
 
 <body>
 
-<div class="watermark"></div>
-
-<div class="card">
-    
-    <!-- Dil Seçimi -->
-    <select id="lang" class="lang-select" onchange="changeLang()">
-        <option value="tr">Türkçe</option>
-        <option value="en">English</option>
-    </select>
-
-    <h2 id="title">Ayasofya Bağış Platformu</h2>
-    <p id="desc">Ayasofya'nın restorasyon ve hayır çalışmalarına katkıda bulunun.</p>
-
-    <!-- Hedef ve İstatistik -->
-    <p id="goal">Hedef: 1000 PI</p>
-    <p id="donationCount">Toplam Bağış: 0</p>
-
-    <div class="progress">
-        <div id="progressFill" class="progress-fill"></div>
-    </div>
-
-    <button onclick="donate()">Bağış Yap</button>
-    <button onclick="openPolicy()">Gizlilik Politikası</button>
+<div class="logo-area">
+    Ayasofya Charity  
+    <br><br>
+    Ayasofya Charity Logosu
 </div>
 
-<!-- Gizlilik Politikası Penceresi -->
-<div id="policyModal" class="modal-bg">
-    <div class="modal">
-        <h3>Gizlilik Politikası</h3>
-        <p>
-            Bu uygulama, kullanıcıların kişisel verilerini saklamaz, paylaşmaz ve üçüncü taraflara aktarmamaktadır. 
-            Bağış işlemleri Pi Network altyapısı üzerinden güvenli şekilde gerçekleşir.
-        </p>
-        <button class="close-btn" onclick="closePolicy()">Kapat</button>
-    </div>
+<div class="heart">💜</div>
+
+<h1>Ayasofya Charity</h1>
+
+<div class="description">
+    İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış
 </div>
 
-<script>
+<div class="donation-section">
+    <h2>Bağış Yap</h2>
 
-let totalDonations = 0;
-let goal = 1000;
+    <p>✅ Valide bağlantı sağlandı!</p>
 
-function donate() {
-    totalDonations++;
-    document.getElementById("donationCount").innerText = 
-        (lang === 'tr' ? "Toplam Bağış: " : "Total Donations: ") + totalDonations;
+    <button>1 Pi</button>
+    <button>5 Pi</button>
+    <button>10 Pi</button>
+    <button>Bağışı Gönder</button>
+</div>
 
-    // progress
-    let percentage = (totalDonations / goal) * 100;
-    document.getElementById("progressFill").style.width = percentage + "%";
-}
+<div class="social">
+    <a href="https://x.com/uursemen2">🕊️</a>
+    <a href="https://facebook.com/share/1ZeKpjp33v">📘</a>
+    <a href="https://t.me/uur1453">💬</a>
+    <a href="https://instagram.com/uursemen08">📸</a>
+    <a href="https://tiktok.com/@semenuur">🎵</a>
+    <a href="https://youtube.com/@uursemen08">▶️</a>
+</div>
 
-let lang = "tr";
-
-function changeLang() {
-    lang = document.getElementById("lang").value;
-
-    if(lang === "tr") {
-        document.getElementById("title").innerText = "Ayasofya Bağış Platformu";
-        document.getElementById("desc").innerText = "Ayasofya'nın restorasyon ve hayır çalışmalarına katkıda bulunun.";
-        document.getElementById("goal").innerText = "Hedef: 1000 PI";
-        document.getElementById("donationCount").innerText = "Toplam Bağış: " + totalDonations;
-    } else {
-        document.getElementById("title").innerText = "Hagia Sophia Donation Platform";
-        document.getElementById("desc").innerText = "Support restoration and charity projects for Hagia Sophia.";
-        document.getElementById("goal").innerText = "Goal: 1000 PI";
-        document.getElementById("donationCount").innerText = "Total Donations: " + totalDonations;
-    }
-}
-
-function openPolicy() {
-    document.getElementById("policyModal").style.display = "flex";
-}
-
-function closePolicy() {
-    document.getElementById("policyModal").style.display = "none";
-}
-
-</script>
+<footer>
+    © 2025 Ayasofya Charity | Tüm hakları saklıdır
+</footer>
 
 </body>
 </html>
