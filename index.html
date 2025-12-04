@@ -317,41 +317,230 @@ function runConfetti(){
   layer.innerHTML = ''; layer.style.display = 'block';
   const colors = ['#ff3b7a','#ffd166','#7b4bff','#4ade80','#38bdf8'];
   for(let i=0;i<80;i++){
-    const el = document.createElement('i');
-    el.style.left = Math.random()*100 + '%';
-    el.style.top = '-10px';
-    el.style.background = colors[Math.floor(Math.random()*colors.length)];
-    el.style.transform = `rotate(${Math.random()*360}deg)`;
-    el.style.opacity = (0.8+Math.random()*0.2);
-    el.style.width = (6+Math.random()*8) + 'px';
-    el.style.height = el.style.width;
-    layer.appendChild(el);
-    // fall animation
-    (function(e){
-      const dest = window.innerHeight + 80 + Math.random()*200;
-      const dur = 1200 + Math.random()*1000;
-      e.animate([
-        {transform:`translateY(0) rotate(${Math.random()*360}deg)`, opacity:1},
-        {transform:`translateY(${dest}px) rotate(${Math.random()*720}deg)`, opacity:0.3}
-      ],{duration:dur, easing:'cubic-bezier(.2,.9,.3,1)'});
-      setTimeout(()=> e.remove(), dur+80);
-    })(el);
-  }
-  // hide after a while
-  setTimeout(()=>{ layer.style.display='none'; layer.innerHTML=''; }, 2200);
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayasofya Vakfı</title>
+<meta name="pinet:allowed-domains" content="*.pinet.com">
+
+<!-- Orijinal CSS -->
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: #fdfdfd;
+    color: #222;
+}
+header {
+    padding: 20px;
+}
+.logo {
+    width: 160px;
+    height: auto;
+    margin-bottom: 10px;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%,100% { transform: scale(1);}
+    50% { transform: scale(1.08);}
+}
+h1 { font-size:26px; margin:10px 0;}
+p { color:#555;}
+.donation-section { margin-top:20px;}
+button {
+    background-color:#7b4bff;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:10px 16px;
+    margin:5px;
+    font-size:15px;
+    cursor:pointer;
+    transition: transform 0.2s;
+}
+button:hover { transform: scale(1.05);}
+footer { margin-top:30px; font-size:14px; color:#777;}
+.socials a { margin:0 5px; text-decoration:none; font-size:22px;}
+.receipt {
+    position: fixed;
+    bottom:40px;
+    right:20px;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.1);
+    padding:16px 20px;
+    display:none;
+    animation: fadeIn 0.4s ease forwards;
+}
+@keyframes fadeIn {
+    0% { transform:translateY(20px); opacity:0;}
+    100% { transform:translateY(0); opacity:1;}
+}
+.heart {
+    color:#ff3b7a;
+    font-size:30px;
+    animation: heartbeat 1.3s infinite;
+}
+@keyframes heartbeat {
+    0%,40%,80%,100% { transform:scale(1);}
+    20%,60% { transform:scale(1.3);}
+}
+</style>
+
+<!-- Modern Overlay CSS -->
+<style>
+/* Overlay Katmanı */
+.modern-overlay {
+    position: relative;
+    z-index: 1;
 }
 
-/* ---------- Init ---------- */
-setLang('tr');
-updateUI();
+/* Filigran Ayasofya */
+.ayasofya-watermark {
+    position: fixed;
+    top:50%;
+    left:50%;
+    width:80%;
+    height:80%;
+    background:url('images/ayasofya-real-photo.jpg') no-repeat center/contain;
+    opacity:0.06;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    z-index:0;
+}
 
-/* ---------- Accessibility: keyboard quick donate (optional) ---------- */
-document.addEventListener('keydown', e=>{
-  if(e.key === '1') sendPi('1');
-  if(e.key === '5') sendPi('5');
-  if(e.key === '0') sendPi('10');
-});
+/* Glassmorphism Kart */
+.donation-card {
+    position: relative;
+    max-width:380px;
+    margin:40px auto;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(12px);
+    border-radius:16px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.1);
+    padding:20px;
+    z-index:1;
+}
+.donation-card h2 {
+    font-size:22px;
+    margin-bottom:10px;
+    color:#7b4bff;
+}
+.donation-card p { font-size:16px; color:#333; margin-bottom:15px;}
+.donation-buttons button {
+    background-color:#7b4bff;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:10px 16px;
+    margin:5px 2px;
+    font-size:15px;
+    cursor:pointer;
+    transition: transform 0.2s;
+}
+.donation-buttons button:hover { transform:scale(1.05);}
+.progress-bar {
+    width:100%;
+    height:10px;
+    background: rgba(123,75,255,0.2);
+    border-radius:8px;
+    margin-top:15px;
+}
+.progress-fill {
+    width:0%;
+    height:100%;
+    background:#7b4bff;
+    border-radius:8px;
+    transition: width 0.5s ease-in-out;
+}
+</style>
 
+</head>
+<body>
+
+<header>
+    <img src="images/logo.png" alt="Ayasofya Charity Logosu" class="logo">
+    <div class="heart">💜</div>
+    <h1>Ayasofya Vakfı</h1>
+    <p>İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
+</header>
+
+<section class="donation-section">
+    <h2>Bağış Yap</h2>
+    <p>✅ Valide köprülenebilir!</p>
+    <div>
+        <button onclick="sendPi('1')">1 Pi</button>
+        <button onclick="sendPi('5')">5 Pi</button>
+        <button onclick="sendPi('10')">10 Pi</button>
+        <button onclick="customDonation()">Bağışı Gönder</button>
+    </div>
+</section>
+
+<section class="socials">
+    <h3>Destekle & Paylaş</h3>
+    <a href="https://x.com/uursemen2" target="_blank">🕊️</a>
+    <a href="https://facebook.com/share/1ZeKpjp33v" target="_blank">📘</a>
+    <a href="https://t.me/uur1453" target="_blank">💬</a>
+    <a href="https://instagram.com/uursemen08" target="_blank">📸</a>
+    <a href="https://tiktok.com/@semenuur" target="_blank">🎵</a>
+    <a href="https://youtube.com/@uursemen08" target="_blank">▶️</a>
+</section>
+
+<footer>© 2025 Ayasofya Vakfı | Tüm hakları saklıdır</footer>
+
+<!-- Mini Bağış Fişi -->
+<div class="receipt" id="receipt"></div>
+
+<!-- Modern Overlay Katmanı -->
+<div class="modern-overlay">
+    <div class="ayasofya-watermark"></div>
+    <div class="donation-card">
+        <h2>Bağış Yap</h2>
+        <p>İhtiyaç sahiplerine destek olun 💜</p>
+        <div class="donation-buttons">
+            <button onclick="sendPi('1')">1 Pi</button>
+            <button onclick="sendPi('5')">5 Pi</button>
+            <button onclick="sendPi('10')">10 Pi</button>
+            <button onclick="customDonation()">Bağışı Gönder</button>
+        </div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+</div>
+
+<script>
+// Bağış ve fiş fonksiyonları (eski JS korunuyor)
+const alıcı = "uur1453";
+
+function sendPi(miktar){
+    const memo="Ayasofya Hayır Kurumu Bağışı";
+    const url = `pi://ödeme?alıcı=${alıcı}&miktar=${miktar}&memo=${memo}`;
+    if(navigator.userAgent.includes("PiBrowser")){
+        window.location.href = url;
+    } else { alert("Lütfen Pi Tarayıcı veya Pi Cüzdan üzerinden bağış yapın."); }
+    showReceipt(miktar+" Pi");
+}
+function customDonation(){
+    let miktar = prompt("Ne kadar Pi bağışlamak istersiniz?");
+    if(miktar) sendPi(miktar);
+}
+function showReceipt(amount){
+    const r = document.getElementById('receipt');
+    const date = new Date().toLocaleString('tr-TR');
+    r.innerHTML = `<strong>Teşekkürler!</strong><br>${amount} bağışladınız 💜<br><small>${date}</small>`;
+    r.style.display='block';
+    setTimeout(()=>{ r.style.display='none'; },3000);
+}
+
+// Progress bar örneği
+function updateProgress(percent){
+    document.querySelector('.progress-fill').style.width = percent+'%';
+}
+updateProgress(45); // Örnek: %45 doluluk
 </script>
+
 </body>
 </html>
