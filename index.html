@@ -1,174 +1,199 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ayasofya Vakfı</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-        body {
-            font-family: "Segoe UI", sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            background: #fdfdfd;
-            color: #222;
-        }
+<title>Ayasofya Charity</title>
 
-        header { padding: 20px; }
+<style>
+    body {
+        margin:0;
+        padding:0;
+        font-family:'Segoe UI', sans-serif;
+        text-align:center;
+        background: linear-gradient(to bottom right, #f7f5fc, #eceaf5);
+        color:#222;
+    }
 
-        .logo {
-            width: 160px;
-            height: auto;
-            margin-bottom: 10px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
+    /* Ayasofya Filigran */
+    .watermark {
+        position: fixed;
+        top:50%;
+        left:50%;
+        width:80%;
+        height:80%;
+        background:url('images/ayasofya-real-photo.jpg') no-repeat center/contain;
+        opacity:0.10;
+        transform:translate(-50%,-50%);
+        pointer-events:none;
+        z-index:0;
+    }
 
-        h1 { font-size: 26px; margin: 10px 0; }
-        p { color: #555; }
+    /* Kart */
+    .card {
+        position:relative;
+        z-index:2;
+        max-width:400px;
+        margin:40px auto;
+        padding:20px;
+        border-radius:18px;
+        background:rgba(255,255,255,0.25);
+        backdrop-filter:blur(14px);
+        box-shadow:0 8px 30px rgba(0,0,0,0.1);
+    }
 
-        /* Dil Seçimi */
-        .lang-box {
-            margin-top: 15px;
-        }
-        select {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #888;
-            font-size: 15px;
-        }
+    h2 { color:#7b4bff; }
+    p { font-size:16px; }
 
-        .donate-section { margin-top: 20px; }
+    /* Dil seçici */
+    .lang-select {
+        margin-bottom:15px;
+        padding:8px 12px;
+        border-radius:8px;
+        border:none;
+        background:#7b4bff;
+        color:white;
+        font-size:15px;
+    }
 
-        button {
-            background-color: #7b4bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            margin: 5px;
-            font-size: 15px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        button:hover { transform: scale(1.05); }
+    /* Progress Bar */
+    .progress {
+        width:100%;
+        background:rgba(123,75,255,0.25);
+        height:12px;
+        border-radius:8px;
+        margin-top:10px;
+        overflow:hidden;
+    }
+    .progress-fill {
+        width:0%;
+        height:100%;
+        background:#7b4bff;
+    }
 
-        footer {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #777;
-        }
+    /* Gizlilik Modal */
+    .modal-bg {
+        display:none;
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.4);
+        z-index:99;
+        justify-content:center;
+        align-items:center;
+    }
+    .modal {
+        background:white;
+        max-width:450px;
+        padding:20px;
+        border-radius:12px;
+        text-align:left;
+    }
+    .close-btn {
+        background:#7b4bff;
+        color:white;
+        border:none;
+        padding:8px 16px;
+        margin-top:10px;
+        border-radius:8px;
+    }
 
-        /* Mini Bağış Fişi */
-        .receipt {
-            position: fixed;
-            bottom: 40px;
-            right: 20px;
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-            padding: 16px 20px;
-            display: none;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-    </style>
+    /* Bağış Butonu */
+    button {
+        background:#7b4bff;
+        color:white;
+        border:none;
+        padding:10px 16px;
+        margin:5px;
+        border-radius:8px;
+        cursor:pointer;
+    }
+</style>
 </head>
+
 <body>
 
-<header>
-    <img src="images/logo.png" alt="Ayasofya Vakfı Logosu" class="logo" />
-    <h1 id="title">Ayasofya Vakfı</h1>
-    <p id="subtitle">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
+<div class="watermark"></div>
 
-    <!-- Dil seçimi -->
-    <div class="lang-box">
-        <select id="langSwitch" onchange="switchLang()">
-            <option value="tr">Türkçe</option>
-            <option value="en">English</option>
-            <option value="ar">العربية</option>
-        </select>
+<div class="card">
+    
+    <!-- Dil Seçimi -->
+    <select id="lang" class="lang-select" onchange="changeLang()">
+        <option value="tr">Türkçe</option>
+        <option value="en">English</option>
+    </select>
+
+    <h2 id="title">Ayasofya Bağış Platformu</h2>
+    <p id="desc">Ayasofya'nın restorasyon ve hayır çalışmalarına katkıda bulunun.</p>
+
+    <!-- Hedef ve İstatistik -->
+    <p id="goal">Hedef: 1000 PI</p>
+    <p id="donationCount">Toplam Bağış: 0</p>
+
+    <div class="progress">
+        <div id="progressFill" class="progress-fill"></div>
     </div>
-</header>
 
-<section class="donate-section">
-    <h2 id="donateTitle">Bağış Yap</h2>
-    <p id="donateSub">Valide köprülenebilir!</p>
+    <button onclick="donate()">Bağış Yap</button>
+    <button onclick="openPolicy()">Gizlilik Politikası</button>
+</div>
 
-    <div>
-        <button onclick="showReceipt('1 Pi')">1 Pi</button>
-        <button onclick="showReceipt('5 Pi')">5 Pi</button>
-        <button onclick="showReceipt('10 Pi')">10 Pi</button>
-        <button id="sendBtn" onclick="showReceipt('Özel Miktar')">Bağışı Gönder</button>
+<!-- Gizlilik Politikası Penceresi -->
+<div id="policyModal" class="modal-bg">
+    <div class="modal">
+        <h3>Gizlilik Politikası</h3>
+        <p>
+            Bu uygulama, kullanıcıların kişisel verilerini saklamaz, paylaşmaz ve üçüncü taraflara aktarmamaktadır. 
+            Bağış işlemleri Pi Network altyapısı üzerinden güvenli şekilde gerçekleşir.
+        </p>
+        <button class="close-btn" onclick="closePolicy()">Kapat</button>
     </div>
-</section>
-
-<footer id="footerText">
-    © 2025 Ayasofya Vakfı | Tüm hakları saklıdır
-</footer>
-
-<!-- Bağış fişi -->
-<div class="receipt" id="receipt"></div>
+</div>
 
 <script>
-    function showReceipt(amount) {
-        const r = document.getElementById("receipt");
-        const date = new Date().toLocaleString("tr-TR");
-        r.innerHTML = `<strong>Teşekkürler!</strong><br>${amount} bağışladınız 💜<br><small>${date}</small>`;
-        r.style.display = "block";
-        setTimeout(() => (r.style.display = "none"), 3000);
+
+let totalDonations = 0;
+let goal = 1000;
+
+function donate() {
+    totalDonations++;
+    document.getElementById("donationCount").innerText = 
+        (lang === 'tr' ? "Toplam Bağış: " : "Total Donations: ") + totalDonations;
+
+    // progress
+    let percentage = (totalDonations / goal) * 100;
+    document.getElementById("progressFill").style.width = percentage + "%";
+}
+
+let lang = "tr";
+
+function changeLang() {
+    lang = document.getElementById("lang").value;
+
+    if(lang === "tr") {
+        document.getElementById("title").innerText = "Ayasofya Bağış Platformu";
+        document.getElementById("desc").innerText = "Ayasofya'nın restorasyon ve hayır çalışmalarına katkıda bulunun.";
+        document.getElementById("goal").innerText = "Hedef: 1000 PI";
+        document.getElementById("donationCount").innerText = "Toplam Bağış: " + totalDonations;
+    } else {
+        document.getElementById("title").innerText = "Hagia Sophia Donation Platform";
+        document.getElementById("desc").innerText = "Support restoration and charity projects for Hagia Sophia.";
+        document.getElementById("goal").innerText = "Goal: 1000 PI";
+        document.getElementById("donationCount").innerText = "Total Donations: " + totalDonations;
     }
+}
 
-    const LANG = {
-        tr: {
-            title: "Ayasofya Vakfı",
-            subtitle: "İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış",
-            donateTitle: "Bağış Yap",
-            donateSub: "Valide köprülenebilir!",
-            sendBtn: "Bağışı Gönder",
-            footer: "© 2025 Ayasofya Vakfı | Tüm hakları saklıdır"
-        },
-        en: {
-            title: "Ayasofya Foundation",
-            subtitle: "Support those in need — Transparent donations via Pi Network",
-            donateTitle: "Donate",
-            donateSub: "Wallet is bridgeable!",
-            sendBtn: "Send Donation",
-            footer: "© 2025 Ayasofya Foundation | All rights reserved"
-        },
-        ar: {
-            title: "وقف آيا صوفيا",
-            subtitle: "دعم المحتاجين — تبرعات شفافة عبر شبكة Pi",
-            donateTitle: "تبرع",
-            donateSub: "المحفظة قابلة للجسر!",
-            sendBtn: "إرسال التبرع",
-            footer: "© 2025 وقف آيا صوفيا | جميع الحقوق محفوظة"
-        }
-    };
+function openPolicy() {
+    document.getElementById("policyModal").style.display = "flex";
+}
 
-    function switchLang() {
-        const lang = document.getElementById("langSwitch").value;
-        document.getElementById("title").textContent = LANG[lang].title;
-        document.getElementById("subtitle").textContent = LANG[lang].subtitle;
-        document.getElementById("donateTitle").textContent = LANG[lang].donateTitle;
-        document.getElementById("donateSub").textContent = LANG[lang].donateSub;
-        document.getElementById("sendBtn").textContent = LANG[lang].sendBtn;
-        document.getElementById("footerText").textContent = LANG[lang].footer;
+function closePolicy() {
+    document.getElementById("policyModal").style.display = "none";
+}
 
-        if (lang === "ar") {
-            document.body.style.direction = "rtl";
-        } else {
-            document.body.style.direction = "ltr";
-        }
-    }
 </script>
 
 </body>
