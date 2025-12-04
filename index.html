@@ -14,39 +14,55 @@
         <div class="logo-container">
             <img src="images/logo.png" alt="Ayasofya Filigran Logo" class="logo">
         </div>
-        <h1>Ayasofya Charity</h1>
+        <h1 id="title">Ayasofya Charity</h1>
         <div class="heart"></div>
+        <div class="language-selector">
+            <button onclick="setLanguage('tr')">TR</button>
+            <button onclick="setLanguage('en')">EN</button>
+        </div>
     </header>
 
     <main>
         <section class="card">
-            <h2>Bağış Paneli</h2>
-            <p>Pi Blockchain üzerinde güvenli bağış göndermek için butonlardan birini seçebilirsiniz.</p>
+            <h2 id="donation-title">Bağış Paneli</h2>
+            <p id="donation-text">Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:</p>
             <div class="buttons">
-                <button class="donate-btn" onclick="alert('1 Pi bağış butonu henüz aktif değil!')">1 π</button>
-                <button class="donate-btn" onclick="alert('50 Pi bağış butonu henüz aktif değil!')">50 π</button>
+                <button class="donate-btn" onclick="donate(1)">1 π</button>
+                <button class="donate-btn" onclick="donate(50)">50 π</button>
+            </div>
+            <div class="donation-status">
+                <p id="total-pi-text">Toplam Bağış: <span id="total-pi">0</span> π</p>
+                <p id="donor-count-text">Bağış Yapan Kişi Sayısı: <span id="donor-count">0</span></p>
+                <p id="goal-text">Hedef: <span id="goal-pi">500</span> π</p>
             </div>
         </section>
 
-        <section class="links">
-            <a href="privacy.html">Gizlilik Politikası</a>
-            <a href="terms.html">Kullanım Şartları</a>
-        </section>
-
         <section class="info-card">
-            <h2>Ayasofya Hakkında</h2>
-            <p>Ayasofya, İstanbul’un simgesi ve dünya çapında tarihi bir yapıdır. Bu projeyle hem kültürel mirasa sahip çıkıyor hem de yardım topluyoruz.</p>
+            <h2 id="info-title">Ayasofya Hakkında</h2>
+            <p id="info-text">Ayasofya, İstanbul’un simgesi ve dünya çapında tarihi bir yapıdır. Bu projeyle hem kültürel mirasa sahip çıkıyor hem de yardım topluyoruz.</p>
         </section>
 
         <section class="donation-info">
             <div class="info-block">
-                <h3>Neden Bağış Yapmalıyım?</h3>
-                <p>Bağışlarınızla hem tarihi mirasın korunmasına katkıda bulunuyor hem de ihtiyaç sahiplerine destek oluyorsunuz.</p>
+                <h3 id="why-title">Neden Bağış Yapmalıyım?</h3>
+                <p id="why-text">Bağışlarınızla hem tarihi mirasın korunmasına katkıda bulunuyor hem de ihtiyaç sahiplerine destek oluyorsunuz.</p>
             </div>
             <div class="info-block">
-                <h3>Güvenli İşlem</h3>
-                <p>Pi Blockchain altyapısı sayesinde işlemleriniz güvenle gerçekleşir, tüm bağışlar şeffaf şekilde izlenebilir.</p>
+                <h3 id="secure-title">Güvenli İşlem</h3>
+                <p id="secure-text">Pi Blockchain altyapısı sayesinde işlemleriniz güvenle gerçekleşir, tüm bağışlar şeffaf şekilde izlenebilir.</p>
             </div>
+        </section>
+
+        <section class="social-media">
+            <h3 id="follow-title">Bizi Takip Edin</h3>
+            <a href="#" target="_blank">Facebook</a>
+            <a href="#" target="_blank">Twitter</a>
+            <a href="#" target="_blank">Instagram</a>
+        </section>
+
+        <section class="links">
+            <a href="privacy.html" id="privacy-link">Gizlilik Politikası</a>
+            <a href="terms.html" id="terms-link">Kullanım Şartları</a>
         </section>
     </main>
 
@@ -54,5 +70,7 @@
         <p>© 2025 Ayasofya Charity. Tüm hakları saklıdır.</p>
         <p>Developed with ❤️ by Ayasofya Charity Team</p>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
