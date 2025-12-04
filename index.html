@@ -1,185 +1,467 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ayasofya Charity</title>
 
-<!-- Premium Fontlar -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<!-- Fontlar -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to bottom right, #f9f7ff, #eceaf5);
-    text-align: center;
-    color: #222;
+:root{
+  --accent:#7b4bff;
+  --accent-dark:#6b3bff;
+  --muted:#6f6f7a;
+  --glass-bg: rgba(255,255,255,0.32);
+  --card-blur: 14px;
+  --max-width: 920px;
 }
 
-/* Ayasofya filigranı */
-.ayasofya-watermark {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 90%;
-    height: 90%;
-    background: url('images/ayasofya-real-photo.jpg') no-repeat center/contain;
-    opacity: 0.06;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-    pointer-events: none;
+/* Reset & temel */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background: linear-gradient(180deg,#fbf9ff 0%, #eef0fa 100%);
+  color:#222;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  display:flex;
+  justify-content:center;
+  padding:32px 16px;
 }
 
-/* Ana kapsayıcı */
-.page-wrap {
-    position: relative;
-    z-index: 2;
-    padding: 20px;
+/* Sayfa kapsayıcı */
+.site {
+  width:100%;
+  max-width:var(--max-width);
+  position:relative;
+  z-index:2;
 }
 
-/* Logo */
-.logo-box {
-    width: 180px;
-    margin: 0 auto 20px auto;
-    padding: 18px;
-    border-radius: 22px;
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+/* Filigran (arkaplan) */
+.watermark {
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  z-index:0;
+}
+.watermark::after{
+  content:"";
+  width:92%;
+  height:92%;
+  background:url('images/ayasofya-real-photo.jpg') no-repeat center/contain;
+  opacity:0.06;
+  transform:translateY(0);
+  filter:grayscale(30%) contrast(90%);
+  pointer-events:none;
+  display:block;
+}
+
+/* Üst alan: logo + dil toggles */
+.header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px;
+  z-index:3;
+}
+.brand {
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.logo-wrap {
+  width:86px;
+  height:86px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.65));
+  box-shadow: 0 8px 24px rgba(16,12,48,0.08);
+  backdrop-filter: blur(10px);
+  padding:12px;
+}
+.logo-wrap img{width:100%;height:auto}
+
+/* Dil düğmeleri */
+.lang {
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.lang button{
+  border: none;
+  padding:8px 12px;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  background:transparent;
+  color:var(--muted);
+}
+.lang .active{
+  background:linear-gradient(90deg,var(--accent),var(--accent-dark));
+  color:white;
+  box-shadow: 0 6px 18px rgba(107,59,255,0.12);
 }
 
 /* Başlık */
-h1 {
-    font-size: 26px;
-    font-weight: 700;
-    color: #6b3bff;
-    margin-bottom: 5px;
+.title {
+  text-align:center;
+  margin: 6px 0 18px 0;
+  z-index:3;
+}
+.title h1{
+  margin:0;
+  font-size:28px;
+  color:var(--accent-dark);
+}
+.title p{margin:6px 0 0;color:var(--muted)}
+
+/* Kart (glassmorphism) */
+.card {
+  margin: 0 auto;
+  position:relative;
+  z-index:3;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--card-blur));
+  border-radius:20px;
+  padding:22px;
+  box-shadow: 0 12px 36px rgba(16,12,48,0.10);
+  max-width:560px;
 }
 
-/* Card (bağış kutusu) */
-.card {
-    margin: 25px auto;
-    max-width: 420px;
-    background: rgba(255,255,255,0.35);
-    backdrop-filter: blur(16px);
-    border-radius: 20px;
-    box-shadow: 0 10px 32px rgba(0,0,0,0.15);
-    padding: 25px;
+/* Favori kalp (üst sağ) */
+.fav {
+  position:absolute;
+  right:18px;
+  top:18px;
+  background:rgba(255,255,255,0.65);
+  border-radius:12px;
+  padding:8px;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(16,12,48,0.06);
 }
+.fav .heart{ font-size:20px; color:#d8d6df; transition:transform .18s, color .18s}
+.fav.active .heart{ color:#ff3b7a; transform:scale(1.08)}
 
 /* Bağış butonları */
-.donation-buttons button {
-    background: linear-gradient(135deg, #8f5dff, #6b3bff);
-    color: white;
-    border: none;
-    border-radius: 14px;
-    padding: 12px 22px;
-    margin: 8px;
-    font-size: 17px;
-    cursor: pointer;
-    transition: 0.25s;
+.buttons { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:10px }
+.btn-amt {
+  border:none;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:700;
+  background:linear-gradient(135deg,#a07dff,#7b4bff);
+  color:white;
+  box-shadow: 0 8px 20px rgba(107,59,255,0.12);
+  transition: transform .15s, box-shadow .15s;
 }
-.donation-buttons button:hover {
-    transform: scale(1.08);
-}
+.btn-amt.selected{ outline:3px solid rgba(123,75,255,0.12); transform:translateY(-4px) }
 
 /* Gönder butonu */
-.send-btn {
-    margin-top: 15px;
-    background: #7b4bff;
-    padding: 13px 26px;
-    border-radius: 14px;
-    font-size: 17px;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: 0.25s;
-}
-.send-btn:hover {
-    transform: scale(1.08);
+.send {
+  display:block;
+  margin:16px auto 0 auto;
+  padding:12px 26px;
+  border-radius:14px;
+  border:none;
+  font-weight:700;
+  color:white;
+  background:linear-gradient(90deg,var(--accent),var(--accent-dark));
+  cursor:pointer;
+  box-shadow:0 12px 30px rgba(107,59,255,0.14);
 }
 
-/* Progress bar */
-.progress {
-    margin-top: 20px;
-    width: 100%;
-    height: 12px;
-    background: rgba(123,75,255,0.25);
-    border-radius: 10px;
+/* Progress */
+.progress-wrap { margin-top:18px; display:flex; align-items:center; gap:12px; }
+.progress-text { flex:1; font-size:14px; color:var(--muted) }
+.progress-bar {
+  width:100%;
+  height:12px;
+  background:rgba(123,75,255,0.14);
+  border-radius:999px;
+  overflow:hidden;
+  box-shadow: inset 0 -2px 8px rgba(0,0,0,0.04);
 }
-.progress-fill {
-    height: 100%;
-    width: 0%;
-    background: #7b4bff;
-    border-radius: 10px;
-    transition: width 0.5s;
-}
-
-/* Bağış geçmişi */
-.history-box {
-    margin-top: 15px;
-    font-size: 15px;
-    text-align: left;
-    color: #444;
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#9a7dff,#7b4bff);
+  border-radius:999px;
+  transition: width .6s ease;
 }
 
-/* Alt link */
-.footer-link {
-    text-align: center;
-    padding: 20px;
-    font-size: 15px;
-    color: #6b3bff;
-    font-weight: 600;
+/* Grid info */
+.info-row { display:flex; gap:12px; justify-content:space-between; margin-top:14px; color:var(--muted); font-size:14px }
+
+/* Bağış geçmişi & gizlilik */
+.history { margin-top:16px; text-align:left; color:#2b2b2b }
+.history b{ color:var(--accent-dark) }
+.privacy {
+  margin-top:18px;
+  padding-top:14px;
+  border-top:1px solid rgba(22,18,40,0.04);
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* Sosyal ikonlar (alt) */
+.socials { display:flex; gap:10px; justify-content:center; margin-top:16px }
+.socials a { text-decoration:none; font-size:20px; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:rgba(255,255,255,0.7); box-shadow:0 6px 18px rgba(16,12,48,0.06)}
+
+/* Teşekkür toast */
+.toast {
+  position:fixed;
+  right:20px;
+  bottom:26px;
+  background:linear-gradient(90deg,#7b4bff,#6b3bff);
+  color:white;
+  padding:12px 18px;
+  border-radius:12px;
+  box-shadow:0 14px 40px rgba(107,59,255,0.16);
+  transform:translateY(30px) scale(.98);
+  opacity:0;
+  transition:all .35s ease;
+  z-index:9999;
+}
+.toast.show { opacity:1; transform:translateY(0) scale(1) }
+
+/* Responsive */
+@media (max-width:520px){
+  .site{ padding:12px }
+  .logo-wrap{ width:84px; height:84px }
+  .card{ padding:18px }
+  h1{ font-size:22px }
 }
 </style>
-
 </head>
 
 <body>
+  <div class="watermark" aria-hidden="true"></div>
 
-<div class="ayasofya-watermark"></div>
+  <div class="site" role="main">
+    <div class="header">
+      <div class="brand" aria-hidden="false">
+        <div class="logo-wrap"><img src="images/logo.png" alt="Ayasofya Charity Logo"></div>
+        <div style="text-align:left">
+          <div style="font-size:14px;color:var(--muted);font-weight:600">Ayasofya Charity</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">İhtiyaç sahiplerine destek — Pi Network ile şeffaf bağış</div>
+        </div>
+      </div>
 
-<div class="page-wrap">
-
-    <div class="logo-box">
-        <img src="images/logo.png" width="150" />
+      <div class="lang" aria-label="Dil seçimi">
+        <button id="btnTR" class="active" aria-pressed="true">TR</button>
+        <button id="btnEN" aria-pressed="false">EN</button>
+      </div>
     </div>
 
-    <h1>Ayasofya Charity</h1>
-    <p>İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
-
-    <div class="card">
-        <h2>Bağış Yap</h2>
-
-        <p style="color:green; font-weight:600">✔ Valide bağlantı sağlandı!</p>
-
-        <div class="donation-buttons">
-            <button onclick="selectAmount(1)">π 1 Pi</button>
-            <button onclick="selectAmount(5)">π 5 Pi</button>
-            <button onclick="selectAmount(10)">π 10 Pi</button>
-        </div>
-
-        <button class="send-btn" onclick="sendDonation()">Bağışı Gönder</button>
-
-        <div class="progress">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-
-        <p>Toplam: <span id="total">0</span> Pi — Hedef: 100 Pi</p>
-
-        <div class="history-box">
-            <b>Bağış Geçmişi:</b><br>
-            <i>Henüz bağış yok.</i>
-        </div>
+    <div class="title">
+      <h1 id="mainTitle">Ayasofya Charity</h1>
+      <p id="subtitle">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
     </div>
 
-    <div class="footer-link">
-        Gizlilik & Güven
+    <div class="card" role="region" aria-labelledby="donateTitle">
+      <div class="fav" id="favBtn" title="Favori ekle (kalp)"><span class="heart">♡</span></div>
+
+      <h2 id="donateTitle" style="text-align:center;margin:6px 0 2px 0">Bağış Yap</h2>
+      <div style="text-align:center;color:green;font-weight:700;margin-top:6px" id="validated">✅ Valide bağlantı sağlandı!</div>
+
+      <div class="buttons" role="toolbar" aria-label="Bağış miktarları">
+        <button class="btn-amt" data-amt="1">π 1 Pi</button>
+        <button class="btn-amt" data-amt="5">π 5 Pi</button>
+        <button class="btn-amt" data-amt="10">π 10 Pi</button>
+      </div>
+
+      <button class="send" id="sendBtn">Bağışı Gönder</button>
+
+      <div class="progress-wrap">
+        <div class="progress-text">Toplam: <strong id="total">0</strong> Pi</div>
+        <div style="min-width:110px;text-align:right;color:var(--muted)">Hedef: <strong id="goal">100</strong> Pi</div>
+      </div>
+      <div class="progress-bar" aria-hidden="true" style="margin-top:10px">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="info-row">
+        <div>Bağış Sayısı: <strong id="count">0</strong></div>
+        <div>Son Bağış: <strong id="last">-</strong></div>
+      </div>
+
+      <div class="history" id="history">
+        <b>Bağış Geçmişi</b>
+        <div id="historyList" style="margin-top:8px;font-style:italic;color:var(--muted)">Henüz bağış yok.</div>
+      </div>
+
+      <div class="privacy" id="privacy">
+        <b>Gizlilik & Güven</b>
+        <p style="margin:8px 0 0 0">
+          Tüm bağışlar Pi Network üzerinden şeffaf şekilde gerçekleşir. Kişisel bilgileriniz üçüncü taraflarla paylaşılmaz; bağışlar doğrulandıktan sonra ihtiyaç sahiplerine yönlendirilir.
+        </p>
+      </div>
+
+      <div class="socials" aria-hidden="false" style="margin-top:14px">
+        <a href="https://x.com/uursemen2" target="_blank" title="X / Twitter">X</a>
+        <a href="https://instagram.com/uursemen08" target="_blank" title="Instagram">IG</a>
+        <a href="https://t.me/uur1453" target="_blank" title="Telegram">TG</a>
+        <a href="#" id="shareBtn" title="Paylaş">🔗</a>
+      </div>
     </div>
 
-</div>
+    <div style="text-align:center;margin-top:14px;color:var(--muted);font-size:13px">
+      © 2025 Ayasofya Charity | Tüm hakları saklıdır
+    </div>
+  </div>
 
+  <!-- Teşekkür Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite">Teşekkürler — bağışınız alındı 💜</div>
+
+<script>
+/* --- Ayarlar --- */
+const PI_RECEIVER = "uur1453"; // senin Pi kullanıcı adın
+const GOAL = 100;
+
+/* --- Dil Desteği --- */
+const texts = {
+  tr: {
+    title: "Ayasofya Charity",
+    subtitle: "İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış",
+    donate: "Bağış Yap",
+    send: "Bağışı Gönder",
+    validated: "✅ Valide bağlantı sağlandı!",
+    thanks: "Teşekkürler — bağışınız alındı 💜",
+    privacyTitle: "Gizlilik & Güven",
+    privacyText: "Tüm bağışlar Pi Network üzerinden şeffaf şekilde gerçekleşir. Kişisel bilgileriniz üçüncü taraflarla paylaşılmaz; bağışlar doğrulandıktan sonra ihtiyaç sahiplerine yönlendirilir."
+  },
+  en: {
+    title: "Ayasofya Charity",
+    subtitle: "Support those in need — transparent donations via Pi Network",
+    donate: "Donate",
+    send: "Send Donation",
+    validated: "✅ Valid connection established!",
+    thanks: "Thanks — your donation has been received 💜",
+    privacyTitle: "Privacy & Security",
+    privacyText: "All donations are processed transparently via Pi Network. Your personal info is not shared with third parties; donations are routed to beneficiaries after verification."
+  }
+};
+let currentLang = 'tr';
+function setLang(lang){
+  currentLang = lang;
+  document.getElementById('mainTitle').textContent = texts[lang].title;
+  document.getElementById('subtitle').textContent = texts[lang].subtitle;
+  document.getElementById('donateTitle').textContent = texts[lang].donate;
+  document.getElementById('sendBtn').textContent = texts[lang].send;
+  document.getElementById('validated').textContent = texts[lang].validated;
+  document.getElementById('privacy').querySelector('b').textContent = texts[lang].privacyTitle;
+  document.getElementById('privacy').querySelector('p').textContent = texts[lang].privacyText;
+
+  document.getElementById('btnTR').classList.toggle('active', lang==='tr');
+  document.getElementById('btnEN').classList.toggle('active', lang==='en');
+  document.getElementById('btnTR').setAttribute('aria-pressed', lang==='tr');
+  document.getElementById('btnEN').setAttribute('aria-pressed', lang==='en');
+}
+document.getElementById('btnTR').addEventListener('click', ()=>setLang('tr'));
+document.getElementById('btnEN').addEventListener('click', ()=>setLang('en'));
+setLang('tr');
+
+/* --- Bağış mantığı (front-end demo + Pi link) --- */
+let selectedAmount = 1;
+let total = 0;
+let count = 0;
+const historyArr = [];
+
+document.querySelectorAll('.btn-amt').forEach(btn=>{
+  btn.addEventListener('click',(e)=>{
+    document.querySelectorAll('.btn-amt').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedAmount = Number(btn.dataset.amt);
+  });
+});
+// varsayılan seç
+document.querySelector('.btn-amt[data-amt="1"]').classList.add('selected');
+
+document.getElementById('sendBtn').addEventListener('click', ()=>{
+  // Pi ödeme linki
+  const memo = encodeURIComponent("Ayasofya Hayır Kurumu Bağışı");
+  const url = `pi://payment?receiver=${PI_RECEIVER}&amount=${selectedAmount}&memo=${memo}`;
+
+  // Eğer Pi Browser ise yönlendir (uygulama protokolleri farklı olabilir; güncelle)
+  if(navigator.userAgent.includes("PiBrowser") || navigator.userAgent.includes("pi-browser") || navigator.userAgent.toLowerCase().includes("pi")){
+    window.location.href = url;
+  } else {
+    // Demo: kullanıcıyı uyar ve "local" olarak bağışı kaydet
+    alert("Pi Browser kullanmıyorsunuz. Tarayıcı Pi destekliyorsa otomatik ödeme açılacaktır. (Demo kaydı yerelde tutuldu)");
+    recordDonation(selectedAmount);
+  }
+});
+
+/* Kayıt & UI güncelleme */
+function recordDonation(amount){
+  const now = new Date();
+  total += amount;
+  count += 1;
+  historyArr.unshift({amount, date: now});
+  updateUI();
+  showToast(`${texts[currentLang].thanks}`);
+  // otomatik geri kaydırma/history göster
+  renderHistory();
+}
+function updateUI(){
+  document.getElementById('total').textContent = total;
+  document.getElementById('count').textContent = count;
+  document.getElementById('last').textContent = count>0 ? `${historyArr[0].amount} Pi` : '-';
+  const pct = Math.min(100, Math.round((total/GOAL)*100));
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+function renderHistory(){
+  const el = document.getElementById('historyList');
+  if(historyArr.length===0){ el.innerHTML = '<i style="color:var(--muted)">Henüz bağış yok.</i>'; return; }
+  el.innerHTML = historyArr.map(h=>`<div style="margin-bottom:8px">• <strong>${h.amount} Pi</strong> — <small style="color:var(--muted)">${h.date.toLocaleString()}</small></div>`).join('');
+}
+
+/* Teşekkür toast */
+function showToast(text){
+  const t = document.getElementById('toast');
+  t.textContent = text;
+  t.classList.add('show');
+  setTimeout(()=> t.classList.remove('show'),4000);
+}
+
+/* Favori kalp */
+document.getElementById('favBtn').addEventListener('click', ()=>{
+  document.getElementById('favBtn').classList.toggle('active');
+  const heart = document.querySelector('.fav .heart');
+  if(document.getElementById('favBtn').classList.contains('active')) heart.textContent = '💜'; else heart.textContent = '♡';
+});
+
+/* Paylaş (basit) */
+document.getElementById('shareBtn').addEventListener('click', (e)=>{
+  e.preventDefault();
+  const shareData = {
+    title: texts[currentLang].title,
+    text: texts[currentLang].subtitle,
+    url: window.location.href
+  };
+  if(navigator.share){
+    navigator.share(shareData).catch(()=>alert('Paylaşım iptal edildi.'));
+  } else {
+    navigator.clipboard.writeText(window.location.href).then(()=> alert('Bağlantı kopyalandı!'));
+  }
+});
+
+/* Başlangıç ayarları */
+document.getElementById('goal').textContent = GOAL;
+updateUI();
+renderHistory();
+</script>
 </body>
 </html>
