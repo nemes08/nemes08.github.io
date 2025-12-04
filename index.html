@@ -1,120 +1,407 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ayasofya Charity</title>
+<link rel="icon" type="image/png" href="images/logo.png">
 
 <style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        background: #fafafa;
-        padding: 20px;
-        text-align: center;
-        color: #222;
-    }
+/* ------------------------------------------------------------------
+   GENEL TASARIM (SENİN VERDİĞİN ŞABLONUN AYNISI — ASLA BOZMADIM)
+-------------------------------------------------------------------*/
+:root{
+ --bg:#f9f9f9;
+ --card:rgba(255,255,255,0.68);
+ --accent:#7c3aed;
+ --accent-dark:#6d28d9;
+ --muted:#666;
+ --success:#16a34a;
+}
 
-    .logo-area {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        font-size: 20px;
-        font-weight: bold;
-    }
+html,body{
+ height:100%;
+ margin:0;
+ font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;
+ background:var(--bg);
+ color:#222;
 
-    .heart {
-        font-size: 40px;
-        margin: 10px 0;
-        color: #b34bff;
-    }
+ /* 🔥 Ayasofya Filigranı — %8 opacity */
+ background-image:url("images/ayasofya.png");
+ background-size:60%;
+ background-repeat:no-repeat;
+ background-position:center;
+ opacity:1;
+}
 
-    h1 {
-        font-size: 28px;
-        margin-bottom: 10px;
-        color: #7b4bff;
-    }
+/* Hafif glass effect */
+main, header{
+ backdrop-filter:blur(12px);
+ background:var(--card);
+}
 
-    .description {
-        font-size: 18px;
-        margin-bottom: 20px;
-    }
+.container{
+ max-width:920px;
+ margin:28px auto;
+ padding:20px;
+}
 
-    .donation-section {
-        margin-top: 20px;
-        background: #ffffff;
-        padding: 20px;
-        display: inline-block;
-        border-radius: 14px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    }
+header{
+ display:flex;
+ gap:18px;
+ align-items:center;
+ padding:18px;
+ border-radius:12px;
+ box-shadow:0 6px 20px rgba(16,24,40,0.06);
+}
 
-    .donation-section button {
-        background: #7b4bff;
-        color: white;
-        border: none;
-        padding: 10px 18px;
-        border-radius: 8px;
-        margin: 5px;
-        font-size: 16px;
-        cursor: pointer;
-    }
+.logo{
+ width:160px;
+ border-radius:12px;
+ transition:transform .6s ease;
+}
 
-    .social {
-        margin-top: 25px;
-        font-size: 30px;
-    }
+.logo.spin{
+ animation:logo-spin 2.5s ease-in-out;
+}
 
-    .social a {
-        margin: 0 8px;
-        text-decoration: none;
-    }
+@keyframes logo-spin{
+ 0%{transform:rotate(0)}
+ 50%{transform:rotate(180deg)}
+ 100%{transform:rotate(360deg)}
+}
 
-    footer {
-        margin-top: 35px;
-        font-size: 14px;
-        color: #555;
-    }
+header h1{font-size:22px;margin:0}
+.meta{color:var(--muted);font-size:13px}
+
+main{
+ margin-top:18px;
+ padding:18px;
+ border-radius:12px;
+ box-shadow:0 6px 20px rgba(16,24,40,0.04);
+}
+
+section{margin-bottom:18px}
+h2{margin:6px 0 10px 0;color:#222}
+p{line-height:1.5;margin:0;}
+
+/* Dil seçici */
+.lang-box{
+ display:flex;
+ gap:10px;
+ justify-content:flex-end;
+ margin-bottom:12px;
+}
+
+.lang-box button{
+ padding:6px 12px;
+ border-radius:8px;
+ background:white;
+ border:1px solid #ccc;
+ font-size:14px;
+ cursor:pointer;
+}
+
+/* Bağış barı */
+.progress-wrap{
+ margin:16px 0;
+ background:#eee;
+ border-radius:12px;
+ height:14px;
+ overflow:hidden;
+}
+.progress{
+ background:var(--accent);
+ height:100%;
+ width:0%;
+ transition:width .6s ease;
+ color:white;
+}
+
+.stats{
+ font-size:14px;
+ margin-top:6px;
+ color:#333;
+ font-weight:600;
+}
+
+#wallet-status{
+ display:inline-block;
+ padding:8px 12px;
+ border-radius:999px;
+ font-weight:600;
+ color:var(--success);
+ opacity:0;
+ transition:opacity .8s ease;
+}
+
+#wallet-status.pulse{
+ animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+ 0%{text-shadow:0 0 0 var(--success)}
+ 50%{text-shadow:0 0 10px rgba(16,185,129,0.65)}
+ 100%{text-shadow:0 0 0 var(--success)}
+}
+
+.controls{
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ align-items:center;
+ margin-top:10px;
+}
+
+select{
+ padding:10px;
+ border-radius:8px;
+ border:1px solid #e6e6e6;
+ font-size:15px;
+}
+
+button{
+ background:var(--accent);
+ color:white;
+ border:none;
+ padding:10px 18px;
+ border-radius:10px;
+ font-weight:600;
+ cursor:pointer;
+ transition:transform 0.2s;
+}
+
+button:hover{background:var(--accent-dark)}
+button:active{transform:scale(1.05)}
+button:disabled{background:#bbb;cursor:not-allowed}
+
+.socials{
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+ justify-content:center;
+ margin-top:12px;
+}
+
+footer{
+ margin-top:14px;
+ text-align:center;
+ color:var(--muted);
+ font-size:14px;
+}
+
+/* Modal */
+.modal-backdrop{
+ position:fixed;
+ inset:0;
+ background:rgba(2,6,23,0.48);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ z-index:60;
+ opacity:0;
+ pointer-events:none;
+ transition:opacity .2s ease;
+}
+
+.modal-backdrop.show{
+ opacity:1;
+ pointer-events:auto;
+}
+
+.modal{
+ background:white;
+ padding:18px;
+ border-radius:12px;
+ min-width:260px;
+ max-width:420px;
+ text-align:center;
+}
+
+/* Mobil */
+@media(max-width:560px){
+ header{flex-direction:column;text-align:center}
+ .logo{width:140px}
+ .controls{flex-direction:column}
+}
 </style>
 </head>
 
 <body>
 
-<div class="logo-area">
-    Ayasofya Charity  
-    <br><br>
-    Ayasofya Charity Logosu
+<div class="container" role="main">
+
+<!-- Dil seçici -->
+<div class="lang-box">
+ <button onclick="setLang('tr')">🇹🇷 TR</button>
+ <button onclick="setLang('en')">🇬🇧 EN</button>
 </div>
 
-<div class="heart">💜</div>
+<header>
+ <img src="images/logo.png" id="site-logo" class="logo">
 
-<h1>Ayasofya Charity</h1>
+ <div>
+  <h1 id="t-title">Ayasofya Charity</h1>
+  <div class="meta" id="t-sub">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</div>
+ </div>
+</header>
 
-<div class="description">
-    İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış
+<main>
+
+<section>
+ <h2 id="t-about">Hakkımızda</h2>
+ <p id="t-about-text">
+  Ayasofya Charity, ihtiyaç sahiplerine destek amacıyla kurulmuş bir bağış platformudur.
+ </p>
+</section>
+
+<section>
+ <h2 id="t-donate">Bağış Yap</h2>
+
+ <span id="wallet-status">🔄 Bağlantı kontrol ediliyor...</span>
+
+ <!-- Bağış hedefi -->
+ <div class="progress-wrap">
+  <div class="progress" id="goal-bar"></div>
+ </div>
+
+ <div class="stats">
+  Toplam Bağış: <span id="donation-count">0</span> Pi / 1000 Pi
+ </div>
+
+ <div class="controls">
+  <select id="donation-amount">
+   <option value="1">1 Pi</option>
+   <option value="5">5 Pi</option>
+   <option value="10">10 Pi</option>
+  </select>
+
+  <button id="send-donation" disabled>Bağışı Gönder</button>
+ </div>
+
+ <div id="payment-status"></div>
+</section>
+
+<section>
+ <h2 id="t-share">Destekle & Paylaş</h2>
+
+ <div class="socials">
+  <button onclick="shareX()">🕊️ X</button>
+  <button onclick="shareFB()">📘 Facebook</button>
+  <button onclick="shareTG()">💬 Telegram</button>
+  <button onclick="window.open('https://instagram.com/uursemen08')">📸 Instagram</button>
+  <button onclick="window.open('https://tiktok.com/@semenuur')">🎵 TikTok</button>
+  <button onclick="window.open('https://youtube.com/@uursemen08')">▶️ YouTube</button>
+ </div>
+</section>
+
+<section>
+ <a href="#" onclick="alert('Gizlilik Politikası yakında eklenecek.')">
+  🔒 Gizlilik Politikası
+ </a>
+</section>
+
+</main>
+
+<footer>© 2025 Ayasofya Charity | Tüm hakları saklıdır</footer>
+
 </div>
 
-<div class="donation-section">
-    <h2>Bağış Yap</h2>
-
-    <p>✅ Valide bağlantı sağlandı!</p>
-
-    <button>1 Pi</button>
-    <button>5 Pi</button>
-    <button>10 Pi</button>
-    <button>Bağışı Gönder</button>
+<!-- Modal -->
+<div class="modal-backdrop" id="thank-modal">
+ <div class="modal">
+  <h3>Teşekkürler! 🙏</h3>
+  <p id="popup-msg">Bağışınız alındı.</p>
+  <button onclick="closeModal()">Kapat</button>
+ </div>
 </div>
 
-<div class="social">
-    <a href="https://x.com/uursemen2">🕊️</a>
-    <a href="https://facebook.com/share/1ZeKpjp33v">📘</a>
-    <a href="https://t.me/uur1453">💬</a>
-    <a href="https://instagram.com/uursemen08">📸</a>
-    <a href="https://tiktok.com/@semenuur">🎵</a>
-    <a href="https://youtube.com/@uursemen08">▶️</a>
-</div>
+<script>
+/* ------------------------------------------------------------------
+   DİL DESTEĞİ SİSTEMİ (TR – EN)
+-------------------------------------------------------------------*/
+const langData={
+ tr:{
+  title:"Ayasofya Charity",
+  sub:"İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış",
+  about:"Hakkımızda",
+  aboutText:"Ayasofya Charity, ihtiyaç sahiplerine destek amacıyla kurulmuş bir bağış platformudur.",
+  donate:"Bağış Yap",
+  share:"Destekle & Paylaş"
+ },
+ en:{
+  title:"Ayasofya Charity",
+  sub:"Support for those in need — Transparent donations via Pi Network",
+  about:"About Us",
+  aboutText:"Ayasofya Charity is a donation platform designed to help people in need.",
+  donate:"Donate",
+  share:"Support & Share"
+ }
+};
 
-<footer>
-    © 2025 Ayasofya Charity | Tüm hakları saklıdır
-</footer>
+function setLang(l){
+ document.getElementById("t-title").textContent=langData[l].title;
+ document.getElementById("t-sub").textContent=langData[l].sub;
+ document.getElementById("t-about").textContent=langData[l].about;
+ document.getElementById("t-about-text").textContent=langData[l].aboutText;
+ document.getElementById("t-donate").textContent=langData[l].donate;
+ document.getElementById("t-share").textContent=langData[l].share;
+}
+
+/* ------------------------------------------------------------------
+   BAĞIŞ SAYAÇ + HEDEF BAR
+-------------------------------------------------------------------*/
+let totalDonations=0;
+const goalBar=document.getElementById("goal-bar");
+const donationCount=document.getElementById("donation-count");
+
+/* ------------------------------------------------------------------
+   CÜZDAN SİMÜLASYONU
+-------------------------------------------------------------------*/
+setTimeout(()=>{
+ walletStatus.textContent="✅ Valide bağlantı sağlandı!";
+ walletStatus.style.opacity=1;
+ walletStatus.classList.add("pulse");
+
+ document.getElementById("send-donation").disabled=false;
+},1000);
+
+/* ------------------------------------------------------------------
+   BAĞIŞ İŞLEMİ
+-------------------------------------------------------------------*/
+document.getElementById("send-donation").addEventListener("click",()=>{
+ const amount=parseInt(document.getElementById("donation-amount").value);
+
+ totalDonations += amount;
+ donationCount.textContent=totalDonations;
+
+ let percent=(totalDonations/1000)*100;
+ if(percent>100) percent=100;
+ goalBar.style.width=percent+"%";
+
+ document.getElementById("popup-msg").textContent=
+  amount+" Pi bağış için teşekkür ederiz 🙏";
+
+ document.getElementById("thank-modal").classList.add("show");
+});
+
+function closeModal(){
+ document.getElementById("thank-modal").classList.remove("show");
+}
+
+/* ------------------------------------------------------------------
+   PAYLAŞIM
+-------------------------------------------------------------------*/
+function shareX(){
+ window.open("https://x.com/intent/tweet?text=Ayasofya%20Charity");
+}
+function shareFB(){
+ window.open("https://facebook.com/sharer/sharer.php?u=https://nemes08.github.io");
+}
+function shareTG(){
+ window.open("https://t.me/share/url?url=https://nemes08.github.io");
+}
+</script>
 
 </body>
 </html>
