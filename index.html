@@ -1,407 +1,427 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ayasofya Charity</title>
 <link rel="icon" type="image/png" href="images/logo.png">
 
 <style>
-/* ------------------------------------------------------------------
-   GENEL TASARIM (SENİN VERDİĞİN ŞABLONUN AYNISI — ASLA BOZMADIM)
--------------------------------------------------------------------*/
 :root{
- --bg:#f9f9f9;
- --card:rgba(255,255,255,0.68);
- --accent:#7c3aed;
- --accent-dark:#6d28d9;
- --muted:#666;
- --success:#16a34a;
+  --bg-start:#fbf8ff;
+  --bg-end:#eef0fa;
+  --card-bg: rgba(255,255,255,0.36);
+  --accent:#7b4bff;
+  --accent-2:#6b3bff;
+  --muted:#6f6f7a;
+  --success:#16a34a;
+  --glass-blur:14px;
+  --goal:1000;
 }
 
-html,body{
- height:100%;
- margin:0;
- font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;
- background:var(--bg);
- color:#222;
+/* Reset / Layout */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif;background:linear-gradient(180deg,var(--bg-start),var(--bg-end));color:#1f2937;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.container{max-width:980px;margin:28px auto;padding:20px}
 
- /* 🔥 Ayasofya Filigranı — %8 opacity */
- background-image:url("images/ayasofya.png");
- background-size:60%;
- background-repeat:no-repeat;
- background-position:center;
- opacity:1;
+/* FILIGRAN: logo.png kullanılacak */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: url("images/logo.png") no-repeat center;
+  background-size: 640px;
+  opacity: 0.10;
+  z-index:0;
+  filter: grayscale(100%) blur(1px);
+  pointer-events:none;
 }
 
-/* Hafif glass effect */
-main, header{
- backdrop-filter:blur(12px);
- background:var(--card);
-}
+/* HEADER */
+.header{position:relative;z-index:2;display:flex;align-items:center;gap:18px;background:var(--card-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));padding:16px;border-radius:14px;box-shadow:0 10px 30px rgba(16,24,40,0.06)}
+.logo{width:130px;height:auto;border-radius:10px}
+.brand-title{display:flex;flex-direction:column}
+.brand-title h1{margin:0;font-size:20px;color:var(--accent-2)}
+.brand-title p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
 
-.container{
- max-width:920px;
- margin:28px auto;
- padding:20px;
-}
+/* TOP CONTROLS */
+.top-controls{display:flex;gap:8px;margin-left:auto;align-items:center}
+.lang-btn{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:6px 10px;border-radius:8px;cursor:pointer;font-weight:600}
+.lang-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border:none;box-shadow:0 8px 24px rgba(107,59,255,0.12)}
 
-header{
- display:flex;
- gap:18px;
- align-items:center;
- padding:18px;
- border-radius:12px;
- box-shadow:0 6px 20px rgba(16,24,40,0.06);
-}
+/* MAIN CARD */
+.card{position:relative;z-index:2;margin-top:18px;background:var(--card-bg);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));padding:22px;border-radius:18px;box-shadow:0 14px 40px rgba(2,6,23,0.06)}
+.heart{font-size:38px;color:#ff3b7a;animation:heartbeat 1.3s infinite;margin-bottom:6px}
+@keyframes heartbeat{0%,40%,80%,100%{transform:scale(1)}20%,60%{transform:scale(1.25)}}
 
-.logo{
- width:160px;
- border-radius:12px;
- transition:transform .6s ease;
-}
+/* STATUS */
+.status-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+#wallet-status{padding:8px 12px;border-radius:999px;font-weight:700;color:var(--success);background:rgba(16,185,129,0.08);opacity:0;transition:opacity .6s}
 
-.logo.spin{
- animation:logo-spin 2.5s ease-in-out;
-}
+/* AMOUNTS & ACTIONS */
+.amounts{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.amount-btn{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;border:none;padding:10px 16px;border-radius:12px;font-weight:700;cursor:pointer;transition:transform .15s}
+.amount-btn.selected{outline:3px solid rgba(123,75,255,0.12);transform:translateY(-4px)}
+.amount-btn:active{transform:scale(.98)}
+.custom-input{padding:10px;border-radius:10px;border:1px solid #e6e6e6;width:140px}
 
-@keyframes logo-spin{
- 0%{transform:rotate(0)}
- 50%{transform:rotate(180deg)}
- 100%{transform:rotate(360deg)}
-}
+/* SEND */
+.send-row{display:flex;gap:12px;margin-top:12px;align-items:center}
+.send-btn{background:#111;color:white;border:none;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer}
+.send-btn[disabled]{opacity:.6;cursor:not-allowed}
 
-header h1{font-size:22px;margin:0}
-.meta{color:var(--muted);font-size:13px}
+/* PROGRESS */
+.progress-wrap{margin-top:18px}
+.progress-info{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-weight:600;font-size:14px}
+.progress-bar{height:14px;background:rgba(123,75,255,0.12);border-radius:999px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#9a7dff,#7b4bff);transition:width .6s ease}
 
-main{
- margin-top:18px;
- padding:18px;
- border-radius:12px;
- box-shadow:0 6px 20px rgba(16,24,40,0.04);
-}
+/* STATS */
+.stats-row{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,0.18);padding:10px;border-radius:12px;min-width:120px; text-align:left}
 
-section{margin-bottom:18px}
-h2{margin:6px 0 10px 0;color:#222}
-p{line-height:1.5;margin:0;}
+/* SOCIALS & FOOTER */
+.socials{display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.socials a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.8);text-decoration:none;font-size:18px;box-shadow:0 8px 22px rgba(16,24,40,0.05)}
+.footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
 
-/* Dil seçici */
-.lang-box{
- display:flex;
- gap:10px;
- justify-content:flex-end;
- margin-bottom:12px;
-}
+/* MODALS / TOAST */
+.modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.48);display:flex;align-items:center;justify-content:center;z-index:60;opacity:0;pointer-events:none;transition:opacity .18s}
+.modal-backdrop.show{opacity:1;pointer-events:auto}
+.modal{background:white;padding:18px;border-radius:12px;max-width:720px;width:92%;box-shadow:0 12px 40px rgba(2,6,23,0.2)}
+.close-btn{background:#f3f4f6;border-radius:8px;padding:8px 12px;border:none;cursor:pointer;margin-top:12px}
+.toast{position:fixed;right:20px;bottom:24px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:10px 14px;border-radius:12px;box-shadow:0 12px 36px rgba(107,59,255,0.16);opacity:0;transform:translateY(12px);transition:all .28s}
+.toast.show{opacity:1;transform:translateY(0)}
 
-.lang-box button{
- padding:6px 12px;
- border-radius:8px;
- background:white;
- border:1px solid #ccc;
- font-size:14px;
- cursor:pointer;
-}
-
-/* Bağış barı */
-.progress-wrap{
- margin:16px 0;
- background:#eee;
- border-radius:12px;
- height:14px;
- overflow:hidden;
-}
-.progress{
- background:var(--accent);
- height:100%;
- width:0%;
- transition:width .6s ease;
- color:white;
-}
-
-.stats{
- font-size:14px;
- margin-top:6px;
- color:#333;
- font-weight:600;
-}
-
-#wallet-status{
- display:inline-block;
- padding:8px 12px;
- border-radius:999px;
- font-weight:600;
- color:var(--success);
- opacity:0;
- transition:opacity .8s ease;
-}
-
-#wallet-status.pulse{
- animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
- 0%{text-shadow:0 0 0 var(--success)}
- 50%{text-shadow:0 0 10px rgba(16,185,129,0.65)}
- 100%{text-shadow:0 0 0 var(--success)}
-}
-
-.controls{
- display:flex;
- flex-wrap:wrap;
- gap:10px;
- align-items:center;
- margin-top:10px;
-}
-
-select{
- padding:10px;
- border-radius:8px;
- border:1px solid #e6e6e6;
- font-size:15px;
-}
-
-button{
- background:var(--accent);
- color:white;
- border:none;
- padding:10px 18px;
- border-radius:10px;
- font-weight:600;
- cursor:pointer;
- transition:transform 0.2s;
-}
-
-button:hover{background:var(--accent-dark)}
-button:active{transform:scale(1.05)}
-button:disabled{background:#bbb;cursor:not-allowed}
-
-.socials{
- display:flex;
- gap:10px;
- flex-wrap:wrap;
- justify-content:center;
- margin-top:12px;
-}
-
-footer{
- margin-top:14px;
- text-align:center;
- color:var(--muted);
- font-size:14px;
-}
-
-/* Modal */
-.modal-backdrop{
- position:fixed;
- inset:0;
- background:rgba(2,6,23,0.48);
- display:flex;
- align-items:center;
- justify-content:center;
- z-index:60;
- opacity:0;
- pointer-events:none;
- transition:opacity .2s ease;
-}
-
-.modal-backdrop.show{
- opacity:1;
- pointer-events:auto;
-}
-
-.modal{
- background:white;
- padding:18px;
- border-radius:12px;
- min-width:260px;
- max-width:420px;
- text-align:center;
-}
-
-/* Mobil */
-@media(max-width:560px){
- header{flex-direction:column;text-align:center}
- .logo{width:140px}
- .controls{flex-direction:column}
-}
+/* Responsive */
+@media(max-width:720px){.header{flex-direction:column;align-items:flex-start}.top-controls{margin-left:0}.amounts{justify-content:center}.stats-row{justify-content:center}}
 </style>
 </head>
-
 <body>
 
 <div class="container" role="main">
 
-<!-- Dil seçici -->
-<div class="lang-box">
- <button onclick="setLang('tr')">🇹🇷 TR</button>
- <button onclick="setLang('en')">🇬🇧 EN</button>
+  <!-- HEADER -->
+  <div class="header" role="banner" aria-label="Üst bilgi">
+    <img src="images/logo.png" alt="Ayasofya Logo" class="logo" id="siteLogo">
+    <div class="brand-title">
+      <h1 id="brandTitle">Ayasofya Charity</h1>
+      <p id="brandSub" class="meta">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
+    </div>
+
+    <div class="top-controls" role="toolbar" aria-label="Dil seçenekleri">
+      <button class="lang-btn active" id="btnTR" aria-pressed="true">TR</button>
+      <button class="lang-btn" id="btnEN" aria-pressed="false">EN</button>
+    </div>
+  </div>
+
+  <!-- MAIN CARD -->
+  <section class="card" aria-labelledby="donateTitle">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>
+        <div class="heart" aria-hidden="true">💜</div>
+      </div>
+      <div style="flex:1">
+        <h2 id="donateTitle">Bağış Yap</h2>
+        <div id="wallet-status" aria-live="polite">🔄 Bağlantı kontrol ediliyor...</div>
+      </div>
+    </div>
+
+    <!-- Amounts -->
+    <div class="amounts" role="group" aria-label="Bağış miktarları">
+      <button class="amount-btn" data-amt="1">1 Pi</button>
+      <button class="amount-btn" data-amt="5">5 Pi</button>
+      <button class="amount-btn" data-amt="10">10 Pi</button>
+
+      <input type="number" id="customAmount" class="custom-input" min="1" placeholder="Özel (Pi)" aria-label="Özel bağış miktarı" />
+    </div>
+
+    <!-- Send -->
+    <div class="send-row">
+      <button id="sendBtn" class="send-btn" aria-disabled="true" disabled>Bağışı Gönder</button>
+      <div id="payment-status" aria-live="polite" style="color:var(--muted);font-weight:600"></div>
+    </div>
+
+    <!-- Progress / Goal -->
+    <div class="progress-wrap" aria-hidden="false">
+      <div class="progress-info">
+        <div id="progressLabel">Toplam: <span id="totalDonated">0</span> Pi</div>
+        <div id="goalLabel">Hedef: <span id="goalValue">1000</span> Pi</div>
+      </div>
+      <div class="progress-bar" aria-hidden="true">
+        <div class="progress-fill" id="progressFill" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row" role="list">
+      <div class="stat" role="listitem">Bağış Sayısı: <strong id="donationCount">0</strong></div>
+      <div class="stat" role="listitem">Son Bağış: <strong id="lastDonation">-</strong></div>
+    </div>
+
+    <!-- Socials -->
+    <div class="socials" role="navigation" aria-label="Sosyal medya">
+      <a href="https://x.com/uursemen2" target="_blank" title="X">🕊️</a>
+      <a href="https://facebook.com/share/1ZeKpjp33v" target="_blank" title="Facebook">📘</a>
+      <a href="https://t.me/uur1453" target="_blank" title="Telegram">💬</a>
+      <a href="https://instagram.com/uursemen08" target="_blank" title="Instagram">📸</a>
+      <a href="https://tiktok.com/@semenuur" target="_blank" title="TikTok">🎵</a>
+      <a href="https://youtube.com/@uursemen08" target="_blank" title="YouTube">▶️</a>
+    </div>
+
+    <div style="margin-top:14px">
+      <button class="lang-btn" id="policyBtn">Gizlilik & Güven</button>
+    </div>
+
+  </section>
+
+  <div class="footer">© <span id="year">2025</span> Ayasofya Charity | Tüm hakları saklıdır</div>
 </div>
 
-<header>
- <img src="images/logo.png" id="site-logo" class="logo">
-
- <div>
-  <h1 id="t-title">Ayasofya Charity</h1>
-  <div class="meta" id="t-sub">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</div>
- </div>
-</header>
-
-<main>
-
-<section>
- <h2 id="t-about">Hakkımızda</h2>
- <p id="t-about-text">
-  Ayasofya Charity, ihtiyaç sahiplerine destek amacıyla kurulmuş bir bağış platformudur.
- </p>
-</section>
-
-<section>
- <h2 id="t-donate">Bağış Yap</h2>
-
- <span id="wallet-status">🔄 Bağlantı kontrol ediliyor...</span>
-
- <!-- Bağış hedefi -->
- <div class="progress-wrap">
-  <div class="progress" id="goal-bar"></div>
- </div>
-
- <div class="stats">
-  Toplam Bağış: <span id="donation-count">0</span> Pi / 1000 Pi
- </div>
-
- <div class="controls">
-  <select id="donation-amount">
-   <option value="1">1 Pi</option>
-   <option value="5">5 Pi</option>
-   <option value="10">10 Pi</option>
-  </select>
-
-  <button id="send-donation" disabled>Bağışı Gönder</button>
- </div>
-
- <div id="payment-status"></div>
-</section>
-
-<section>
- <h2 id="t-share">Destekle & Paylaş</h2>
-
- <div class="socials">
-  <button onclick="shareX()">🕊️ X</button>
-  <button onclick="shareFB()">📘 Facebook</button>
-  <button onclick="shareTG()">💬 Telegram</button>
-  <button onclick="window.open('https://instagram.com/uursemen08')">📸 Instagram</button>
-  <button onclick="window.open('https://tiktok.com/@semenuur')">🎵 TikTok</button>
-  <button onclick="window.open('https://youtube.com/@uursemen08')">▶️ YouTube</button>
- </div>
-</section>
-
-<section>
- <a href="#" onclick="alert('Gizlilik Politikası yakında eklenecek.')">
-  🔒 Gizlilik Politikası
- </a>
-</section>
-
-</main>
-
-<footer>© 2025 Ayasofya Charity | Tüm hakları saklıdır</footer>
-
+<!-- PRIVACY / POLICY MODAL -->
+<div class="modal-backdrop" id="policyModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="policyTitle">
+  <div class="modal">
+    <h3 id="policyTitle">Gizlilik Politikası / Privacy Policy</h3>
+    <div id="policyContent" style="max-height:60vh;overflow:auto;text-align:left;color:#111;line-height:1.45">
+      <!-- will be filled by JS with TR/EN content -->
+    </div>
+    <button class="close-btn" id="closePolicy">Kapat</button>
+  </div>
 </div>
 
-<!-- Modal -->
-<div class="modal-backdrop" id="thank-modal">
- <div class="modal">
-  <h3>Teşekkürler! 🙏</h3>
-  <p id="popup-msg">Bağışınız alındı.</p>
-  <button onclick="closeModal()">Kapat</button>
- </div>
-</div>
+<!-- THANK YOU TOAST -->
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">Teşekkürler — bağışınız alındı 💜</div>
 
 <script>
-/* ------------------------------------------------------------------
-   DİL DESTEĞİ SİSTEMİ (TR – EN)
--------------------------------------------------------------------*/
-const langData={
- tr:{
-  title:"Ayasofya Charity",
-  sub:"İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış",
-  about:"Hakkımızda",
-  aboutText:"Ayasofya Charity, ihtiyaç sahiplerine destek amacıyla kurulmuş bir bağış platformudur.",
-  donate:"Bağış Yap",
-  share:"Destekle & Paylaş"
- },
- en:{
-  title:"Ayasofya Charity",
-  sub:"Support for those in need — Transparent donations via Pi Network",
-  about:"About Us",
-  aboutText:"Ayasofya Charity is a donation platform designed to help people in need.",
-  donate:"Donate",
-  share:"Support & Share"
- }
+/* ---------------------------
+   CONFIG
+----------------------------*/
+const RECEIVER = "uur1453"; // değiştirmek istersen burada
+const GOAL = 1000;
+
+/* ---------------------------
+   LANG CONTENT (TR + EN)
+----------------------------*/
+const LANG = {
+  tr: {
+    brandTitle: "Ayasofya Charity",
+    brandSub: "İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış",
+    donateTitle: "Bağış Yap",
+    walletChecking: "🔄 Bağlantı kontrol ediliyor...",
+    walletValid: "✅ Valide bağlantı sağlandı!",
+    sendBtn: "Bağışı Gönder",
+    goalLabel: "Hedef",
+    totalLabel: "Toplam",
+    privacyTitle: "Gizlilik Politikası",
+    privacyText: `<p><strong>Kısa Özet</strong></p>
+      <p>Ayasofya Charity (bundan sonra "Vakıf") kullanıcıların kişisel bilgilerini asgari düzeyde toplar. Bağış işlemleri doğrudan Pi Network altyapısı aracılığıyla gerçekleştirilir. Kişisel veriler (e-posta, telefon vb.) yalnızca kullanıcının açık rızası ile toplanır ve üçüncü taraflarla paylaşılmaz.</p>
+      <p><strong>Veri Toplama ve Kullanım</strong></p>
+      <ul><li>Bu site yerel olarak veya sunucu tarafında bağış geçmişi kaydetmez (demo sürümü). Gerçek uygulama için açık rıza ve GDPR/KVKK uyumlu saklama prosedürleri uygulanmalıdır.</li>
+      <li>Bağış işlemleri Pi tarayıcısı/protokolü ile doğrudan kullanıcı cüzdanından yapılır; site şifre/özel anahtar istemez.</li></ul>
+      <p><strong>Güvenlik</strong></p>
+      <p>Site TLS/HTTPS üzerinden sunulmalı, üçüncü taraf ödeme akışları yalnızca güvenilir protokoller (pi://) ile başlatılmalıdır.</p>
+      <p><strong>Sorumluluk Reddi</strong></p>
+      <p>Vakıf, platform üzerinden yönlendirilen bağışların nihai dağıtımı ve kullanımını belgelendirecektir; ancak teknik hatalar, ağ sorunları veya üçüncü taraf hizmet sağlayıcı arızalarından kaynaklanan gecikmelerden sorumlu tutulamaz.</p>`
+  },
+  en: {
+    brandTitle: "Ayasofya Charity",
+    brandSub: "Support for those in need — Transparent donations via Pi Network",
+    donateTitle: "Donate",
+    walletChecking: "🔄 Checking connection...",
+    walletValid: "✅ Valid connection established!",
+    sendBtn: "Send Donation",
+    goalLabel: "Goal",
+    totalLabel: "Total",
+    privacyTitle: "Privacy Policy",
+    privacyText: `<p><strong>Summary</strong></p>
+      <p>Ayasofya Charity (the "Foundation") minimizes collection of personal data. Donation transactions occur via the Pi Network infrastructure. Personal data (email, phone, etc.) is collected only with explicit consent and is not shared with third parties.</p>
+      <p><strong>Data Collection & Use</strong></p>
+      <ul><li>This demo site does not store donation history locally or on a server. For a production app, explicit consent and GDPR/KVKK-compliant storage procedures should be implemented.</li>
+      <li>Donation transactions are initiated from the user's wallet via the Pi protocol; the site does not request passwords/private keys.</li></ul>
+      <p><strong>Security</strong></p>
+      <p>The site should be served over TLS/HTTPS; third-party payment flows must be initiated using trusted protocols (pi://).</p>
+      <p><strong>Disclaimer</strong></p>
+      <p>The Foundation will document routing of donations to beneficiaries; however, it is not liable for delays caused by technical issues, network problems, or third-party service interruptions.</p>`
+  }
 };
 
-function setLang(l){
- document.getElementById("t-title").textContent=langData[l].title;
- document.getElementById("t-sub").textContent=langData[l].sub;
- document.getElementById("t-about").textContent=langData[l].about;
- document.getElementById("t-about-text").textContent=langData[l].aboutText;
- document.getElementById("t-donate").textContent=langData[l].donate;
- document.getElementById("t-share").textContent=langData[l].share;
+/* ---------------------------
+   DOM elements
+----------------------------*/
+const btnTR = document.getElementById('btnTR');
+const btnEN = document.getElementById('btnEN');
+const brandTitle = document.getElementById('brandTitle');
+const brandSub = document.getElementById('brandSub');
+const walletStatus = document.getElementById('wallet-status');
+const sendBtn = document.getElementById('sendBtn');
+const amountBtns = Array.from(document.querySelectorAll('.amount-btn'));
+const customInput = document.getElementById('customAmount');
+const totalDonatedEl = document.getElementById('totalDonated');
+const donationCountEl = document.getElementById('donationCount');
+const lastDonationEl = document.getElementById('lastDonation');
+const progressFill = document.getElementById('progressFill');
+const policyBtn = document.getElementById('policyBtn');
+const policyModal = document.getElementById('policyModal');
+const policyContent = document.getElementById('policyContent');
+const closePolicy = document.getElementById('closePolicy');
+const toast = document.getElementById('toast');
+const goalValueEl = document.getElementById('goalValue');
+const progressLabel = document.getElementById('progressLabel');
+
+/* ---------------------------
+   STATE
+----------------------------*/
+let lang = 'tr';
+let selectedAmount = 1;
+let totalDonated = 0;
+let donationCount = 0;
+
+/* ---------------------------
+   INIT
+----------------------------*/
+goalValueEl.textContent = GOAL;
+setLanguage('tr');
+walletStatus.textContent = LANG[lang].walletChecking;
+
+/* simulate wallet connection */
+setTimeout(()=>{
+  walletStatus.textContent = LANG[lang].walletValid;
+  walletStatus.style.opacity = 1;
+  walletStatus.classList.add('pulse');
+  sendBtn.disabled = false;
+  sendBtn.removeAttribute('aria-disabled');
+},900);
+
+/* ---------------------------
+   Language functions
+----------------------------*/
+function setLanguage(l){
+  lang = l;
+  btnTR.classList.toggle('active', l==='tr'); btnTR.setAttribute('aria-pressed', l==='tr');
+  btnEN.classList.toggle('active', l==='en'); btnEN.setAttribute('aria-pressed', l==='en');
+
+  brandTitle.textContent = LANG[l].brandTitle;
+  brandSub.textContent = LANG[l].brandSub;
+  document.getElementById('donateTitle').textContent = LANG[l].donateTitle;
+  progressLabel.querySelector && (document.getElementById('goalLabel') && (document.getElementById('goalLabel').textContent = `${LANG[l].totalLabel}: `));
+  // policy content
+  policyContent.innerHTML = `<h4>${LANG[l].privacyTitle}</h4>` + LANG[l].privacyText;
 }
 
-/* ------------------------------------------------------------------
-   BAĞIŞ SAYAÇ + HEDEF BAR
--------------------------------------------------------------------*/
-let totalDonations=0;
-const goalBar=document.getElementById("goal-bar");
-const donationCount=document.getElementById("donation-count");
+btnTR.addEventListener('click', ()=>setLanguage('tr'));
+btnEN.addEventListener('click', ()=>setLanguage('en'));
 
-/* ------------------------------------------------------------------
-   CÜZDAN SİMÜLASYONU
--------------------------------------------------------------------*/
-setTimeout(()=>{
- walletStatus.textContent="✅ Valide bağlantı sağlandı!";
- walletStatus.style.opacity=1;
- walletStatus.classList.add("pulse");
-
- document.getElementById("send-donation").disabled=false;
-},1000);
-
-/* ------------------------------------------------------------------
-   BAĞIŞ İŞLEMİ
--------------------------------------------------------------------*/
-document.getElementById("send-donation").addEventListener("click",()=>{
- const amount=parseInt(document.getElementById("donation-amount").value);
-
- totalDonations += amount;
- donationCount.textContent=totalDonations;
-
- let percent=(totalDonations/1000)*100;
- if(percent>100) percent=100;
- goalBar.style.width=percent+"%";
-
- document.getElementById("popup-msg").textContent=
-  amount+" Pi bağış için teşekkür ederiz 🙏";
-
- document.getElementById("thank-modal").classList.add("show");
+/* ---------------------------
+   AMOUNT selection
+----------------------------*/
+amountBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    amountBtns.forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedAmount = Number(btn.dataset.amt);
+    customInput.value = '';
+  });
 });
 
-function closeModal(){
- document.getElementById("thank-modal").classList.remove("show");
+/* custom input */
+customInput.addEventListener('input', ()=>{
+  const v = Math.max(0, Math.floor(Number(customInput.value) || 0));
+  if(v>0){
+    amountBtns.forEach(b=>b.classList.remove('selected'));
+    selectedAmount = v;
+  }
+});
+
+/* ---------------------------
+   SEND DONATION
+----------------------------*/
+sendBtn.addEventListener('click', ()=>{
+  // prepare
+  const amt = Number(selectedAmount) || 1;
+  // build pi url (note: some implementations differ; adjust if needed)
+  const memo = encodeURIComponent("Ayasofya Charity Bağışı");
+  const piUrl = `pi://pay?recipient=${encodeURIComponent(RECEIVER)}&amount=${amt}&memo=${memo}`;
+
+  // if Pi Browser -> redirect to URL
+  if(navigator.userAgent.includes("PiBrowser") || navigator.userAgent.toLowerCase().includes("pi")){
+    window.location.href = piUrl;
+    // we still update UI for demo (real app might wait for callback)
+  } else {
+    // not PiBrowser -> show confirmation and simulate
+    alert(lang==='tr' ? "Pi Browser bulunamadı. Demo kaydı yerelde tutuldu." : "Pi Browser not detected. Demo recorded locally.");
+  }
+
+  // UI updates (simulate immediate success)
+  totalDonated += amt;
+  donationCount += 1;
+  totalDonatedEl.textContent = totalDonated;
+  donationCountEl.textContent = donationCount;
+  lastDonationEl.textContent = `${amt} Pi`;
+  const pct = Math.min(100, Math.round((totalDonated / GOAL) * 100));
+  progressFill.style.width = pct + '%';
+  progressFill.setAttribute('aria-valuenow', pct);
+
+  // show toast
+  showToast(lang==='tr' ? `Teşekkürler — ${amt} Pi bağışladınız 💜` : `Thanks — you donated ${amt} Pi 💜`);
+
+  // show modal short
+  setTimeout(()=>{ openThankModal(amt); }, 500);
+
+});
+
+/* ---------------------------
+   TOAST / MODAL
+----------------------------*/
+let toastTimer;
+function showToast(text){
+  toast.textContent = text;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toast.classList.remove('show'),3500);
 }
 
-/* ------------------------------------------------------------------
-   PAYLAŞIM
--------------------------------------------------------------------*/
-function shareX(){
- window.open("https://x.com/intent/tweet?text=Ayasofya%20Charity");
+function openThankModal(amt){
+  document.getElementById('popup-msg').textContent = (lang==='tr' ? `Teşekkürler! ${amt} Pi bağışladınız.` : `Thank you! You donated ${amt} Pi.`);
+  // show modal
+  const modal = document.getElementById('thank-modal');
+  modal.classList.add('show');
+  setTimeout(()=>modal.classList.remove('show'), 3000);
 }
-function shareFB(){
- window.open("https://facebook.com/sharer/sharer.php?u=https://nemes08.github.io");
-}
-function shareTG(){
- window.open("https://t.me/share/url?url=https://nemes08.github.io");
-}
+
+/* thank modal create/close */
+const thankModal = document.createElement('div');
+thankModal.className = 'modal-backdrop';
+thankModal.id = 'thank-modal';
+thankModal.setAttribute('aria-hidden','true');
+thankModal.innerHTML = `<div class="modal"><h3>${lang==='tr' ? 'Teşekkürler! 🙏' : 'Thanks! 🙏'}</h3><p id="popup-msg">${lang==='tr' ? 'Bağışınız alındı.' : 'Your donation has been received.'}</p><button class="close-btn" onclick="document.getElementById('thank-modal').classList.remove('show')">${lang==='tr' ? 'Kapat' : 'Close'}</button></div>`;
+document.body.appendChild(thankModal);
+
+/* ---------------------------
+   POLICY modal
+----------------------------*/
+policyBtn.addEventListener('click', ()=>{
+  policyModal.classList.add('show');
+  policyModal.setAttribute('aria-hidden','false');
+});
+closePolicy.addEventListener('click', ()=>{
+  policyModal.classList.remove('show');
+  policyModal.setAttribute('aria-hidden','true');
+});
+
+/* ---------------------------
+   SHARE helpers
+----------------------------*/
+function shareX(){ window.open("https://x.com/intent/tweet?text=Ayasofya%20Charity%20bağış%20platformu"); }
+function shareFB(){ window.open("https://facebook.com/sharer/sharer.php?u="+encodeURIComponent(location.href)); }
+function shareTG(){ window.open("https://t.me/share/url?url="+encodeURIComponent(location.href)); }
+
+/* Accessibility: close modals with Esc */
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='Escape'){
+    policyModal.classList.remove('show');
+    document.getElementById('thank-modal') && document.getElementById('thank-modal').classList.remove('show');
+  }
+});
 </script>
-
 </body>
 </html>
