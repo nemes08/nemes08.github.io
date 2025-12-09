@@ -1,44 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="1200" height="600" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ayasofya Charity logo">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ayasofya Charity — Scalable Logo (SVG)
+     Save as images/logo.svg and use with <img src="images/logo.svg" />
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 400" role="img" aria-label="Ayasofya Charity logo">
   <defs>
-    <linearGradient id="g1" x1="0" x2="1">
-      <stop offset="0" stop-color="#B99CFF"/>
-      <stop offset="1" stop-color="#8B5CF6"/>
+    <linearGradient id="goldGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#F0CF7A"/>
+      <stop offset="1" stop-color="#E7B43E"/>
     </linearGradient>
-    <linearGradient id="gold" x1="0" x2="1">
-      <stop offset="0" stop-color="#E7C46A"/>
-      <stop offset="1" stop-color="#D8A93A"/>
-    </linearGradient>
+    <style>
+      .emblem-fill{ fill: url(#goldGrad); }
+      .emblem-ink{ fill:#3b1f77; } /* inside negative-space color */
+      .title { fill: #ffffff; font-family: "Poppins", "Inter", sans-serif; font-weight:700; font-size:86px; }
+      .subtitle { fill: url(#goldGrad); font-family: "Poppins", "Inter", sans-serif; font-weight:500; font-size:38px; }
+    </style>
   </defs>
 
-  <!-- Background (transparent) -->
-  <rect x="0" y="0" width="1200" height="600" fill="transparent"/>
-
-  <!-- Left badge: simplified Ayasofya silhouette -->
-  <g transform="translate(60,60) scale(0.8)">
-    <!-- base structure -->
-    <path d="M220 460 H20 Q10 460 10 450 V210 Q10 180 40 140 Q70 100 140 100 Q210 100 240 140 Q270 180 270 210 V450 Q270 460 260 460 Z"
-          fill="url(#gold)"/>
+  <!-- Left emblem group (Ayasofya silhouette + inner arch + Pi sign) -->
+  <g transform="translate(40,40) scale(1)">
+    <!-- base block -->
+    <path class="emblem-fill" d="M0 300 L260 300 Q270 300 270 290 L270 200 Q270 170 240 140 Q210 110 140 110 Q70 110 40 140 Q10 170 10 200 L10 290 Q10 300 20 300 Z"/>
     <!-- dome -->
-    <path d="M140 40 C90 40 60 90 60 140 C60 200 120 240 140 240 C160 240 220 200 220 140 C220 90 190 40 140 40 Z"
-          fill="url(#gold)"/>
-    <!-- small spire -->
-    <path d="M138 10 L142 10 L142 26 L138 26 Z" fill="url(#gold)"/>
-    <!-- inner arch (negative space) -->
-    <path d="M140 110 C110 110 90 140 90 170 V300 H190 V170 C190 140 170 110 140 110 Z" fill="#3b1f77"/>
-    <!-- Pi symbol centered inside arch -->
-    <g transform="translate(95,140) scale(1.6)" fill="#3b1f77">
-      <path d="M14 2v2h-8v14h-2V4H0V2h3c.6 0 1-.4 1-1V1h6v.06c0 .56.44.94 1 .94h3z"/>
+    <path class="emblem-fill" d="M140 30 C95 30 70 80 70 120 C70 170 110 200 140 200 C170 200 210 170 210 120 C210 80 185 30 140 30 Z"/>
+    <!-- spire -->
+    <path class="emblem-fill" d="M137 8 L143 8 L143 28 L137 28 Z"/>
+    <!-- inner arch (negative space filled with emblem-ink) -->
+    <path class="emblem-ink" d="M140 120 C115 120 95 145 95 170 V250 H185 V170 C185 145 165 120 140 120 Z"/>
+    <!-- Pi symbol centered inside the arch -->
+    <g transform="translate(111,150) scale(1.7)" class="emblem-ink">
+      <!-- hand-drawn Pi glyph path for clarity -->
+      <path d="M25 2v3H7v16H5V5H0V2h6c0.6 0 1-.4 1-1V0h16v.06c0 .56.44.94 1 .94h1z"/>
     </g>
   </g>
 
-  <!-- Text -->
-  <g transform="translate(360,170)">
-    <text x="0" y="30" font-family="Poppins, Inter, sans-serif" font-size="72" font-weight="700" fill="#FFFFFF">
-      Ayasofya Charity
-    </text>
-    <text x="0" y="90" font-family="Poppins, Inter, sans-serif" font-size="34" font-weight="500" fill="#E7C46A">
-      Global Giving with Pi Network
-    </text>
+  <!-- Right text -->
+  <g transform="translate(360,120)">
+    <text class="title" x="0" y="40">Ayasofya Charity</text>
+    <text class="subtitle" x="0" y="98">Global Giving with Pi Network</text>
   </g>
 </svg>
