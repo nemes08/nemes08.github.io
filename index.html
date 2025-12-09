@@ -1,105 +1,132 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayasofya Charity – Pi Blockchain Donation dApp</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ayasofya Charity — Pi Donation dApp</title>
 
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
+  <div class="page">
 
     <!-- HEADER -->
-    <header class="header">
-        <img src="images/logo.png" class="logo" alt="Ayasofya Logo">
-        <nav class="lang">
-            <button onclick="setLang('tr')">TR</button>
-            <button onclick="setLang('en')">EN</button>
+    <header class="site-header">
+      <div class="brand">
+        <img src="images/logo.png" alt="Ayasofya Logo" class="logo" onerror="this.style.display='none'">
+        <div class="brand-text">
+          <div class="project-name">Ayasofya Charity</div>
+          <div class="project-tag">Pi Blockchain — Güvenli & Şeffaf Bağış</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <nav class="social-inline" aria-label="Sosyal Medya">
+          <a href="#" aria-label="Facebook" class="social-btn">Facebook</a>
+          <a href="#" aria-label="Twitter" class="social-btn">Twitter</a>
+          <a href="#" aria-label="Instagram" class="social-btn">Instagram</a>
         </nav>
+
+        <div class="lang-select">
+          <button class="lang-btn" onclick="setLang('tr')">TR</button>
+          <button class="lang-btn" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
     </header>
 
     <!-- HERO -->
     <section class="hero">
+      <div class="hero-inner">
         <h1 id="title">Ayasofya Charity</h1>
-        <p id="subtitle">Pi Blockchain ile tamamen şeffaf ve güvenli bağış platformu.</p>
-        <button class="cta" onclick="scrollToDonate()">Bağış Yap</button>
+        <p id="subtitle">Pi ağında tamamen şeffaf, denetlenebilir ve düşük maliyetli bağış platformu.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" onclick="scrollToSection('#donation')">Hemen Bağış Yap</button>
+          <a class="btn btn-ghost" href="privacy.html" id="privacy-link">Gizlilik Politikası</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true"></div>
     </section>
 
-    <!-- DONATION PANEL -->
-    <section class="glass card" id="donation-panel">
-        <h2 id="donation-title">Bağış Paneli</h2>
-        <p id="donation-text">Bağış yapmak istediğiniz miktarı seçin:</p>
+    <!-- DONATION -->
+    <section id="donation" class="panel donation-panel">
+      <div class="panel-inner">
+        <div class="panel-left">
+          <h2 id="donation-title">Bağış Paneli</h2>
+          <p id="donation-text">Miktarı seçin ve Pi cüzdanınızla işlemi onaylayın.</p>
 
-        <div class="donate-buttons">
-            <button onclick="donate(1)">1 π</button>
-            <button onclick="donate(10)">10 π</button>
-            <button onclick="donate(50)">50 π</button>
-            <button onclick="donate(100)">100 π</button>
+          <div class="donate-grid">
+            <button class="donate-btn" onclick="donate(1)">1 π</button>
+            <button class="donate-btn" onclick="donate(5)">5 π</button>
+            <button class="donate-btn" onclick="donate(25)">25 π</button>
+            <button class="donate-btn" onclick="donate(100)">100 π</button>
+          </div>
+
+          <div class="donation-actions">
+            <button class="btn btn-secondary" onclick="connectWallet()">Cüzdanı Bağla</button>
+            <button class="btn btn-outline" onclick="openTransparency()">Şeffaf Raporlar</button>
+          </div>
         </div>
 
-        <div class="stats">
-            <div>
-                <h3 id="total-pi-text">Toplam Bağış</h3>
-                <p><span id="total-pi">0</span> π</p>
-            </div>
-            <div>
-                <h3 id="donor-count-text">Bağışçı Sayısı</h3>
-                <p><span id="donor-count">0</span></p>
-            </div>
-            <div>
-                <h3 id="goal-text">Hedef</h3>
-                <p><span id="goal-pi">500</span> π</p>
-            </div>
-        </div>
+        <aside class="panel-right">
+          <div class="stat">
+            <div class="stat-label" id="total-pi-text">Toplam Bağış</div>
+            <div class="stat-value"><span id="total-pi">0</span> π</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label" id="donor-count-text">Bağışçı Sayısı</div>
+            <div class="stat-value"><span id="donor-count">0</span></div>
+          </div>
+          <div class="stat">
+            <div class="stat-label" id="goal-text">Hedef</div>
+            <div class="stat-value"><span id="goal-pi">500</span> π</div>
+          </div>
+
+          <div class="tx-box">
+            <div class="tx-title">Son İşlemler</div>
+            <ul id="tx-list" class="tx-list">
+              <!-- Dinamik olarak eklenecek -->
+            </ul>
+          </div>
+        </aside>
+      </div>
     </section>
 
     <!-- INFO -->
-    <section class="info-section">
-        <div class="glass info-box">
-            <h3 id="info-title">Ayasofya Hakkında</h3>
-            <p id="info-text">
-                Ayasofya, dünya tarihinin en önemli yapılarından biridir ve insanlık mirasının simgesidir. 
-                Bu proje, kültürel mirası korumaya destek olmak için blockchain tabanlı bağış sistemi sunar.
-            </p>
-        </div>
+    <section class="panel info-panel">
+      <div class="info-grid">
+        <article class="info-card">
+          <h3 id="info-title">Ayasofya Hakkında</h3>
+          <p id="info-text">Ayasofya, İstanbul'un evrensel bir mirasıdır. Bu platform, restorasyon ve toplumsal projelere destek amacıyla kurulmuştur.</p>
+        </article>
 
-        <div class="glass info-box">
-            <h3 id="why-title">Neden Bağış Yapmalıyım?</h3>
-            <p id="why-text">
-                Bağışlarınız hem Ayasofya’nın korunmasına katkı sağlar hem de sosyal yardım projelerine destek olur.
-            </p>
-        </div>
+        <article class="info-card">
+          <h3 id="why-title">Neden Bağış?</h3>
+          <p id="why-text">Bağışlar doğrudan projelere yönlendirilir; her harcama raporlanır ve herkes tarafından incelenebilir.</p>
+        </article>
 
-        <div class="glass info-box">
-            <h3 id="secure-title">Güvenli ve Şeffaf</h3>
-            <p id="secure-text">
-                Pi Blockchain altyapısı sayesinde tüm bağışlar şeffaf, takip edilebilir ve güvenlidir.
-            </p>
-        </div>
-    </section>
-
-    <!-- SOCIAL MEDIA -->
-    <section class="social glass">
-        <h3 id="follow-title">Bizi Takip Edin</h3>
-        <div class="social-links">
-            <a href="#" target="_blank">Facebook</a>
-            <a href="#" target="_blank">Twitter</a>
-            <a href="#" target="_blank">Instagram</a>
-        </div>
+        <article class="info-card">
+          <h3 id="secure-title">Güven & Şeffaflık</h3>
+          <p id="secure-text">On-chain kayıtlar, denetlenebilir harcama raporları ve multisig harcama kontrolü ile fonlar korunur.</p>
+        </article>
+      </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <p>© 2025 Ayasofya Charity – Tüm hakları saklıdır.</p>
-        <p><a href="privacy.html" id="privacy-link">Gizlilik Politikası</a> | 
-           <a href="terms.html" id="terms-link">Kullanım Şartları</a></p>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>© 2025 Ayasofya Charity</div>
+        <div class="footer-links">
+          <a href="privacy.html" id="privacy-link-2">Gizlilik</a>
+          <a href="terms.html" id="terms-link">Kullanım Şartları</a>
+        </div>
+      </div>
     </footer>
 
-    <script src="app.js"></script>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
