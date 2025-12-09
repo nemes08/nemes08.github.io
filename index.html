@@ -1,26 +1,160 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayasofya Charity — Pi Network Global Donation</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayasofya Charity — Pi Network Donation</title>
 
-    <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Style -->
-    <link rel="stylesheet" href="style.css">
+<style>
+    /* Genel stil */
+    body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+
+    header {
+        background: linear-gradient(90deg, #1e3c72, #2a5298);
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    header .logo {
+        width: 80px;
+        margin-bottom: 10px;
+    }
+    header h1 {
+        margin: 5px 0;
+        font-size: 28px;
+    }
+    header .wallet-status {
+        margin-top: 10px;
+        font-weight: 600;
+        color: #00ff99;
+    }
+    header .language-selector button {
+        margin: 0 5px;
+        padding: 5px 10px;
+        border: none;
+        background: #fff;
+        color: #2a5298;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: 600;
+    }
+
+    main {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    .card h2 {
+        margin-top: 0;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+    }
+
+    .donate-btn {
+        flex: 1;
+        padding: 15px 0;
+        background: #1e3c72;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: 600;
+    }
+    .donate-btn:hover {
+        background: #2a5298;
+        transform: translateY(-3px);
+    }
+
+    .send-btn {
+        width: 100%;
+        padding: 15px 0;
+        background: #00c851;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 20px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+    .send-btn:hover {
+        background: #007e33;
+        transform: translateY(-3px);
+    }
+
+    .donation-status p {
+        margin: 5px 0;
+        font-weight: 600;
+    }
+
+    .info-card, .donation-info {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    .info-card h2, .donation-info h3 {
+        margin-top: 0;
+    }
+
+    .social-media {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .social-media a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #1e3c72;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+    .social-media a:hover {
+        color: #00c851;
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px;
+        background: #1e3c72;
+        color: #fff;
+    }
+</style>
 </head>
 <body>
-<header class="header">
-    <div class="logo-container">
-        <img src="images/logo.svg" alt="Ayasofya Charity logo" class="logo" />
-    </div>
 
-    <h1 class="project-title">Ayasofya Charity</h1>
-
+<header>
+    <img src="images/logo.svg" alt="Ayasofya Charity logo" class="logo">
+    <h1>Ayasofya Charity</h1>
+    <p class="wallet-status" id="wallet-status">✓ Valide bağlantı sağlandı!</p>
     <div class="language-selector">
         <button onclick="setLanguage('tr')">TR</button>
         <button onclick="setLanguage('en')">EN</button>
@@ -30,68 +164,94 @@
 <main>
     <!-- Donation Panel -->
     <section class="card">
-        <h2 id="donation-title">Bağış Paneli</h2>
-        <p id="donation-text">Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:</p>
+        <h2>Bağış Paneli</h2>
+        <p>Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:</p>
 
         <div class="buttons">
-            <button class="donate-btn" onclick="payNow()">1 π</button>
-            <button class="donate-btn" onclick="payNow()">50 π</button>
-            <button class="donate-btn" onclick="payNow()">100 π</button>
+            <button class="donate-btn" onclick="selectAmount(1)">1 π</button>
+            <button class="donate-btn" onclick="selectAmount(5)">5 π</button>
+            <button class="donate-btn" onclick="selectAmount(10)">10 π</button>
         </div>
+
+        <button class="send-btn" onclick="payNow()">Bağışı Gönder</button>
 
         <div class="donation-status">
-            <p id="total-pi-text">Toplam Bağış: <span id="total-pi">0</span> π</p>
-            <p id="donor-count-text">Bağışçı Sayısı: <span id="donor-count">0</span></p>
-            <p id="goal-text">Hedef: <span id="goal-pi">500</span> π</p>
+            <p>Toplam Bağış: <span id="total-pi">0</span> π</p>
+            <p>Bağışçı Sayısı: <span id="donor-count">0</span></p>
+            <p>Hedef: <span id="goal-pi">500</span> π</p>
         </div>
     </section>
 
-    <!-- Info Panel -->
+    <!-- Info Section -->
     <section class="info-card">
-        <h2 id="info-title">Ayasofya Hakkında</h2>
-        <p id="info-text">Ayasofya, İstanbul’un simgesi ve dünya kültür mirasının en değerli yapılarından biridir. Bu proje ile hem tarihi mirasa sahip çıkıyor hem de tüm dünyadan bağışları şeffaf biçimde topluyoruz.</p>
+        <h2>Ayasofya Hakkında</h2>
+        <p>Ayasofya, İstanbul’un simgesi ve dünya kültür mirasının en değerli yapılarından biridir. Bu proje ile hem tarihi mirasa sahip çıkıyor hem de tüm dünyadan bağışları şeffaf biçimde topluyoruz.</p>
     </section>
 
-    <!-- Why donate -->
     <section class="donation-info">
-        <div class="info-block">
-            <h3 id="why-title">Neden Bağış Yapmalıyım?</h3>
-            <p id="why-text">Bağışlarınız, hem kültürel mirasın korunması hem de ihtiyaç sahiplerine yardım ulaştırılması için kullanılır.</p>
-        </div>
+        <h3>Neden Bağış Yapmalıyım?</h3>
+        <p>Bağışlarınız, hem kültürel mirasın korunması hem de ihtiyaç sahiplerine yardım ulaştırılması için kullanılır.</p>
 
-        <div class="info-block">
-            <h3 id="secure-title">Güvenli İşlem</h3>
-            <p id="secure-text">Pi Network'ün blockchain altyapısı sayesinde bağış işlemleri tamamen güvenli, hızlı ve şeffaftır.</p>
-        </div>
+        <h3>Güvenli İşlem</h3>
+        <p>Pi Network'ün blockchain altyapısı sayesinde bağış işlemleri tamamen güvenli, hızlı ve şeffaftır.</p>
     </section>
 
-    <!-- Social Media -->
     <section class="social-media">
-        <h3 id="follow-title">Bizi Takip Edin</h3>
-
-        <div class="social-buttons">
-            <a href="#" class="social-btn">Facebook</a>
-            <a href="#" class="social-btn">Twitter</a>
-            <a href="#" class="social-btn">Instagram</a>
-        </div>
-    </section>
-
-    <!-- Links -->
-    <section class="links">
-        <a href="privacy.html" id="privacy-link">Gizlilik Politikası</a>
-        <a href="terms.html" id="terms-link">Kullanım Şartları</a>
+        <h3>Bizi Takip Edin</h3>
+        <a href="#">Facebook</a>
+        <a href="#">Twitter</a>
+        <a href="#">Instagram</a>
     </section>
 </main>
 
-<footer class="footer">
-    <p>© 2025 Ayasofya Charity. Tüm hakları saklıdır.</p>
+<footer>
+    <p>© 2025 Ayasofya Charity | Tüm hakları saklıdır</p>
     <p>Developed with ❤️ by Ayasofya Charity Team</p>
 </footer>
 
-<!-- Pi Network & App scripts — DOĞRU SIRADA EKLENDİ -->
+<!-- Pi Network Scripts -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script src="pi.js"></script>
 <script src="script.js"></script>
+
+<script>
+let selectedAmount = 1; // default seçili miktar
+
+function selectAmount(amount){
+    selectedAmount = amount;
+    console.log("Seçilen miktar:", amount);
+}
+
+// payNow fonksiyonu pi.js ile entegre olacak şekilde çalışır
+async function payNow() {
+    try {
+        const user = await connectWallet();
+        if (!user) return;
+
+        const payment = await Pi.createPayment({
+            amount: selectedAmount,
+            memo: "Ayasofya Charity Donation",
+            metadata: { project: "AyasofyaCharity" }
+        }, {
+            onReadyForServerApproval(paymentId) { console.log("Approve:", paymentId); },
+            onReadyForServerCompletion(paymentId, txid) { console.log("Complete:", paymentId, txid); },
+            onCancel(paymentId) { alert("Bağış iptal edildi."); },
+            onError(error, paymentId) { alert("Hata oluştu."); console.error(error); }
+        });
+
+        alert("Bağış işlemi başlatıldı!");
+
+    } catch(err) {
+        console.error(err);
+        alert("Ödeme başlatılamadı.");
+    }
+}
+
+// Dil değişimi örneği (TR/EN)
+function setLanguage(lang){
+    alert("Dil değiştirildi: " + lang);
+}
+</script>
 
 </body>
 </html>
