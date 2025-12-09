@@ -3,74 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayasofya Charity</title>
+    <title>Ayasofya Charity – Pi Blockchain Donation dApp</title>
+
     <link rel="stylesheet" href="style.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
+
+    <!-- HEADER -->
     <header class="header">
-        <div class="logo-container">
-            <img src="images/logo.png" alt="Ayasofya Filigran Logo" class="logo">
-        </div>
-        <h1 id="title">Ayasofya Charity</h1>
-        <div class="heart"></div>
-        <div class="language-selector">
-            <button onclick="setLanguage('tr')">TR</button>
-            <button onclick="setLanguage('en')">EN</button>
-        </div>
+        <img src="images/logo.png" class="logo" alt="Ayasofya Logo">
+        <nav class="lang">
+            <button onclick="setLang('tr')">TR</button>
+            <button onclick="setLang('en')">EN</button>
+        </nav>
     </header>
 
-    <main>
-        <section class="card">
-            <h2 id="donation-title">Bağış Paneli</h2>
-            <p id="donation-text">Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:</p>
-            <div class="buttons">
-                <button class="donate-btn" onclick="donate(1)">1 π</button>
-                <button class="donate-btn" onclick="donate(50)">50 π</button>
-            </div>
-            <div class="donation-status">
-                <p id="total-pi-text">Toplam Bağış: <span id="total-pi">0</span> π</p>
-                <p id="donor-count-text">Bağış Yapan Kişi Sayısı: <span id="donor-count">0</span></p>
-                <p id="goal-text">Hedef: <span id="goal-pi">500</span> π</p>
-            </div>
-        </section>
+    <!-- HERO -->
+    <section class="hero">
+        <h1 id="title">Ayasofya Charity</h1>
+        <p id="subtitle">Pi Blockchain ile tamamen şeffaf ve güvenli bağış platformu.</p>
+        <button class="cta" onclick="scrollToDonate()">Bağış Yap</button>
+    </section>
 
-        <section class="info-card">
-            <h2 id="info-title">Ayasofya Hakkında</h2>
-            <p id="info-text">Ayasofya, İstanbul’un simgesi ve dünya çapında tarihi bir yapıdır. Bu projeyle hem kültürel mirasa sahip çıkıyor hem de yardım topluyoruz.</p>
-        </section>
+    <!-- DONATION PANEL -->
+    <section class="glass card" id="donation-panel">
+        <h2 id="donation-title">Bağış Paneli</h2>
+        <p id="donation-text">Bağış yapmak istediğiniz miktarı seçin:</p>
 
-        <section class="donation-info">
-            <div class="info-block">
-                <h3 id="why-title">Neden Bağış Yapmalıyım?</h3>
-                <p id="why-text">Bağışlarınızla hem tarihi mirasın korunmasına katkıda bulunuyor hem de ihtiyaç sahiplerine destek oluyorsunuz.</p>
-            </div>
-            <div class="info-block">
-                <h3 id="secure-title">Güvenli İşlem</h3>
-                <p id="secure-text">Pi Blockchain altyapısı sayesinde işlemleriniz güvenle gerçekleşir, tüm bağışlar şeffaf şekilde izlenebilir.</p>
-            </div>
-        </section>
+        <div class="donate-buttons">
+            <button onclick="donate(1)">1 π</button>
+            <button onclick="donate(10)">10 π</button>
+            <button onclick="donate(50)">50 π</button>
+            <button onclick="donate(100)">100 π</button>
+        </div>
 
-        <section class="social-media">
-            <h3 id="follow-title">Bizi Takip Edin</h3>
+        <div class="stats">
+            <div>
+                <h3 id="total-pi-text">Toplam Bağış</h3>
+                <p><span id="total-pi">0</span> π</p>
+            </div>
+            <div>
+                <h3 id="donor-count-text">Bağışçı Sayısı</h3>
+                <p><span id="donor-count">0</span></p>
+            </div>
+            <div>
+                <h3 id="goal-text">Hedef</h3>
+                <p><span id="goal-pi">500</span> π</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- INFO -->
+    <section class="info-section">
+        <div class="glass info-box">
+            <h3 id="info-title">Ayasofya Hakkında</h3>
+            <p id="info-text">
+                Ayasofya, dünya tarihinin en önemli yapılarından biridir ve insanlık mirasının simgesidir. 
+                Bu proje, kültürel mirası korumaya destek olmak için blockchain tabanlı bağış sistemi sunar.
+            </p>
+        </div>
+
+        <div class="glass info-box">
+            <h3 id="why-title">Neden Bağış Yapmalıyım?</h3>
+            <p id="why-text">
+                Bağışlarınız hem Ayasofya’nın korunmasına katkı sağlar hem de sosyal yardım projelerine destek olur.
+            </p>
+        </div>
+
+        <div class="glass info-box">
+            <h3 id="secure-title">Güvenli ve Şeffaf</h3>
+            <p id="secure-text">
+                Pi Blockchain altyapısı sayesinde tüm bağışlar şeffaf, takip edilebilir ve güvenlidir.
+            </p>
+        </div>
+    </section>
+
+    <!-- SOCIAL MEDIA -->
+    <section class="social glass">
+        <h3 id="follow-title">Bizi Takip Edin</h3>
+        <div class="social-links">
             <a href="#" target="_blank">Facebook</a>
             <a href="#" target="_blank">Twitter</a>
             <a href="#" target="_blank">Instagram</a>
-        </section>
+        </div>
+    </section>
 
-        <section class="links">
-            <a href="privacy.html" id="privacy-link">Gizlilik Politikası</a>
-            <a href="terms.html" id="terms-link">Kullanım Şartları</a>
-        </section>
-    </main>
-
+    <!-- FOOTER -->
     <footer class="footer">
-        <p>© 2025 Ayasofya Charity. Tüm hakları saklıdır.</p>
-        <p>Developed with ❤️ by Ayasofya Charity Team</p>
+        <p>© 2025 Ayasofya Charity – Tüm hakları saklıdır.</p>
+        <p><a href="privacy.html" id="privacy-link">Gizlilik Politikası</a> | 
+           <a href="terms.html" id="terms-link">Kullanım Şartları</a></p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
