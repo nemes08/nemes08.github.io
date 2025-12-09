@@ -1,82 +1,91 @@
 let totalPi = 0;
 let donorCount = 0;
-const goalPi = 500;
 let donatedUsers = [];
-
-const translations = {
-    tr: {
-        title: "Ayasofya Charity",
-        donationTitle: "Bağış Paneli",
-        donationText: "Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:",
-        totalPiText: "Toplam Bağış",
-        donorCountText: "Bağış Yapan Kişi Sayısı",
-        goalText: "Hedef",
-        infoTitle: "Ayasofya Hakkında",
-        infoText: "Ayasofya, İstanbul’un simgesi ve dünya çapında tarihi bir yapıdır. Bu projeyle hem kültürel mirasa sahip çıkıyor hem de yardım topluyoruz.",
-        whyTitle: "Neden Bağış Yapmalıyım?",
-        whyText: "Bağışlarınızla hem tarihi mirasın korunmasına katkıda bulunuyor hem de ihtiyaç sahiplerine destek oluyorsunuz.",
-        secureTitle: "Güvenli İşlem",
-        secureText: "Pi Blockchain altyapısı sayesinde işlemleriniz güvenle gerçekleşir, tüm bağışlar şeffaf şekilde izlenebilir.",
-        followTitle: "Bizi Takip Edin",
-        privacyLink: "Gizlilik Politikası",
-        termsLink: "Kullanım Şartları"
-    },
-    en: {
-        title: "Ayasofya Charity",
-        donationTitle: "Donation Panel",
-        donationText: "Select an amount to donate securely on the Pi Blockchain:",
-        totalPiText: "Total Donations",
-        donorCountText: "Number of Donors",
-        goalText: "Goal",
-        infoTitle: "About Ayasofya",
-        infoText: "Ayasofya is a symbol of Istanbul and a world-class historic building. This project helps protect cultural heritage while collecting donations.",
-        whyTitle: "Why Donate?",
-        whyText: "Your donations help preserve historical heritage and support those in need.",
-        secureTitle: "Secure Transaction",
-        secureText: "Thanks to Pi Blockchain, your transactions are secure and fully transparent.",
-        followTitle: "Follow Us",
-        privacyLink: "Privacy Policy",
-        termsLink: "Terms of Use"
-    }
-};
-
-function setLanguage(lang) {
-    const t = translations[lang];
-    document.getElementById('title').innerText = t.title;
-    document.getElementById('donation-title').innerText = t.donationTitle;
-    document.getElementById('donation-text').innerText = t.donationText;
-    document.getElementById('total-pi-text').childNodes[0].nodeValue = t.totalPiText + ": ";
-    document.getElementById('donor-count-text').childNodes[0].nodeValue = t.donorCountText + ": ";
-    document.getElementById('goal-text').childNodes[0].nodeValue = t.goalText + ": ";
-    document.getElementById('info-title').innerText = t.infoTitle;
-    document.getElementById('info-text').innerText = t.infoText;
-    document.getElementById('why-title').innerText = t.whyTitle;
-    document.getElementById('why-text').innerText = t.whyText;
-    document.getElementById('secure-title').innerText = t.secureTitle;
-    document.getElementById('secure-text').innerText = t.secureText;
-    document.getElementById('follow-title').innerText = t.followTitle;
-    document.getElementById('privacy-link').innerText = t.privacyLink;
-    document.getElementById('terms-link').innerText = t.termsLink;
-}
+const goalPi = 500;
 
 function donate(amount) {
-    const user = prompt("Lütfen kullanıcı adınızı girin:").trim();
-    if (!user) { alert("Geçerli bir kullanıcı adı girin."); return; }
-    if (donatedUsers.includes(user)) {
-        alert("Bu kullanıcı zaten bağış yaptı! Tekrar bağış yapamaz.");
-        return;
-    }
+    const user = prompt("Kullanıcı adınızı giriniz:");
 
-    totalPi += amount;
-    donorCount += 1;
+    if (!user) return alert("Geçerli bir kullanıcı adı girin.");
+    if (donatedUsers.includes(user)) return alert("Bu kullanıcı zaten bağış yaptı.");
+
     donatedUsers.push(user);
+    totalPi += amount;
+    donorCount++;
 
-    document.getElementById('total-pi').innerText = totalPi;
-    document.getElementById('donor-count').innerText = donorCount;
+    document.getElementById("total-pi").innerText = totalPi;
+    document.getElementById("donor-count").innerText = donorCount;
 
     alert(`Teşekkürler ${user}! ${amount} π bağışladınız.`);
 
     if (totalPi >= goalPi) {
-        alert("Tebrikler! Hedefe ulaşıldı! 🎉");
+        alert("🎉 Hedefe ulaşıldı!");
     }
+}
+
+/* Scroll to donation panel */
+function scrollToDonate() {
+    document.getElementById("donation-panel").scrollIntoView({ behavior: "smooth" });
+}
+
+/* MULTI LANGUAGE */
+const langData = {
+    tr: {
+        title: "Ayasofya Charity",
+        subtitle: "Pi Blockchain ile tamamen şeffaf ve güvenli bağış platformu.",
+        donationTitle: "Bağış Paneli",
+        donationText: "Bağış yapmak istediğiniz miktarı seçin:",
+        total: "Toplam Bağış",
+        donors: "Bağışçı Sayısı",
+        goal: "Hedef",
+        infoTitle: "Ayasofya Hakkında",
+        infoText: "Ayasofya, dünya tarihinin en önemli yapılarından biridir...",
+        whyTitle: "Neden Bağış Yapmalıyım?",
+        whyText: "Bağışlarınız kültürel mirası korumaya destek olur.",
+        secureTitle: "Güvenli ve Şeffaf",
+        secureText: "Pi Blockchain tüm işlemleri şeffaf hale getirir.",
+        follow: "Bizi Takip Edin",
+        privacy: "Gizlilik Politikası",
+        terms: "Kullanım Şartları"
+    },
+
+    en: {
+        title: "Ayasofya Charity",
+        subtitle: "A fully transparent and secure donation platform powered by Pi Blockchain.",
+        donationTitle: "Donation Panel",
+        donationText: "Select the amount you want to donate:",
+        total: "Total Donations",
+        donors: "Number of Donors",
+        goal: "Goal",
+        infoTitle: "About Ayasofya",
+        infoText: "Hagia Sophia is one of the most important structures in world history...",
+        whyTitle: "Why Donate?",
+        whyText: "Your donations help preserve cultural heritage.",
+        secureTitle: "Secure & Transparent",
+        secureText: "Pi Blockchain makes all transactions transparent.",
+        follow: "Follow Us",
+        privacy: "Privacy Policy",
+        terms: "Terms of Use"
+    }
+};
+
+function setLang(l) {
+    const d = langData[l];
+
+    document.getElementById("title").innerText = d.title;
+    document.getElementById("subtitle").innerText = d.subtitle;
+    document.getElementById("donation-title").innerText = d.donationTitle;
+    document.getElementById("donation-text").innerText = d.donationText;
+    document.getElementById("total-pi-text").innerText = d.total;
+    document.getElementById("donor-count-text").innerText = d.donors;
+    document.getElementById("goal-text").innerText = d.goal;
+    document.getElementById("info-title").innerText = d.infoTitle;
+    document.getElementById("info-text").innerText = d.infoText;
+    document.getElementById("why-title").innerText = d.whyTitle;
+    document.getElementById("why-text").innerText = d.whyText;
+    document.getElementById("secure-title").innerText = d.secureTitle;
+    document.getElementById("secure-text").innerText = d.secureText;
+    document.getElementById("follow-title").innerText = d.follow;
+    document.getElementById("privacy-link").innerText = d.privacy;
+    document.getElementById("terms-link").innerText = d.terms;
 }
