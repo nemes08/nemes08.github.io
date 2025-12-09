@@ -1,110 +1,65 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayasofya Charity — Global Pi Donation</title>
+let selectedAmount = 0;
+let total = 0;
+let donors = 0;
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+/* Scroll to donation area */
+function scrollToDonate() {
+    document.getElementById("donate-section").scrollIntoView({ behavior: "smooth" });
+}
 
-    <!-- DÜZELTİLDİ → doğru dosya ismi -->
-    <link rel="stylesheet" href="stil.css">
-</head>
+/* Select donation amount */
+function selectAmount(amount) {
+    selectedAmount = amount;
+    alert(`${amount} π seçildi`);
+}
 
-<body>
+/* Send donation using Pi SDK */
+function sendDonation() {
+    if (selectedAmount <= 0) {
+        alert("Lütfen bir Pi miktarı seçin.");
+        return;
+    }
 
-<header>
-    <img src="resimler/logo.svg" alt="Ayasofya Charity logo" class="logo">
-    <h1>Ayasofya Charity</h1>
+    Pi.createPayment({
+        amount: selectedAmount,
+        memo: "Ayasofya Charity Donation",
+        metadata: { type: "donation" }
+    }, {
+        onReadyForServerApproval: function(paymentId) {
+            console.log("Approval:", paymentId);
+        },
+        onReadyForServerCompletion: function(paymentId) {
+            console.log("Completion:", paymentId);
 
-    <p class="wallet-status" id="wallet-status">✓ Valide bağlantı sağlandı!</p>
+            // update stats
+            total += selectedAmount;
+            donors += 1;
 
-    <div class="language-selector">
-        <button onclick="setLanguage('tr')">TR</button>
-        <button onclick="setLanguage('en')">EN</button>
-    </div>
-</header>
+            document.getElementById("total").innerText = total;
+            document.getElementById("donors").innerText = donors;
 
-<!-- Hero -->
-<section class="hero">
-    <h2>Dünya çapında Ayasofya’ya destek olun</h2>
-    <p>Pi Network ile şeffaf bağış gönderin ve kültürel mirasa katkı sağlayın.</p>
-    <button class="hero-btn" onclick="scrollToDonation()">Donate with Pi</button>
-</section>
+            alert("Bağışınız için teşekkürler!");
+        },
+        onCancel: function() {
+            alert("Bağış iptal edildi!");
+        },
+        onError: function(error) {
+            alert("Hata oluştu: " + error);
+        }
+    });
+}
 
-<main>
-
-    <!-- Bağış Kartı -->
-    <section class="card" id="donation-section">
-        <h2 id="donation-title">Bağış Paneli</h2>
-        <p id="donation-text">Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:</p>
-
-        <div class="buttons">
-            <button class="donate-btn" onclick="selectAmount(1)">1 π</button>
-            <button class="donate-btn" onclick="selectAmount(5)">5 π</button>
-            <button class="donate-btn" onclick="selectAmount(10)">10 π</button>
-        </div>
-
-        <button class="send-btn" onclick="payNow()">Bağışı Gönder</button>
-
-        <div class="donation-status">
-            <p>Toplam Bağış: <span id="total-pi">0</span> π</p>
-            <p>Bağışçı Sayısı: <span id="donor-count">0</span></p>
-            <p>Hedef: <span id="goal-pi">∞</span></p>
-
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bilgi Kartı -->
-    <section class="info-card">
-        <h2 id="info-title">Ayasofya Hakkında</h2>
-        <p id="info-text">
-            Ayasofya, İstanbul’un simgesi ve dünya kültür mirasının en değerli yapılarından biridir. 
-            Bu proje ile hem tarihi mirasa sahip çıkıyor hem de tüm dünyadan bağışları şeffaf biçimde topluyoruz.
-        </p>
-    </section>
-
-    <!-- Neden Bağış -->
-    <section class="donation-info">
-        <h3 id="why-title">Neden Bağış Yapmalıyım?</h3>
-        <p id="why-text">
-            Bağışlarınız, hem kültürel mirasın korunması hem de ihtiyaç sahiplerine yardım ulaştırılması için kullanılır.
-        </p>
-
-        <h3 id="secure-title">Güvenli İşlem</h3>
-        <p id="secure-text">
-            Pi Network'ün blockchain altyapısı sayesinde bağış işlemleri tamamen güvenli, hızlı ve şeffaftır.
-        </p>
-    </section>
-
-    <!-- Sosyal Medya -->
-    <section class="social-media">
-        <h3>Bizi Takip Edin</h3>
-
-        <a href="https://www.tiktok.com/@semenuur" target="_blank">TikTok</a>
-        <a href="https://www.instagram.com/uursemen08" target="_blank">Instagram</a>
-        <a href="https://x.com/uursemen2" target="_blank">X</a>
-        <a href="https://www.youtube.com/@uursemen08" target="_blank">YouTube</a>
-    </section>
-
-</main>
-
-<footer>
-    <p>© 2025 Ayasofya Charity | Tüm hakları saklıdır</p>
-    <p>Developed with ❤️ by Ayasofya Charity Team</p>
-</footer>
-
-<div class="popup" id="popup-msg"></div>
-
-<!-- Pi SDK -->
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-
-<!-- DÜZELTİLDİ → doğru dosya yolu -->
-<script src="pi.js"></script>
-<script src="script.js"></script>
-
-</body>
-</html>
+/* Language selector */
+function setLang(lang) {
+    if (lang === "en") {
+        document.getElementById("hero-title").innerText = "Support Hagia Sophia globally";
+        document.getElementById("hero-subtitle").innerText = "Donate with Pi Network and protect cultural heritage.";
+        document.getElementById("donate-title").innerText = "Donation Panel";
+        document.getElementById("donate-desc").innerText = "Choose an amount to donate using Pi Blockchain:";
+    } else {
+        document.getElementById("hero-title").innerText = "Dünya çapında Ayasofya’ya destek olun";
+        document.getElementById("hero-subtitle").innerText = "Pi Network ile şeffaf bağış gönderin ve kültürel mirasa katkı sağlayın.";
+        document.getElementById("donate-title").innerText = "Bağış Paneli";
+        document.getElementById("donate-desc").innerText = "Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:";
+    }
+}
