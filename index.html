@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <header class="header">
     <div class="logo-container">
         <img src="images/logo.svg" alt="Ayasofya Charity logo" class="logo" />
@@ -29,16 +28,15 @@
 </header>
 
 <main>
-
     <!-- Donation Panel -->
     <section class="card">
         <h2 id="donation-title">Bağış Paneli</h2>
         <p id="donation-text">Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:</p>
 
         <div class="buttons">
-            <button class="donate-btn" onclick="donate(1)">1 π</button>
-            <button class="donate-btn" onclick="donate(50)">50 π</button>
-            <button class="donate-btn" onclick="donate(100)">100 π</button>
+            <button class="donate-btn" onclick="payNow()">1 π</button>
+            <button class="donate-btn" onclick="payNow()">50 π</button>
+            <button class="donate-btn" onclick="payNow()">100 π</button>
         </div>
 
         <div class="donation-status">
@@ -83,7 +81,6 @@
         <a href="privacy.html" id="privacy-link">Gizlilik Politikası</a>
         <a href="terms.html" id="terms-link">Kullanım Şartları</a>
     </section>
-
 </main>
 
 <footer class="footer">
@@ -91,21 +88,10 @@
     <p>Developed with ❤️ by Ayasofya Charity Team</p>
 </footer>
 
+<!-- Pi Network & App scripts — DOĞRU SIRADA EKLENDİ -->
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script src="pi.js"></script>
 <script src="script.js"></script>
-    ...
-    </main>
 
-    <footer class="footer">
-        <p>© 2025 Ayasofya Charity. Tüm hakları saklıdır.</p>
-        <p>Developed with ❤️ by Ayasofya Charity Team</p>
-    </footer>
-
-    <!-- Pi Network & App scripts — BURAYA EKLE -->
-    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <script src="pi.js"></script>
-    <script src="script.js"></script>
-
-</body>
-</html>
 </body>
 </html>
