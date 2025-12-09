@@ -110,3 +110,20 @@ body{
   .donate-grid{justify-content:center}
   .panel-right{order:2}
 }
+/* Logo & header - updated for SVG */
+.logo {
+  width: 120px;             /* logo biraz daha büyük */
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding: 10px;
+}
+
+/* When screen small, reduce logo size */
+@media (max-width: 560px) {
+  .logo { width: 78px; padding: 6px; }
+  .project-name { font-size: 1.05rem; }
+  .project-tag { display: none; }
+}
