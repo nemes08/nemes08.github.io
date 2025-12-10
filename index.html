@@ -4,15 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ayasofya Vakfı</title>
+<!-- Pi SDK -->
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <style>
+/* Temel tasarım */
 body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 0;
     text-align: center;
-    background: #faf7f2 url('images/bg-pattern.png') repeat;
     color: #222;
+    background: #faf7f2;
+    position: relative;
 }
+
+/* Filigran */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('images/ayasofya-bg.png') no-repeat center top;
+    background-size: cover;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+}
+
 header { padding: 20px; position: relative; z-index: 2; }
 .logo { width: 160px; height: auto; margin-bottom: 10px; animation: pulse 2s infinite; }
 @keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
@@ -57,10 +75,10 @@ footer a { text-decoration:none; color:#555; margin:0 4px;}
 <p id="donateDesc">Miktar seçin:</p>
 
 <div>
-    <button onclick="showReceipt('1 Pi')">1 Pi</button>
-    <button onclick="showReceipt('5 Pi')">5 Pi</button>
-    <button onclick="showReceipt('10 Pi')">10 Pi</button>
-    <button onclick="showReceipt('Özel Miktar')">Bağışı Gönder</button>
+    <button onclick="sendDonation(1)">1 Pi</button>
+    <button onclick="sendDonation(5)">5 Pi</button>
+    <button onclick="sendDonation(10)">10 Pi</button>
+    <button onclick="sendDonation('Özel Miktar')">Bağışı Gönder</button>
 </div>
 
 <div class="qr-box" id="qrBox" style="display:none;">
@@ -86,7 +104,6 @@ footer a { text-decoration:none; color:#555; margin:0 4px;}
 
 <div class="receipt" id="receipt"></div>
 
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
 // Dil desteği
 function setLang(lang){
@@ -103,8 +120,13 @@ document.getElementById("donateDesc").innerText="Miktar seçin:";
 }
 }
 
-// Makbuz + QR
-function showReceipt(amount){
+// Pi SDK ile bağış
+function sendDonation(amount){
+if(amount==='Özel Miktar'){amount=prompt("Lütfen bağış miktarını girin (Pi)","1"); if(!amount) return;}
+Pi.createPayment({amount:amount,memo:"Ayasofya Vakfı Donation"},{
+onReadyForServerApproval: function(paymentId){console.log("Approval:",paymentId);},
+onReadyForServerCompletion: function(paymentId){
+console.log("Completion:",paymentId);
 const r=document.getElementById('receipt');
 const date=new Date().toLocaleString('tr-TR');
 r.innerHTML=`<strong>Teşekkürler!</strong><br>${amount} bağışladınız 💜<br><small>${date}</small>`;
@@ -112,12 +134,14 @@ r.style.display='block';
 document.getElementById('qrBox').style.display='block';
 document.getElementById('qrImg').src=`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Bağış: ${amount}`;
 setTimeout(()=>r.style.display='none',3000);
+},
+onCancel:function(){alert("Bağış iptal edildi!");},
+onError:function(error){alert("Hata oluştu: "+error);}
+});
 }
 
 // Pi bağlantısı simülasyonu
-setTimeout(()=>{
-document.getElementById('validBox').style.display="block";
-},1000);
+setTimeout(()=>{document.getElementById('validBox').style.display="block";},1000);
 </script>
 
 </body>
