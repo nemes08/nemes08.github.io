@@ -1,290 +1,138 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ayasofya Charity — Bağış DApp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayasofya Vakfı</title>
 
-  <!-- Minimal reset + premium black & gold theme -->
-  <style>
-    :root{
-      --bg:#070609;
-      --card:#0f0d12;
-      --muted:#bfb8b0;
-      --gold:#d6b35a;
-      --accent:#f5e9c7;moomp
-      --glass: rgba(255,255,255,0.03);
-      --radius:14px;
-      --shadow: 0 10px 30px rgba(0,0,0,0.6);
-      --glass-border: rgba(255,255,255,0.04);
-    }
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: #fdfdfd;
+            color: #222;
+        }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(214,179,90,0.06), transparent),
-                  radial-gradient(900px 400px at 90% 90%, rgba(214,179,90,0.03), transparent),
-                  var(--bg);ll
-      color:var(--accent);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
-      padding-bottom:60px;
-    }
+        header {
+            padding: 20px;
+        }
 
-    /* Top nav */
-    header.topbar{
-      position:sticky;
-      top:0;
-      z-index:50;
-      backdrop-filter: blur(6px);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-bottom:1px solid rgba(255,255,255,0.02);
-      display:flex;
-      align-items:center;
-      gap:18px;
-      padding:14px 20px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-    }
-    .brand{
-      display:flex;align-items:center;gap:12px;
-    }
-    .logo-crest{
-      width:56px;height:56px;border-radius:12px;
-      display:inline-grid;place-items:center;
-      background: linear-gradient(135deg, rgba(214,179,90,0.15), rgba(214,179,90,0.04));
-      border:1px solid rgba(214,179,90,0.08);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-      font-weight:700;color:var(--gold);
-    }
-    .title{
-      font-size:16px;font-weight:700;color:var(--accent);
-    }
-    .subtitle{font-size:12px;color:var(--muted);}
+        .logo {
+            width: 160px;
+            height: auto;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
 
-    .top-actions{ margin-left:auto; display:flex; gap:8px; align-items:center; }
-    .lang-toggle button{
-      background:transparent;border:1px solid var(--glass-border); color:var(--muted);
-      padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:600;
-    }
-    .theme-note{font-size:12px;color:var(--muted);margin-left:8px}
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
 
-    /* Hero */
-    .hero{
-      max-width:1100px;margin:28px auto;padding:28px;
-      display:grid;grid-template-columns: 1fr 420px;gap:28px;align-items:center;
-    }
-    .hero-left{
-      padding:18px 10px;
-    }
-    .eyebrow{ color:var(--gold); font-weight:700; font-size:13px; letter-spacing:0.06em; }
-    h1{ font-size:32px;margin:12px 0;color:var(--accent); }
-    p.lead{ color:var(--muted); font-size:16px; max-width:60ch; }
+        h1 {
+            font-size: 26px;
+            margin: 10px 0;
+        }
 
-    /* Donate card */
-    .donation-card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      border-radius:var(--radius);
-      padding:18px;
-      position:relative;
-    }
+        .heart {
+            font-size: 30px;
+            color: #ff3b7a;
+            animation: beat 1.3s infinite;
+        }
 
-    .status-banner{
-      position:absolute;left:18px;right:18px;top:-14px;padding:8px 12px;
-      background: linear-gradient(90deg, rgba(214,179,90,0.12), rgba(214,179,90,0.06));
-      color:var(--gold);border-radius:10px;font-weight:700;font-size:13px;
-      display:flex;align-items:center;gap:10px;justify-content:center;
-      box-shadow:0 8px 26px rgba(0,0,0,0.45);
-      border:1px solid rgba(214,179,90,0.05);
-    }
+        @keyframes beat {
+            0%, 40%, 80%, 100% { transform: scale(1); }
+            20%, 60% { transform: scale(1.3); }
+        }
 
-    .donation-card h3{margin:10px 0 6px;font-size:18px;color:var(--accent)}
-    .donation-card p{color:var(--muted);font-size:14px;margin-bottom:12px}
+        .donation-section {
+            margin-top: 20px;
+        }
 
-    .amounts{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-    .amt-btn{
-      flex:1;min-width:90px;
-      background:transparent;border:1px solid rgba(255,255,255,0.04);
-      color:var(--accent);padding:12px;border-radius:10px;cursor:pointer;font-weight:700;
-      transition:all .18s;
-    }
-    .amt-btn.selected{ background:linear-gradient(90deg, rgba(214,179,90,0.14), rgba(214,179,90,0.06)); color:var(--gold); transform:translateY(-4px); box-shadow:0 10px 30px rgba(214,179,90,0.05); }
+        button {
+            background-color: #7b4bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
 
-    .donate-main{display:flex;gap:10px;align-items:center;margin-bottom:12px}
-    .donate-action{
-      background:linear-gradient(90deg,var(--gold), #b18f46);
-      border:none;padding:12px 16px;border-radius:12px;color:#111;font-weight:800;cursor:pointer;
-      box-shadow:0 8px 30px rgba(182,138,44,0.18);
-    }
-    .donate-action:disabled{opacity:0.6;cursor:not-allowed}
+        button:hover {
+            transform: scale(1.05);
+        }
 
-    .info-col{font-size:13px;color:var(--muted)}
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
 
-    /* Receipt popup */
-    .receipt{
-      position:fixed; right:20px; bottom:20px; width:300px; max-width:85vw;
-      background:linear-gradient(180deg,#0d0b0f, #0b0a0d);
-      border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.03);
-      box-shadow:0 18px 42px rgba(0,0,0,0.6); display:none; z-index:120;
-    }
-    .receipt .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-    .receipt .amount{font-weight:800;color:var(--gold);font-size:18px}
-    .receipt canvas{display:block;margin:8px auto 0; background:#fff;padding:6px;border-radius:6px}
+        .receipt {
+            position: fixed;
+            bottom: 40px;
+            right: 20px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            padding: 16px 20px;
+            display: none;
+            animation: fadeIn 0.4s forwards ease;
+        }
 
-    /* Stats */
-    .stats{display:flex;gap:12px;margin-top:12px}
-    .stat{background:var(--glass);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);min-width:90px}
-    .stat strong{display:block;font-size:16px;color:var(--accent)}
-    .stat small{color:var(--muted);font-size:12px}
-
-    /* Sections below hero */
-    .content{max-width:1100px;margin:20px auto;padding:18px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .card{background:var(--card); padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
-    .card h4{margin:0 0 8px;color:var(--accent)}
-    .card p{color:var(--muted);font-size:14px}
-
-    /* Footer */
-    footer{max-width:1100px;margin:28px auto;padding:18px;color:var(--muted);text-align:center;font-size:13px}
-
-    /* Responsive */
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr; padding:18px}
-      .top-actions{display:flex; gap:6px}
-      .content{grid-template-columns:1fr}
-    }
-  </style>
-
-  <!-- Pi SDK (will be used by script.js) -->
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-
-  <!-- QR code lib (client-side) -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+        @keyframes fadeIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
 </head>
 
 <body>
-  <header class="topbar" role="banner">
-    <div class="brand" aria-hidden="false">
-      <img src="images/logo.png" class="logo" alt="Ayasofya Vakfı Logosu">
-      <div class="logo-crest" aria-hidden="true">AY</div>
-      <div>
-        <div class="title">Ayasofya Charity</div>
-        <div class="subtitle" id="site-subtitle">Pi Network ile şeffaf bağış</div>
-      </div>
+
+<header>
+    <img src="images/logo.png" class="logo" alt="Ayasofya Vakfı Logosu">
+
+    <div class="heart">💜</div>
+
+    <h1>Ayasofya Vakfı</h1>
+    <p>İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
+</header>
+
+<section class="donation-section">
+    <h2>Bağış Yap</h2>
+    <p>✅ Valide köprülenebilir!</p>
+
+    <div>
+        <button onclick="showReceipt('1 Pi')">1 Pi</button>
+        <button onclick="showReceipt('5 Pi')">5 Pi</button>
+        <button onclick="showReceipt('10 Pi')">10 Pi</button>
+        <button onclick="showReceipt('Özel Miktar')">Bağışı Gönder</button>
     </div>
+</section>
 
-    <div class="top-actions" role="navigation" aria-label="Site actions">
-      <div class="lang-toggle" aria-hidden="false">
-        <button id="btn-tr" data-lang="tr">TR</button>
-        <button id="btn-en" data-lang="en">EN</button>
-      </div>
+<footer>
+    © 2025 Ayasofya Vakfı | Tüm hakları saklıdır
+</footer>
 
-      <div class="theme-note" id="valide-banner" title="Bağış altyapısı doğrulandı">
-        ✅ <strong id="valide-text">Valide bağlantı sağlandı</strong>
-      </div>
-    </div>
-  </header>
+<div class="receipt" id="receipt"></div>
 
-  <main>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-left">
-        <div class="eyebrow" id="eyebrow">Kültürel Miras İçin</div>
-        <h1 id="hero-title">Ayasofya’yı Destekleyin — Global Pi Bağışı</h1>
-        <p class="lead" id="hero-lead">
-          Şeffaf, güvenli ve hızlı bağış. Pi Network ile anında bağış yapın; her işlem için makbuz alın.
-        </p>
+<script>
+function showReceipt(amount) {
+    const r = document.getElementById('receipt');
+    const date = new Date().toLocaleString('tr-TR');
 
-        <div style="margin-top:18px; display:flex;gap:10px; align-items:center">
-          <button class="donate-action" id="cta-donate">Bağış Yap</button>
-          <div style="color:var(--muted);font-size:13px">Güven: <strong style="color:var(--gold)">SSL · Şeffaf</strong></div>
-        </div>
+    r.innerHTML = `<strong>Teşekkürler!</strong><br>${amount} bağışladınız 💜<br><small>${date}</small>`;
 
-        <div style="margin-top:18px" class="stats" aria-hidden="false">
-          <div class="stat">
-            <small id="stat-total-label">Toplam Bağış</small>
-            <strong id="stat-total">0 π</strong>
-          </div>
-          <div class="stat">
-            <small id="stat-donors-label">Bağışçı</small>
-            <strong id="stat-donors">0</strong>
-          </div>
-        </div>
+    r.style.display = 'block';
 
-      </div>
+    setTimeout(() => r.style.display = 'none', 3000);
+}
+</script>
 
-      <aside class="donation-card" id="donation-card" role="region" aria-label="Bağış Paneli">
-        <div class="status-banner" id="status-banner">Bağış altyapısı: <span id="status-text">Kontrol ediliyor…</span></div>
-
-        <h3 id="donate-title">Bağış Paneli</h3>
-        <p id="donate-desc">Hızlıca bir miktar seçin ya da özel miktar girin. Pi Browser ile bağış işlemini onaylayın.</p>
-
-        <div class="amounts" role="list" aria-label="Bağış miktarları">
-          <button class="amt-btn" data-amount="1">1 π</button>
-          <button class="amt-btn" data-amount="5">5 π</button>
-          <button class="amt-btn" data-amount="10">10 π</button>
-          <button class="amt-btn" data-amount="25">25 π</button>
-        </div>
-
-        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
-          <input id="custom-amount" type="number" min="0.1" step="0.1" placeholder="Özel miktar (π)" aria-label="Özel miktar" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--accent)">
-          <button id="select-custom" class="amt-btn" style="min-width:140px">Özel Seç</button>
-        </div>
-
-        <div class="donate-main">
-          <button id="send-btn" class="donate-action">Bağışı Gönder</button>
-          <div class="info-col" id="mini-note">Ödeme Pi Browser içinde çalışır. Test için sandbox modu kullanılabilir.</div>
-        </div>
-
-        <div style="margin-top:12px">
-          <small style="color:var(--muted)">Makbuz, işlem başarıyla tamamlandığında gösterilir.</small>
-        </div>
-      </aside>
-    </section>
-
-    <section class="content">
-      <div class="card">
-        <h4 id="about-title">Ayasofya Hakkında</h4>
-        <p id="about-text">Ayasofya, İstanbul'un evrensel mirasıdır. Bu vakıf, restorasyon ve toplumsal destek projelerine katkı toplar.</p>
-      </div>
-
-      <div class="card">
-        <h4 id="why-title">Neden Bağış?</h4>
-        <p id="why-text">Bağışlarınız şeffaf bir şekilde kaydedilir. Her işlem için makbuz, işlem ID'si ve QR kod sağlanır.</p>
-
-        <div style="margin-top:12px;">
-          <a href="https://x.com/uursemen2" target="_blank" rel="noopener noreferrer" style="color:var(--muted);text-decoration:none;margin-right:8px">X</a>
-          <a href="https://instagram.com/uursemen08" target="_blank" rel="noopener noreferrer" style="color:var(--muted);text-decoration:none;margin-right:8px">Instagram</a>
-          <a href="https://youtube.com/@uursemen08" target="_blank" rel="noopener noreferrer" style="color:var(--muted);text-decoration:none">YouTube</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Receipt popup -->
-    <div class="receipt" id="receipt" role="status" aria-live="polite">
-      <div class="head">
-        <div>
-          <div style="font-size:12px;color:var(--muted)">Makbuz</div>
-        </div>
-        <div style="cursor:pointer" id="receipt-close" title="Kapat">✕</div>
-      </div>
-
-      <div style="text-align:center">
-        <div class="amount" id="receipt-amount">0 π</div>
-        <div style="font-size:12px;color:var(--muted)" id="receipt-time">—</div>
-        <div id="receipt-qr" style="margin-top:10px"></div>
-        <div style="margin-top:8px;font-size:12px;color:var(--muted)">İşlem ID: <span id="receipt-tx">—</span></div>
-      </div>
-    </div>
-
-  </main>
-
-  <footer>
-    © 2025 Ayasofya Charity — Tüm hakları saklıdır · Resmi proje değildir · Güvenli bağışlar için Pi Browser önerilir.
-  </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
