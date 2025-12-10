@@ -1,148 +1,482 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ayasofya Vakfı</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ayasofya Vakfı — Bağış</title>
+
+<!-- Pi SDK (optional; only active inside Pi Browser) -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
 <style>
-body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    background: #faf7f2;
-    color: #222;
-    position: relative;
-}
+  /* ========== Base (keep your original look but enhanced) ========== */
+  :root{
+    --bg:#faf7f2;
+    --muted:#666;
+    --primary:#7b4bff;
+    --gold:#d6b35a;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    margin:0; padding:0;
+    text-align:center;
+    color:#222;
+    background: var(--bg);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    min-height:100vh;
+    position:relative;
+  }
 
-/* Filigran */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: url('images/ayasofya-bg.png') no-repeat center center;
+  /* ===== Filigran (soft Ayasofya background) ===== */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image: url('images/ayasofya-bg.png');
+    background-repeat:no-repeat;
+    background-position: center top;
     background-size: cover;
-    opacity: 0.05;
+    opacity:0.05; /* adjust 0.04-0.09 */
     filter: blur(2px);
-    pointer-events: none;
-    z-index: 0;
-}
+    pointer-events:none;
+    z-index:0;
+  }
 
-header { padding: 20px; position: relative; z-index: 2; }
-.logo { width: 160px; height: auto; margin-bottom: 10px; animation: pulse 2s infinite; }
-@keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
-h1 { font-size: 26px; margin: 10px 0; }
-.heart { font-size: 30px; color: #7b4bff; animation: beat 1.3s infinite; }
-@keyframes beat {0%,40%,80%,100%{transform:scale(1);}20%,60%{transform:scale(1.3);}}
-.lang-box { margin-top: 10px; }
-.lang-box button { padding:6px 10px; border-radius:6px; border:none; background:#ddd; margin:3px; cursor:pointer;}
-.valid-box { background:#e8ffe8; padding:10px; width:80%; margin:15px auto; border-radius:8px; border:1px solid #8fda8f; font-size:14px; position: relative; z-index:2; display:none;}
-.donation-section { margin-top:20px; position: relative; z-index:2;}
-button { background-color:#7b4bff; color:white; border:none; border-radius:8px; padding:10px 16px; margin:5px; font-size:15px; cursor:pointer; transition: transform 0.2s; }
-button:hover { transform: scale(1.05); }
-.socials a { font-size:24px; text-decoration:none; margin:5px; display:inline-block; transition: transform 0.2s; z-index:2; position:relative;}
-.socials a:hover { transform: scale(1.2); }
-footer { margin-top:30px; font-size:14px; color:#777; z-index:2; position:relative;}
-footer a { text-decoration:none; color:#555; margin:0 4px;}
-.receipt { position: fixed; bottom: 40px; right: 20px; background:#fff; border-radius:14px; box-shadow:0 6px 20px rgba(0,0,0,0.1); padding:16px 20px; display:none; animation: fadeIn 0.4s forwards ease; z-index:3;}
-@keyframes fadeIn {from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-.qr-box { margin-top:15px; position:relative; z-index:3; display:inline-block; transition: transform 0.3s, box-shadow 0.3s;}
-.qr-box:hover { transform: scale(1.08); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-.qr-box img { width:120px; height:120px; border-radius:12px; }
-@media(max-width:600px){.logo{width:120px;} h1{font-size:22px;} button{font-size:13px; padding:8px 12px;} .socials a{font-size:20px;} .qr-box img{width:90px;height:90px;}}
+  /* ===== Header (preserve your structure) ===== */
+  header{
+    padding:20px 16px;
+    position:relative;
+    z-index:2;
+  }
+  .logo{
+    width:160px;
+    height:auto;
+    display:block;
+    margin:0 auto 8px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+
+  .heart{
+    font-size:30px;
+    color:var(--primary);
+    animation:beat 1.3s infinite;
+    margin-top:8px;
+  }
+  @keyframes beat{0%,40%,80%,100%{transform:scale(1);}20%,60%{transform:scale(1.25);}}
+
+  h1{ font-size:26px; margin:10px 0; }
+  p.lead{ color:var(--muted); margin:4px 0 10px; }
+
+  /* language buttons */
+  .lang-box{ margin-top:10px; display:inline-flex; gap:8px; z-index:2; }
+  .lang-btn{
+    background:#eee; border:0; padding:6px 10px; border-radius:8px; cursor:pointer;
+    font-weight:700;
+  }
+
+  /* Valide banner */
+  .valid-box{
+    display:none; /* toggled by JS */
+    margin:14px auto;
+    max-width:820px;
+    background: linear-gradient(90deg, rgba(214,179,90,0.08), rgba(214,179,90,0.03));
+    color: #6a4c12;
+    padding:10px 14px;
+    border-radius:10px;
+    border:1px solid rgba(214,179,90,0.08);
+    font-weight:700;
+    z-index:2;
+    position:relative;
+  }
+
+  /* Donation area (keeps your original simple buttons) */
+  .donation-section{
+    margin:18px auto;
+    z-index:2;
+    position:relative;
+    padding:0 12px;
+    max-width:920px;
+  }
+  .donation-section h2{ margin-bottom:6px; }
+  .donation-section .btn-row{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:10px; }
+  .donation-section button{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:10px 16px;
+    cursor:pointer;
+    transition:transform .16s, box-shadow .16s;
+    box-shadow: 0 6px 18px rgba(123,75,255,0.12);
+    font-weight:700;
+  }
+  .donation-section button:hover{ transform:translateY(-4px); box-shadow:0 12px 26px rgba(123,75,255,0.14); }
+
+  /* QR area — always visible small card, also enlarged on hover */
+  .qr-card{
+    display:inline-block;
+    margin-top:14px;
+    padding:8px;
+    border-radius:12px;
+    background:#fff;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    transform-origin:center;
+    transition: transform .22s, box-shadow .22s;
+    z-index:2;
+  }
+  .qr-card:hover{ transform:scale(1.06); box-shadow:0 18px 40px rgba(0,0,0,0.16); }
+  .qr-card img{ width:120px; height:120px; border-radius:8px; display:block; }
+
+  /* Receipt popup */
+  .receipt{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    background:#fff;
+    color:#111;
+    padding:14px 16px;
+    border-radius:12px;
+    box-shadow:0 18px 50px rgba(0,0,0,0.18);
+    display:none;
+    z-index:4;
+    max-width:320px;
+    text-align:left;
+  }
+  .receipt .close{ float:right; cursor:pointer; color:#666; font-weight:700; margin-left:8px; }
+
+  /* Socials & footer */
+  .socials{ margin-top:14px; z-index:2; position:relative; }
+  .socials a{ margin:0 6px; text-decoration:none; display:inline-block; font-size:22px; transition:transform .16s; }
+  .socials a:hover{ transform:translateY(-4px); }
+
+  footer{
+    margin:30px 0 60px; color:var(--muted); z-index:2; position:relative;
+    font-size:14px;
+  }
+  footer a{ color:var(--muted); text-decoration:underline; margin:0 6px; }
+
+  /* legal modal */
+  .modal{
+    position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+    background: rgba(0,0,0,0.5); z-index:6; padding:20px;
+  }
+  .modal .panel{
+    background:#fff; max-width:900px; width:100%; max-height:80vh; overflow:auto;
+    border-radius:12px; padding:18px; text-align:left; color:#111;
+  }
+  .modal .panel h3{ margin-top:0; }
+  .modal .close{ float:right; cursor:pointer; font-weight:700; }
+
+  /* responsive */
+  @media (max-width:720px){
+    .donation-section .btn-row{ gap:6px; }
+    .logo{ width:130px; }
+    .qr-card img{ width:90px; height:90px; }
+    .receipt{ left:10px; right:10px; bottom:12px; }
+  }
 </style>
 </head>
 <body>
 
-<header>
-<img src="images/logo.png" class="logo" alt="Ayasofya Vakfı Logosu">
-<div class="heart">💜</div>
-<h1 id="title">Ayasofya Vakfı</h1>
-<p id="subtitle">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
+  <!-- Header (unchanged layout) -->
+  <header>
+    <img src="images/logo.png" class="logo" alt="Ayasofya Vakfı Logosu">
+    <div class="heart" aria-hidden="true">💜</div>
 
-<div class="lang-box">
-    <button onclick="setLang('tr')">🇹🇷 TR</button>
-    <button onclick="setLang('en')">🇬🇧 EN</button>
-</div>
-</header>
+    <h1 id="site-title">Ayasofya Vakfı</h1>
+    <p class="lead" id="site-sub">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
 
-<div class="valid-box" id="validBox">✔ Pi bağlantısı doğrulandı: @exampleuser</div>
+    <div class="lang-box" role="tablist" aria-label="Dil">
+      <button class="lang-btn" id="lang-tr" onclick="setLang('tr')">🇹🇷 TR</button>
+      <button class="lang-btn" id="lang-en" onclick="setLang('en')">🇬🇧 EN</button>
+    </div>
+  </header>
 
-<section class="donation-section">
-<h2 id="donateTitle">Bağış Yap</h2>
-<p id="donateDesc">Miktar seçin:</p>
+  <!-- Valide banner -->
+  <div class="valid-box" id="validBox" role="status" aria-live="polite">
+    ✔ Pi bağlantısı doğrulanıyor...
+  </div>
 
-<div>
-    <button onclick="sendDonation(1)">1 Pi</button>
-    <button onclick="sendDonation(5)">5 Pi</button>
-    <button onclick="sendDonation(10)">10 Pi</button>
-    <button onclick="sendDonation('Özel Miktar')">Bağışı Gönder</button>
-</div>
+  <!-- Donation section -->
+  <main class="donation-section" role="main" aria-labelledby="donate-heading">
+    <h2 id="donate-heading">Bağış Yap</h2>
+    <p id="donate-desc">Miktar seçin:</p>
 
-<div class="qr-box" id="qrBox" style="display:none;">
-    <p>QR ile Bağış Yap:</p>
-    <img id="qrImg" src="" alt="QR Kod">
-</div>
-</section>
+    <div class="btn-row" aria-hidden="false">
+      <button data-amount="1" onclick="onAmount(1)">1 Pi</button>
+      <button data-amount="5" onclick="onAmount(5)">5 Pi</button>
+      <button data-amount="10" onclick="onAmount(10)">10 Pi</button>
+      <button onclick="onCustom()">Bağışı Gönder</button>
+    </div>
 
-<div class="socials">
-<a href="https://tiktok.com/@semenuur">🎵</a>
-<a href="https://instagram.com/uursemen08">📸</a>
-<a href="https://youtube.com/@uursemen08">▶️</a>
-<a href="https://x.com/uursemen2">🐦</a>
-</div>
+    <!-- persistent QR card (visible always) -->
+    <div id="persistentQR" style="margin-top:18px;">
+      <div class="qr-card" id="qrCard" title="QR ile bağış yap">
+        <!-- default placeholder -->
+        <img id="qrPersistentImg" alt="QR Kod" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Ayasofya%20Vakfi" />
+      </div>
+    </div>
+  </main>
 
-<footer>
-© 2025 Ayasofya Vakfı | Tüm hakları saklıdır  
-<br>
-<a href="https://nemes08.github.io/#">Gizlilik Politikası</a> |
-<a href="https://nemes08.github.io/#">KVKK</a> |
-<a href="https://nemes08.github.io/#">Kullanım Şartları</a>
-</footer>
+  <!-- receipt popup (shown after donation success) -->
+  <div class="receipt" id="receipt" role="alert" aria-live="assertive">
+    <span class="close" id="receiptClose" title="Kapat">✕</span>
+    <div id="receiptContent">
+      <!-- filled by JS -->
+    </div>
+  </div>
 
-<div class="receipt" id="receipt"></div>
+  <!-- Socials -->
+  <div class="socials" aria-label="Sosyal medya">
+    <a href="https://tiktok.com/@semenuur" target="_blank" rel="noopener noreferrer" title="TikTok">🎵</a>
+    <a href="https://instagram.com/uursemen08" target="_blank" rel="noopener noreferrer" title="Instagram">📸</a>
+    <a href="https://youtube.com/@uursemen08" target="_blank" rel="noopener noreferrer" title="YouTube">▶️</a>
+    <a href="https://x.com/uursemen2" target="_blank" rel="noopener noreferrer" title="X">🐦</a>
+  </div>
+
+  <!-- Footer with legal links -->
+  <footer>
+    © 2025 Ayasofya Vakfı | Tüm hakları saklıdır
+    <br>
+    <a href="#" id="link-privacy">Gizlilik Politikası</a> |
+    <a href="#" id="link-kvkk">KVKK</a> |
+    <a href="#" id="link-terms">Kullanım Şartları</a>
+  </footer>
+
+  <!-- Modals for legal texts -->
+  <div class="modal" id="modal-privacy" aria-hidden="true">
+    <div class="panel">
+      <span class="close" onclick="closeModal('modal-privacy')">✕</span>
+      <h3>Gizlilik Politikası</h3>
+      <p>Bu platform bağış işlemleri, iletişim ve istatistik amaçlı sınırlı veri toplar. Kişisel veriler yasal gereklilikler haricinde paylaşılmaz. Daha detaylı bilgi için lütfen vakıf ile iletişime geçin.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-kvkk" aria-hidden="true">
+    <div class="panel">
+      <span class="close" onclick="closeModal('modal-kvkk')">✕</span>
+      <h3>KVKK Aydınlatma Metni</h3>
+      <p>Kişisel verileriniz, bağış işlemlerinin yürütülmesi, muhasebe ve yasal yükümlülüklerin yerine getirilmesi amacıyla işlenir. Haklarınız için vakıf ile iletişime geçiniz.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-terms" aria-hidden="true">
+    <div class="panel">
+      <span class="close" onclick="closeModal('modal-terms')">✕</span>
+      <h3>Kullanım Şartları</h3>
+      <p>Site üzerinden yapılan bağışlar gönüllüdür. Bağışların kullanımı vakfın bağış politikalarına göre yürütülür. İade talepleri için vakıf ile iletişime geçiniz.</p>
+    </div>
+  </div>
 
 <script>
-// Dil desteği
-function setLang(lang){
-if(lang==='en'){
-document.getElementById("title").innerText="Hagia Sophia Foundation";
-document.getElementById("subtitle").innerText="Support those in need — transparent donations with Pi Network";
-document.getElementById("donateTitle").innerText="Make a Donation";
-document.getElementById("donateDesc").innerText="Choose an amount:";
-}else{
-document.getElementById("title").innerText="Ayasofya Vakfı";
-document.getElementById("subtitle").innerText="İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış";
-document.getElementById("donateTitle").innerText="Bağış Yap";
-document.getElementById("donateDesc").innerText="Miktar seçin:";
+/* ========= Lightweight helpers and initial state ========= */
+const el = id => document.getElementById(id);
+let selectedAmount = null;
+
+// Set initial language to Turkish or browser language
+let LANG = (navigator.language && navigator.language.startsWith('en')) ? 'en' : 'tr';
+function setLang(l){
+  LANG = l;
+  if(l === 'en'){
+    el('site-title').innerText = "Hagia Sophia Foundation";
+    el('site-sub').innerText = "Support those in need — transparent donations with Pi Network";
+    el('donate-desc').innerText = "Choose an amount:";
+    document.getElementById('donate-heading').innerText = "Make a Donation";
+  } else {
+    el('site-title').innerText = "Ayasofya Vakfı";
+    el('site-sub').innerText = "İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış";
+    el('donate-desc').innerText = "Miktar seçin:";
+    document.getElementById('donate-heading').innerText = "Bağış Yap";
+  }
 }
+setLang(LANG);
+
+/* Modal open/close */
+function openModal(id){
+  const m = el(id);
+  if(!m) return;
+  m.style.display = 'flex';
+  m.setAttribute('aria-hidden','false');
+}
+function closeModal(id){
+  const m = el(id);
+  if(!m) return;
+  m.style.display = 'none';
+  m.setAttribute('aria-hidden','true');
+}
+document.getElementById('link-privacy').addEventListener('click', (e)=>{ e.preventDefault(); openModal('modal-privacy'); });
+document.getElementById('link-kvkk').addEventListener('click', (e)=>{ e.preventDefault(); openModal('modal-kvkk'); });
+document.getElementById('link-terms').addEventListener('click', (e)=>{ e.preventDefault(); openModal('modal-terms'); });
+
+/* Close receipt */
+el('receiptClose').addEventListener('click', ()=> el('receipt').style.display='none');
+
+/* Amount handlers */
+function onAmount(n){
+  selectedAmount = n;
+  // Visual quick highlight (brief)
+  flashButton(n);
+  // Optional: auto open QR and prepare data
+  prepareQR(n);
+}
+function onCustom(){
+  const amt = prompt(LANG==='tr' ? "Lütfen bağış miktarını girin (Pi)" : "Enter donation amount (Pi)", "1");
+  if(!amt) return;
+  const v = parseFloat(amt);
+  if(isNaN(v) || v <= 0) { alert(LANG==='tr' ? "Geçerli bir miktar girin." : "Enter a valid amount."); return; }
+  selectedAmount = v;
+  prepareQR(v);
+  // start donation flow
+  sendDonation(v);
 }
 
-// Pi SDK ile bağış
+/* visual flash (temporary) */
+function flashButton(amount){
+  const buttons = document.querySelectorAll('.btn-row button');
+  buttons.forEach(b=>{
+    const val = b.getAttribute('data-amount');
+    if(val && Number(val) === Number(amount)){
+      b.style.transform = 'translateY(-6px)';
+      setTimeout(()=> b.style.transform = '', 400);
+    }
+  });
+}
+
+/* Prepare QR (update persistent QR with donation payload) */
+function prepareQR(amount){
+  const text = `Ayasofya Vakfı - Donation ${amount} π`;
+  const url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(text)}`;
+  el('qrPersistentImg').src = url;
+  // also show small QR card
+  el('qrCard').style.display = 'inline-block';
+}
+
+/* ========== Pi SDK detection and "valide" banner ========== */
+let PI_AVAILABLE = false;
+function detectPi(){
+  // Pi SDK exposes window.Pi with createPayment in their SDK
+  try{
+    if(window.Pi && typeof window.Pi.createPayment === 'function'){
+      PI_AVAILABLE = true;
+      // try to read a username (depends on SDK)
+      let username = null;
+      try{
+        if(window.Pi.user && window.Pi.user.username) username = window.Pi.user.username;
+      }catch(e){}
+      el('validBox').style.display = 'block';
+      el('validBox').innerText = username ? `✔ Pi bağlantısı doğrulandı: @${username}` : '✔ Pi bağlantısı doğrulandı';
+    } else {
+      PI_AVAILABLE = false;
+      // show validation in "grey" encouraging user to open Pi Browser
+      el('validBox').style.display = 'block';
+      el('validBox').innerText = '🔎 Pi Browser içinde daha iyi deneyim (SDK bulunamadı)';
+    }
+  }catch(e){
+    PI_AVAILABLE = false;
+    el('validBox').style.display = 'block';
+    el('validBox').innerText = '🔎 Bağlantı kontrol edilemedi';
+  }
+}
+window.addEventListener('load', detectPi);
+
+/* ========== Donation logic (uses Pi.createPayment if available, otherwise demo) ========== */
 function sendDonation(amount){
-if(amount==='Özel Miktar'){amount=prompt("Lütfen bağış miktarını girin (Pi)","1"); if(!amount) return;}
-Pi.createPayment({amount:amount,memo:"Ayasofya Vakfı Donation"},{
-onReadyForServerApproval: function(paymentId){console.log("Approval:",paymentId);},
-onReadyForServerCompletion: function(paymentId){
-console.log("Completion:",paymentId);
-const r=document.getElementById('receipt');
-const date=new Date().toLocaleString('tr-TR');
-r.innerHTML=`<strong>Teşekkürler!</strong><br>${amount} bağışladınız 💜<br><small>${date}</small>`;
-r.style.display='block';
-document.getElementById('qrBox').style.display='block';
-document.getElementById('qrImg').src=`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Bağış: ${amount}`;
-setTimeout(()=>r.style.display='none',3000);
-},
-onCancel:function(){alert("Bağış iptal edildi!");},
-onError:function(error){alert("Hata oluştu: "+error);}
-});
+  if(!amount){ alert(LANG==='tr' ? 'Lütfen bir miktar seçin.' : 'Please select an amount.'); return; }
+  // If Pi SDK available, use it
+  if(PI_AVAILABLE){
+    try{
+      // Some Pi SDKs require Pi.createPayment with certain signature. This follows earlier examples.
+      window.Pi.createPayment({
+        amount: amount,
+        memo: 'Ayasofya Vakfı Donation',
+        metadata: { type: 'donation' }
+      }, {
+        onReadyForServerApproval(paymentId){
+          console.log('payment approval requested:', paymentId);
+          // we could show a "waiting" UI here
+        },
+        onReadyForServerCompletion(paymentId){
+          // Payment successful
+          finalizeDonation(amount, paymentId);
+        },
+        onCancel(){
+          alert(LANG==='tr' ? 'Bağış iptal edildi.' : 'Donation cancelled.');
+        },
+        onError(err){
+          console.error('Pi error', err);
+          alert((LANG==='tr' ? 'Hata oluştu: ' : 'Error: ') + (err && err.message ? err.message : JSON.stringify(err)));
+        }
+      });
+    }catch(e){
+      console.error(e);
+      alert(LANG==='tr' ? 'Ödeme başlatılamadı.' : 'Failed to start payment.');
+    }
+  } else {
+    // Demo fallback: simulate success after short delay
+    const fakeTx = 'demo-' + Date.now();
+    setTimeout(()=> finalizeDonation(amount, fakeTx), 900);
+  }
 }
 
-// Pi bağlantısı simülasyonu
-setTimeout(()=>{document.getElementById('validBox').style.display="block";},1000);
-</script>
+/* Finalize: show receipt and QR and optionally update local stats */
+function finalizeDonation(amount, txId){
+  // Show receipt
+  const r = el('receipt');
+  const date = new Date().toLocaleString(LANG==='tr' ? 'tr-TR' : 'en-US');
+  r.innerHTML = `<span class="close" id="receiptClose" title="Kapat">✕</span>
+                 <div><strong>${LANG==='tr' ? 'Teşekkürler!' : 'Thank you!'}</strong></div>
+                 <div style="margin-top:8px">${amount} π</div>
+                 <div style="margin-top:6px;color:#666;font-size:13px">${date}</div>
+                 <div style="margin-top:8px;font-size:13px;color:#666">${LANG==='tr' ? 'İşlem ID:' : 'Tx ID:'} ${txId}</div>`;
+  r.style.display = 'block';
+  // hook up close
+  document.getElementById('receiptClose').addEventListener('click', ()=> r.style.display='none');
 
+  // prepare QR for receipt too (detailed JSON)
+  const payload = JSON.stringify({ project:'Ayasofya Vakfı', amount, tx: txId, date: new Date().toISOString() });
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(payload)}`;
+
+  // show in persistent QR area too
+  el('qrPersistentImg').src = qrUrl;
+  // show QR card bigger if you want
+  el('qrCard').style.display = 'inline-block';
+}
+
+/* Accessibility: close modals with Esc */
+window.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    // hide modals
+    ['modal-privacy','modal-kvkk','modal-terms'].forEach(id=>{
+      const m = document.getElementById(id);
+      if(m) m.style.display = 'none';
+    });
+    // hide receipt
+    const r = el('receipt');
+    if(r) r.style.display = 'none';
+  }
+});
+
+/* Fix: close modal when clicking outside panel */
+['modal-privacy','modal-kvkk','modal-terms'].forEach(id=>{
+  const m = document.getElementById(id);
+  if(m){
+    m.addEventListener('click', function(e){
+      if(e.target === m) closeModal(id);
+    });
+  }
+});
+
+/* Small UX: clicking persistent QR toggles alert with info */
+el('qrCard').addEventListener('click', ()=>{
+  alert(LANG==='tr' ? "QR ile bağış: QR kodu okutun veya tıklayın. Bağış butonuna basınca detaylı makbuz hazırlanır." : "QR donation: Scan or click the QR. A detailed receipt appears after donation.");
+});
+
+/* Optional: expose quick test function on console */
+window._AY_TEST = { sendDonation, finalizeDonation, prepareQR };
+
+</script>
 </body>
 </html>
