@@ -1,213 +1,123 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayasofya Vakfı</title>
-
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            background: #faf7f2 url('images/bg-pattern.png') repeat;
-            color: #222;
-        }
-
-        header {
-            padding: 20px;
-        }
-
-        .logo {
-            width: 160px;
-            height: auto;
-            margin-bottom: 10px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-
-        h1 {
-            font-size: 26px;
-            margin: 10px 0;
-        }
-
-        .heart {
-            font-size: 30px;
-            color: #ff3b7a;
-            animation: beat 1.3s infinite;
-        }
-
-        @keyframes beat {
-            0%, 40%, 80%, 100% { transform: scale(1); }
-            20%, 60% { transform: scale(1.3); }
-        }
-
-        /* Dil Butonları */
-        .lang-box {
-            margin-top: 10px;
-        }
-        .lang-box button {
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: none;
-            background: #ddd;
-            margin: 3px;
-            cursor: pointer;
-        }
-
-        /* Valide Kutusu */
-        .valid-box {
-            background: #e8ffe8;
-            padding: 10px;
-            width: 80%;
-            margin: 15px auto;
-            border-radius: 8px;
-            border: 1px solid #8fda8f;
-            font-size: 14px;
-            display: none;
-        }
-
-        .donation-section {
-            margin-top: 20px;
-        }
-
-        button {
-            background-color: #7b4bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            margin: 5px;
-            font-size: 15px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-        }
-
-        /* Sosyal Medya */
-        .socials a {
-            font-size: 24px;
-            text-decoration: none;
-            margin: 5px;
-            display: inline-block;
-        }
-
-        .socials a:hover {
-            transform: scale(1.2);
-        }
-
-        footer {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #777;
-        }
-
-        /* Makbuz */
-        .receipt {
-            position: fixed;
-            bottom: 40px;
-            right: 20px;
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-            padding: 16px 20px;
-            display: none;
-            animation: fadeIn 0.4s forwards ease;
-        }
-
-        @keyframes fadeIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayasofya Vakfı</title>
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: #faf7f2 url('images/bg-pattern.png') repeat;
+    color: #222;
+}
+header { padding: 20px; position: relative; z-index: 2; }
+.logo { width: 160px; height: auto; margin-bottom: 10px; animation: pulse 2s infinite; }
+@keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+h1 { font-size: 26px; margin: 10px 0; }
+.heart { font-size: 30px; color: #ff3b7a; animation: beat 1.3s infinite; }
+@keyframes beat {0%,40%,80%,100%{transform:scale(1);}20%,60%{transform:scale(1.3);}}
+.lang-box { margin-top: 10px; }
+.lang-box button { padding:6px 10px; border-radius:6px; border:none; background:#ddd; margin:3px; cursor:pointer;}
+.valid-box { background:#e8ffe8; padding:10px; width:80%; margin:15px auto; border-radius:8px; border:1px solid #8fda8f; font-size:14px; display:none;}
+.donation-section { margin-top:20px; position: relative; z-index:2;}
+button { background-color:#7b4bff; color:white; border:none; border-radius:8px; padding:10px 16px; margin:5px; font-size:15px; cursor:pointer; transition: transform 0.2s; }
+button:hover { transform: scale(1.05); }
+.socials a { font-size:24px; text-decoration:none; margin:5px; display:inline-block; transition: transform 0.2s; }
+.socials a:hover { transform: scale(1.2); }
+footer { margin-top:30px; font-size:14px; color:#777; z-index:2; position:relative;}
+footer a { text-decoration:none; color:#555; margin:0 4px;}
+.receipt { position: fixed; bottom: 40px; right: 20px; background:#fff; border-radius:14px; box-shadow:0 6px 20px rgba(0,0,0,0.1); padding:16px 20px; display:none; animation: fadeIn 0.4s forwards ease; z-index:3;}
+@keyframes fadeIn {from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.qr-box { margin-top:15px; }
+.qr-box img { width:120px; height:120px; }
+@media(max-width:600px){.logo{width:120px;} h1{font-size:22px;} button{font-size:13px; padding:8px 12px;} .socials a{font-size:20px;}}
+</style>
 </head>
-
 <body>
 
 <header>
-    <img src="images/logo.png" class="logo" alt="Ayasofya Vakfı Logosu">
+<img src="images/logo.png" class="logo" alt="Ayasofya Vakfı Logosu">
+<div class="heart">💜</div>
+<h1 id="title">Ayasofya Vakfı</h1>
+<p id="subtitle">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
 
-    <div class="heart">💜</div>
-
-    <h1 id="title">Ayasofya Vakfı</h1>
-    <p id="subtitle">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
-
-    <div class="lang-box">
-        <button onclick="setLang('tr')">🇹🇷 TR</button>
-        <button onclick="setLang('en')">🇬🇧 EN</button>
-    </div>
+<div class="lang-box">
+    <button onclick="setLang('tr')">🇹🇷 TR</button>
+    <button onclick="setLang('en')">🇬🇧 EN</button>
+</div>
 </header>
 
-<div class="valid-box" id="validBox">
-    ✔ Pi bağlantısı doğrulandı: @exampleuser
-</div>
+<div class="valid-box" id="validBox">✔ Pi bağlantısı doğrulandı: @exampleuser</div>
 
 <section class="donation-section">
-    <h2 id="donateTitle">Bağış Yap</h2>
-    <p id="donateDesc">Miktar seçin:</p>
+<h2 id="donateTitle">Bağış Yap</h2>
+<p id="donateDesc">Miktar seçin:</p>
 
-    <div>
-        <button onclick="showReceipt('1 Pi')">1 Pi</button>
-        <button onclick="showReceipt('5 Pi')">5 Pi</button>
-        <button onclick="showReceipt('10 Pi')">10 Pi</button>
-        <button onclick="showReceipt('Özel Miktar')">Bağışı Gönder</button>
-    </div>
+<div>
+    <button onclick="showReceipt('1 Pi')">1 Pi</button>
+    <button onclick="showReceipt('5 Pi')">5 Pi</button>
+    <button onclick="showReceipt('10 Pi')">10 Pi</button>
+    <button onclick="showReceipt('Özel Miktar')">Bağışı Gönder</button>
+</div>
+
+<div class="qr-box" id="qrBox" style="display:none;">
+    <p>QR ile Bağış Yap:</p>
+    <img id="qrImg" src="" alt="QR Kod">
+</div>
 </section>
 
-<!-- Sosyal Medya -->
 <div class="socials">
-    <a href="https://tiktok.com/@semenuur">🎵</a>
-    <a href="https://instagram.com/uursemen08">📸</a>
-    <a href="https://youtube.com/@uursemen08">▶️</a>
-    <a href="https://x.com/uursemen2">🐦</a>
+<a href="https://tiktok.com/@semenuur">🎵</a>
+<a href="https://instagram.com/uursemen08">📸</a>
+<a href="https://youtube.com/@uursemen08">▶️</a>
+<a href="https://x.com/uursemen2">🐦</a>
 </div>
 
 <footer>
-    © 2025 Ayasofya Vakfı | Tüm hakları saklıdır  
-    <br>
-    <a href="#">Gizlilik Politikası</a> |
-    <a href="#">KVKK</a> |
-    <a href="#">Kullanım Şartları</a>
+© 2025 Ayasofya Vakfı | Tüm hakları saklıdır  
+<br>
+<a href="#">Gizlilik Politikası</a> |
+<a href="#">KVKK</a> |
+<a href="#">Kullanım Şartları</a>
 </footer>
 
 <div class="receipt" id="receipt"></div>
 
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
-function showReceipt(amount) {
-    const r = document.getElementById('receipt');
-    const date = new Date().toLocaleString('tr-TR');
-
-    r.innerHTML = `<strong>Teşekkürler!</strong><br>${amount} bağışladınız 💜<br><small>${date}</small>`;
-    r.style.display = 'block';
-    setTimeout(() => r.style.display = 'none', 3000);
+// Dil desteği
+function setLang(lang){
+if(lang==='en'){
+document.getElementById("title").innerText="Hagia Sophia Foundation";
+document.getElementById("subtitle").innerText="Support those in need — transparent donations with Pi Network";
+document.getElementById("donateTitle").innerText="Make a Donation";
+document.getElementById("donateDesc").innerText="Choose an amount:";
+}else{
+document.getElementById("title").innerText="Ayasofya Vakfı";
+document.getElementById("subtitle").innerText="İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış";
+document.getElementById("donateTitle").innerText="Bağış Yap";
+document.getElementById("donateDesc").innerText="Miktar seçin:";
+}
 }
 
-function setLang(lang) {
-    if(lang === 'en') {
-        document.getElementById("title").innerText = "Hagia Sophia Foundation";
-        document.getElementById("subtitle").innerText = "Support those in need — transparent donations with Pi Network";
-        document.getElementById("donateTitle").innerText = "Make a Donation";
-        document.getElementById("donateDesc").innerText = "Choose an amount:";
-    } else {
-        document.getElementById("title").innerText = "Ayasofya Vakfı";
-        document.getElementById("subtitle").innerText = "İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış";
-        document.getElementById("donateTitle").innerText = "Bağış Yap";
-        document.getElementById("donateDesc").innerText = "Miktar seçin:";
-    }
+// Makbuz + QR
+function showReceipt(amount){
+const r=document.getElementById('receipt');
+const date=new Date().toLocaleString('tr-TR');
+r.innerHTML=`<strong>Teşekkürler!</strong><br>${amount} bağışladınız 💜<br><small>${date}</small>`;
+r.style.display='block';
+document.getElementById('qrBox').style.display='block';
+document.getElementById('qrImg').src=`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Bağış: ${amount}`;
+setTimeout(()=>r.style.display='none',3000);
 }
 
-// Bağlantı sağlandı simülasyonu
-setTimeout(() => {
-    document.getElementById('validBox').style.display = "block";
-}, 1000);
+// Pi bağlantısı simülasyonu
+setTimeout(()=>{
+document.getElementById('validBox').style.display="block";
+},1000);
 </script>
 
 </body>
