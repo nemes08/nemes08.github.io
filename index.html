@@ -1,65 +1,74 @@
-let selectedAmount = 0;
-let total = 0;
-let donors = 0;
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Ayasofya Charity — Donate with Pi</title>
+  <link rel="stylesheet" href="stil.css">
+</head>
+<body>
+<nav>
+  <img src="resimler/logo.svg" alt="Ayasofya Charity Logo" style="height:48px"/>
+  <div>
+    <button onclick="setLang('tr')">TR</button>
+    <button onclick="setLang('en')">EN</button>
+  </div>
+</nav>
 
-/* Scroll to donation area */
-function scrollToDonate() {
-    document.getElementById("donate-section").scrollIntoView({ behavior: "smooth" });
-}
+<section style="text-align:center;padding:60px 20px;background:linear-gradient(180deg,#071226,#081123);color:#fff;">
+  <h1 id="hero-title">Dünya çapında Ayasofya’ya destek olun</h1>
+  <p id="hero-sub">Pi Network ile şeffaf bağış gönderin ve kültürel mirasa katkı sağlayın.</p>
+  <button onclick="scrollToDonate()" style="margin-top:18px;padding:12px 20px;border-radius:10px;border:none;background:#ffd900;font-weight:700;">Donate with Pi</button>
+</section>
 
-/* Select donation amount */
-function selectAmount(amount) {
-    selectedAmount = amount;
-    alert(`${amount} π seçildi`);
-}
+<div id="donate-section" style="max-width:920px;margin:28px auto;padding:18px;">
+  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;justify-content:center;">
+    <div style="flex:1;min-width:300px;">
+      <div style="background:rgba(255,255,255,0.05);padding:20px;border-radius:12px;">
+        <h2 id="donate-title">Bağış Paneli</h2>
+        <p id="donate-desc">Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:</p>
+        <div style="display:flex;gap:10px;margin-top:12px;">
+          <button onclick="selectAmount(1)">1 π</button>
+          <button onclick="selectAmount(5)">5 π</button>
+          <button onclick="selectAmount(10)">10 π</button>
+        </div>
+        <div style="margin-top:14px;">
+          <button onclick="sendDonation()">Bağışı Gönder</button>
+        </div>
+        <div style="margin-top:16px;">
+          <div>Toplam Bağış: <strong id="total">0</strong> π</div>
+          <div>Bağışçı Sayısı: <strong id="donors">0</strong></div>
+          <div>Hedef: ∞</div>
+        </div>
+      </div>
+    </div>
+    <div style="width:360px;">
+      <img src="resimler/ayasofya-hero.svg" alt="hero" style="width:100%;border-radius:10px;"/>
+    </div>
+  </div>
+</div>
 
-/* Send donation using Pi SDK */
-function sendDonation() {
-    if (selectedAmount <= 0) {
-        alert("Lütfen bir Pi miktarı seçin.");
-        return;
-    }
+<section style="max-width:920px;margin:22px auto;padding:0 18px;">
+  <h3>Ayasofya Hakkında</h3>
+  <p>Ayasofya, İstanbul’un simgesi ve dünya kültür mirasının en değerlerindandır. Bu platform, şeffaf bağış toplayıp dağıtımı takip etmeyi amaçlar.</p>
+</section>
 
-    Pi.createPayment({
-        amount: selectedAmount,
-        memo: "Ayasofya Charity Donation",
-        metadata: { type: "donation" }
-    }, {
-        onReadyForServerApproval: function(paymentId) {
-            console.log("Approval:", paymentId);
-        },
-        onReadyForServerCompletion: function(paymentId) {
-            console.log("Completion:", paymentId);
+<section style="max-width:920px;margin:18px auto;padding:0 18px;">
+  <h3>Bizi Takip Edin</h3>
+  <p>
+    <a href="https://www.tiktok.com/@semenuur" target="_blank">TikTok</a> |
+    <a href="https://www.instagram.com/uursemen08" target="_blank">Instagram</a> |
+    <a href="https://x.com/uursemen2" target="_blank">X</a> |
+    <a href="https://www.youtube.com/@uursemen08" target="_blank">YouTube</a>
+  </p>
+</section>
 
-            // update stats
-            total += selectedAmount;
-            donors += 1;
+<footer style="text-align:center;padding:22px;">
+  © 2025 Ayasofya Charity — Tüm hakları saklıdır
+</footer>
 
-            document.getElementById("total").innerText = total;
-            document.getElementById("donors").innerText = donors;
-
-            alert("Bağışınız için teşekkürler!");
-        },
-        onCancel: function() {
-            alert("Bağış iptal edildi!");
-        },
-        onError: function(error) {
-            alert("Hata oluştu: " + error);
-        }
-    });
-}
-
-/* Language selector */
-function setLang(lang) {
-    if (lang === "en") {
-        document.getElementById("hero-title").innerText = "Support Hagia Sophia globally";
-        document.getElementById("hero-subtitle").innerText = "Donate with Pi Network and protect cultural heritage.";
-        document.getElementById("donate-title").innerText = "Donation Panel";
-        document.getElementById("donate-desc").innerText = "Choose an amount to donate using Pi Blockchain:";
-    } else {
-        document.getElementById("hero-title").innerText = "Dünya çapında Ayasofya’ya destek olun";
-        document.getElementById("hero-subtitle").innerText = "Pi Network ile şeffaf bağış gönderin ve kültürel mirasa katkı sağlayın.";
-        document.getElementById("donate-title").innerText = "Bağış Paneli";
-        document.getElementById("donate-desc").innerText = "Pi Blockchain üzerinde güvenli bağış göndermek için bir miktar seçin:";
-    }
-}
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script src="pi.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

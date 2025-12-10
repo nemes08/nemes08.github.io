@@ -1,0 +1,11 @@
+/* Professional stil.css for Ayasofya Charity */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#0b1225,#162544);color:#eaf2ff}
+nav{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(255,255,255,0.02);border-bottom:1px solid rgba(255,255,255,0.03)}
+nav img{height:44px}
+button{background:linear-gradient(90deg,#00ffd1,#00a36a);color:#021214;border:none;padding:10px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+section h1, section h3{margin-bottom:8px}
+#donate-section .amount-buttons button, #donate-section button{padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);color:#eaf2ff;cursor:pointer}
+#donate-section .amount-buttons button:hover,#donate-section button:hover{transform:translateY(-3px)}
+img{max-width:100%;height:auto}
+a{color:#ffd900}
