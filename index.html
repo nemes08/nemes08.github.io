@@ -95,20 +95,17 @@ footer a { color:#ffa500; text-decoration:none; font-weight:600; }
 
 <footer>© 2025 Ayasofya Charity | Tüm hakları saklıdır</footer>
 
-<!-- Pi SDK -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
 let donationAmount = 0;
 let totalDonations = 0;
 let donationCount = 0;
 
-// Pi Network connect
 Pi.init({ appName: "Ayasofya Charity" });
 Pi.ready(function() {
     document.getElementById('piStatus').innerText = "✅ Pi bağlantısı hazır!";
 });
 
-// Bağış miktarı seçimi
 document.querySelectorAll('.donate-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
         donationAmount = parseInt(btn.getAttribute('data-amount'));
@@ -116,7 +113,6 @@ document.querySelectorAll('.donate-btn').forEach(btn=>{
     });
 });
 
-// Bağış gönder
 document.getElementById('sendBtn').addEventListener('click', async ()=>{
     if(!donationAmount) return alert("Önce bir miktar seçin!");
     try{
@@ -132,7 +128,6 @@ document.getElementById('sendBtn').addEventListener('click', async ()=>{
     } catch(e){ alert("Bağış işlemi başarısız: " + e.message); }
 });
 
-// Dil desteği
 const texts = {
     tr:{ title:"Ayasofya Charity", desc:"İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış", donateTitle:"Bağış Yap", qrDesc:"Pi uygulamasında taratıp bağış yapabilirsiniz.", historyTitle:"Bağış Geçmişi", historyText:"Henüz bağış yok.", privacy:"Gizlilik Politikası", kvkk:"KVKK", sendBtn:"Bağışı Gönder" },
     en:{ title:"Ayasofya Charity", desc:"Support those in need — Transparent donations via Pi Network", donateTitle:"Donate", qrDesc:"Scan in Pi app to donate.", historyTitle:"Donation History", historyText:"No donations yet.", privacy:"Privacy Policy", kvkk:"KVKK", sendBtn:"Send Donation" }
