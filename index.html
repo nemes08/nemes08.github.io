@@ -59,7 +59,9 @@ footer a { color:#ffa500; text-decoration:none; font-weight:600; }
 
     <div class="qr-box">
         <h3 style="color:#ffa500;">QR Kod ile Bağış</h3>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=pi://ayasofya.donate" alt="QR Kod" style="width:220px;border-radius:10px;">
+        <a href="pi://ayasofya.donate">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=pi://ayasofya.donate" alt="QR Kod" style="width:220px;border-radius:10px;">
+        </a>
         <p style="font-size:14px;color:#ccc;margin-top:6px;" id="qrDesc">Pi uygulamasında taratıp bağış yapabilirsiniz.</p>
     </div>
 
@@ -101,11 +103,13 @@ let donationAmount = 0;
 let totalDonations = 0;
 let donationCount = 0;
 
+// Pi SDK başlat
 Pi.init({ appName: "Ayasofya Charity" });
 Pi.ready(function() {
     document.getElementById('piStatus').innerText = "✅ Pi bağlantısı hazır!";
 });
 
+// Bağış miktar butonları
 document.querySelectorAll('.donate-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
         donationAmount = parseInt(btn.getAttribute('data-amount'));
@@ -113,10 +117,15 @@ document.querySelectorAll('.donate-btn').forEach(btn=>{
     });
 });
 
+// Bağış gönder
 document.getElementById('sendBtn').addEventListener('click', async ()=>{
     if(!donationAmount) return alert("Önce bir miktar seçin!");
     try{
-        const tx = await Pi.requestTransfer({ amount: donationAmount, recipient: "ayasofya.donate", note: "Ayasofya Charity Bağışı" });
+        const tx = await Pi.requestTransfer({
+            amount: donationAmount,
+            recipient: "ayasofya.donate",
+            note: "Ayasofya Charity Bağışı"
+        });
         alert("Bağış gönderildi! Tx: " + tx.txid);
         donationCount++;
         totalDonations += donationAmount;
@@ -125,9 +134,12 @@ document.getElementById('sendBtn').addEventListener('click', async ()=>{
         document.getElementById('lastDonation').innerText = `Son Bağış: ${donationAmount} Pi`;
         donationAmount = 0;
         document.getElementById('piValid').innerText = "📗 Valide bağlantı sağlandı!";
-    } catch(e){ alert("Bağış işlemi başarısız: " + e.message); }
+    } catch(e){
+        alert("Bağış işlemi başarısız: " + e.message);
+    }
 });
 
+// Dil desteği
 const texts = {
     tr:{ title:"Ayasofya Charity", desc:"İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış", donateTitle:"Bağış Yap", qrDesc:"Pi uygulamasında taratıp bağış yapabilirsiniz.", historyTitle:"Bağış Geçmişi", historyText:"Henüz bağış yok.", privacy:"Gizlilik Politikası", kvkk:"KVKK", sendBtn:"Bağışı Gönder" },
     en:{ title:"Ayasofya Charity", desc:"Support those in need — Transparent donations via Pi Network", donateTitle:"Donate", qrDesc:"Scan in Pi app to donate.", historyTitle:"Donation History", historyText:"No donations yet.", privacy:"Privacy Policy", kvkk:"KVKK", sendBtn:"Send Donation" }
