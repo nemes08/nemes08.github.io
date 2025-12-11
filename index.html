@@ -6,11 +6,6 @@
 <title>Ayasofya Vakfı — Bağış</title>
 
 <!-- Pi SDK (yalnızca Pi Browser içinde aktif olur) -->
-  <script>
-window.onerror = function(message, source, lineno, colno, error) {
-    alert("HATA: " + message + "\nKaynak: " + source + "\nSatır: " + lineno);
-};
-</script>
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <style>
@@ -373,7 +368,11 @@ $('qrCard').addEventListener('keydown', (e)=>{ if(e.key === 'Enter') alert('QR i
 
 /* expose for testing in console */
 window.AY = { sendDonation, prepareQR, finalizeDonation, getStats: ()=>({total,donors}) };
-
+  <script>
+window.onerror = function(message, source, lineno, colno, error) {
+    alert("HATA: " + message + "\nKaynak: " + source + "\nSatır: " + lineno);
+};
+</script>
 </script>
 </body>
 </html>
