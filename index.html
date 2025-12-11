@@ -1,504 +1,197 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ayasofya Vakfı — Bağış (Siyah &amp; Altın)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ayasofya Vakfı Bağış</title>
 
-<!-- Pi SDK (yüklenir; Pi Browser içinde kullanılacak) -->
+<!-- Pi SDK -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
-<!-- Minimal meta for theme color -->
-<meta name="theme-color" content="#0b0b0b">
-
 <style>
-  /* ---------- Root / Vars ---------- */
-  :root{
-    --bg: #0b0b0b;
-    --panel: #0f0f0f;
-    --muted: #bfb7a3;
-    --gold: #D4AF37;
-    --accent: linear-gradient(135deg,#bb8b00,#ffd873);
-    --glass: rgba(255,255,255,0.03);
-    --glass-2: rgba(255,255,255,0.02);
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    background: radial-gradient(1200px 600px at 10% 10%, rgba(212,175,55,0.03), transparent),
-                linear-gradient(180deg, #070707 0%, #0b0b0b 100%);
-    color:#efeae0;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:28px 16px;
-  }
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        color: #222;
+    }
 
-  /* ---------- Container ---------- */
-  .wrap{
-    width:100%;
-    max-width:980px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:14px;
-    box-shadow: 0 12px 60px rgba(0,0,0,0.7);
-    padding:26px;
-    border:1px solid rgba(212,175,55,0.06);
-    position:relative;
-    overflow:hidden;
-  }
+    /* HEADER */
+    header {
+        background: linear-gradient(135deg, #5e00ff, #8c3dff);
+        padding: 40px 20px;
+        color: white;
+    }
 
-  /* soft filigran (centered, subtle) */
-  .wrap::after{
-    content:'';
-    position:absolute;
-    inset:0;
-    background-image: url('images/ayasofya-hero.svg');
-    background-position:center top;
-    background-repeat:no-repeat;
-    background-size: 72%;
-    opacity:0.03;
-    pointer-events:none;
-    filter: blur(1px);
-  }
+    header img.logo {
+        width: 190px;        /* LOGO BÜYÜTÜLDÜ */
+        margin-bottom: 15px;
+    }
 
-  header{
-    text-align:center;
-    position:relative;
-    z-index:2;
-  }
+    header h1 {
+        margin: 10px 0 5px;
+        font-size: 32px;
+        font-weight: 700;
+    }
 
-  .logo{
-    width:120px;
-    height:auto;
-    display:block;
-    margin:0 auto 8px;
-    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
-  }
+    header p {
+        font-size: 17px;
+        opacity: 0.9;
+    }
 
-  .heart{
-    display:inline-block;
-    font-size:28px;
-    color:var(--gold);
-    margin-bottom:6px;
-    animation: beat 1.4s infinite;
-  }
-  @keyframes beat{
-    0%, 60%, 100%{ transform: scale(1); }
-    30%{ transform: scale(1.18); }
-  }
+    /* BAĞIŞ SEÇİM ALANI */
+    h2 {
+        margin-top: 25px;
+        font-size: 26px;
+        color: #4a00d4;
+    }
 
-  h1{ margin:6px 0 4px; font-size:24px; letter-spacing:0.6px; color:#fff; }
-  .lead{ color:var(--muted); margin:0 0 12px; }
+    .donate-button {
+        padding: 14px 28px;
+        margin: 10px;
+        font-size: 20px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        background: #6a00ff;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: 0.2s;
+    }
 
-  /* language + status row */
-  .top-row{
-    display:flex;
-    gap:10px;
-    align-items:center;
-    justify-content:center;
-    margin-top:10px;
-    flex-wrap:wrap;
-  }
-  .lang-btn{
-    background:transparent;
-    color:var(--muted);
-    border:1px solid rgba(255,255,255,0.03);
-    padding:6px 10px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:700;
-  }
-  .lang-btn.active{ color:#0b0b0b; background:var(--gold); border-color:rgba(212,175,55,0.2) }
+    .donate-button:hover {
+        background: #5200c9;
+        transform: scale(1.06);
+    }
 
-  .pi-status{
-    margin-left:6px;
-    color:var(--muted);
-    font-weight:700;
-    background:linear-gradient(90deg, rgba(212,175,55,0.06), transparent);
-    padding:8px 12px;
-    border-radius:10px;
-    border:1px solid rgba(212,175,55,0.04);
-    display:flex;
-    gap:8px;
-    align-items:center;
-  }
+    /* QR ALANI */
+    #qrBox img {
+        margin-top: 15px;
+        border-radius: 6px;
+    }
 
-  /* ---------- Donation area ---------- */
-  .donation{
-    margin-top:20px;
-    display:flex;
-    gap:18px;
-    align-items:flex-start;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    position:relative;
-    z-index:2;
-  }
+    /* TEŞEKKÜR KARTI */
+    #thankYouCard {
+        display: none;
+        margin: 25px auto;
+        padding: 20px;
+        width: 85%;
+        max-width: 380px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
 
-  .panel{
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-    border-radius:12px;
-    padding:18px;
-    width:100%;
-    max-width:560px;
-    border:1px solid rgba(255,255,255,0.02);
-    box-shadow:0 10px 30px rgba(0,0,0,0.5);
-  }
+    #thankYouCard h2 {
+        color: #4a00d4;
+    }
 
-  .panel h2{ margin:0 0 6px; color:var(--gold); font-size:20px; }
-  .panel p{ color:var(--muted); margin:0 0 12px; }
+    /* SOSYAL MEDYA */
+    .social a {
+        font-size: 32px;
+        margin: 0 8px;
+        text-decoration: none;
+    }
 
-  .amounts{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-    margin-bottom:10px;
-  }
+    /* FOOTER */
+    footer {
+        margin-top: 40px;
+        padding: 25px;
+        background: #ececec;
+        font-size: 14px;
+    }
 
-  /* ---------- Gold 3D buttons ---------- */
-  .btn-gold{
-    --g1:#e0b74a;
-    --g2:#b5810c;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:12px 18px;
-    border-radius:12px;
-    border:0;
-    cursor:pointer;
-    color:#1b1200;
-    font-weight:800;
-    font-size:16px;
-    background: linear-gradient(180deg,var(--g1),var(--g2));
-    box-shadow: 0 8px 24px rgba(181,129,12,0.18), inset 0 -4px 10px rgba(0,0,0,0.08);
-    transform: translateY(0);
-    transition: transform .16s ease, box-shadow .16s ease;
-    min-width:96px;
-  }
-  .btn-gold:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(181,129,12,0.22); }
-  .btn-gold:active{ transform: translateY(-2px); }
-
-  .btn-outline{
-    background:transparent;
-    border:1px solid rgba(255,255,255,0.06);
-    color:var(--muted);
-    padding:10px 14px;
-    border-radius:10px;
-    cursor:pointer;
-  }
-
-  /* ---------- QR card ---------- */
-  .qr-card{
-    width:240px;
-    border-radius:12px;
-    padding:14px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    box-shadow:0 14px 36px rgba(0,0,0,0.5);
-    text-align:center;
-    border:1px solid rgba(255,255,255,0.02);
-  }
-  .qr-card img{ width:180px; height:180px; border-radius:12px; display:block; margin:0 auto 8px; }
-  .qr-card small{ color:var(--muted); display:block; margin-top:8px; }
-
-  /* ---------- Stats ---------- */
-  .stats{
-    display:flex;
-    gap:8px;
-    margin-top:12px;
-    justify-content:center;
-    flex-wrap:wrap;
-  }
-  .stat{
-    background:var(--glass);
-    padding:8px 12px;
-    border-radius:8px;
-    color:var(--muted);
-    font-weight:700;
-  }
-
-  /* ---------- Receipt (popup) ---------- */
-  .receipt{
-    position:fixed;
-    right:18px;
-    bottom:18px;
-    z-index:9;
-    background:#0f0f0f;
-    color:#efeae0;
-    padding:14px;
-    border-radius:12px;
-    box-shadow: 0 18px 60px rgba(0,0,0,0.6);
-    border:1px solid rgba(212,175,55,0.06);
-    display:none;
-    min-width:260px;
-  }
-  .receipt .close{ float:right; cursor:pointer; font-weight:700; color:var(--muted) }
-
-  /* ---------- Footer ---------- */
-  footer{
-    margin-top:18px;
-    padding-top:14px;
-    border-top: 1px solid rgba(255,255,255,0.02);
-    color:var(--muted);
-    text-align:center;
-    font-size:13px;
-  }
-  footer a{ color:var(--gold); text-decoration:none; font-weight:700; }
-
-  /* Responsive */
-  @media (max-width:820px){
-    .donation{ flex-direction:column; gap:14px; align-items:center; }
-    .qr-card{ width:220px }
-    .panel{ max-width:100% }
-  }
+    footer a {
+        color: #4a00d4;
+        text-decoration: none;
+    }
 </style>
 </head>
+
 <body>
-  <div class="wrap" role="main">
 
-    <header>
-      <img src="images/logo.png" alt="Ayasofya Vakfı Logosu" class="logo" />
-      <div class="heart" aria-hidden="true">💜</div>
-      <h1>Ayasofya Vakfı</h1>
-      <p class="lead">İhtiyaç sahiplerine destek — Pi Network ile şeffaf bağış</p>
+<header>
+    <img src="images/logo.png" class="logo" alt="Ayasofya Vakfı Logosu">
+    <h1>Ayasofya Vakfı</h1>
+    <p>İhtiyaç sahipleri için Pi Network üzerinden şeffaf bağış</p>
+</header>
 
-      <div class="top-row" role="region" aria-label="Dil ve durum">
-        <div>
-          <button class="lang-btn active" id="lang-tr">TR</button>
-          <button class="lang-btn" id="lang-en">EN</button>
-        </div>
+<p id="piStatus" style="margin-top:15px;">🔄 Pi bağlantısı kontrol ediliyor...</p>
 
-        <div id="piStatus" class="pi-status" aria-live="polite">
-          <span id="piIcon">🔄</span>
-          <span id="piText">Pi bağlantısı kontrol ediliyor...</span>
-        </div>
-      </div>
-    </header>
+<h2>Bağış Yap</h2>
+<p>Miktar seçin:</p>
 
-    <section class="donation" aria-labelledby="donateHeading">
-      <div class="panel" aria-hidden="false">
-        <h2 id="donateHeading">Bağış Yap</h2>
-        <p id="donateDesc">Bir miktar seçin veya özel miktar girin.</p>
+<button class="donate-button" data-amount="1">1 π</button>
+<button class="donate-button" data-amount="5">5 π</button>
+<button class="donate-button" data-amount="10">10 π</button>
 
-        <div class="amounts" role="list">
-          <button class="btn-gold donate" data-amount="1">1 π</button>
-          <button class="btn-gold donate" data-amount="5">5 π</button>
-          <button class="btn-gold donate" data-amount="10">10 π</button>
-          <button class="btn-outline" id="customBtn">Özel Miktar</button>
-        </div>
+<div id="qrBox">
+    <h3>QR Kod ile Bağış</h3>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=pi://ayasofya.donate">
+</div>
 
-        <div class="stats" aria-hidden="false">
-          <div class="stat">Toplam: <span id="statTotal">0 π</span></div>
-          <div class="stat">Bağışçı: <span id="statDonors">0</span></div>
-        </div>
+<div id="thankYouCard">
+    <h2>Teşekkürler!</h2>
+    <p>Bağışınız başarıyla alınmıştır. Allah razı olsun 🤲</p>
+</div>
 
-        <div style="margin-top:12px; text-align:center;">
-          <button class="btn-outline" id="donateWithQR">QR ile Bağış Yap</button>
-        </div>
-      </div>
+<div class="social">
+    <a href="https://tiktok.com/@semenuur" target="_blank">🎵</a>
+    <a href="https://instagram.com/uursemen08" target="_blank">📸</a>
+    <a href="https://youtube.com/@uursemen08" target="_blank">▶️</a>
+    <a href="https://x.com/uursemen2" target="_blank">🐦</a>
+</div>
 
-      <aside class="qr-card" aria-label="QR kod">
-        <img id="qrImg" alt="QR Kod" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Ayasofya%20Vakfi" />
-        <small id="qrNote">QR ile okutun veya butona basın</small>
-      </aside>
-    </section>
-
-    <div id="receipt" class="receipt" role="alert" aria-live="assertive"></div>
-
-    <div style="text-align:center; margin-top:18px; z-index:2;">
-      <nav class="social" aria-label="Sosyal medya">
-        <a href="https://tiktok.com/@semenuur" target="_blank" rel="noopener noreferrer">🎵 TikTok</a>
-        <a href="https://instagram.com/uursemen08" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
-        <a href="https://youtube.com/@uursemen08" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
-        <a href="https://x.com/uursemen2" target="_blank" rel="noopener noreferrer">🐦 X</a>
-      </nav>
-    </div>
-
-    <footer>
-      © 2025 Ayasofya Vakfı | Tüm hakları saklıdır
-      <div style="margin-top:6px;">
+<footer>
+    <p>© 2025 Ayasofya Vakfı | Tüm hakları saklıdır</p>
+    <p>
         <a href="privacy.html">Gizlilik Politikası</a> |
         <a href="kvkk.html">KVKK</a> |
         <a href="terms.html">Kullanım Şartları</a>
-      </div>
-    </footer>
-  </div>
+    </p>
+</footer>
 
 <script>
-/* ---------- Helpers ---------- */
-const $ = id => document.getElementById(id);
-const elAll = sel => Array.from(document.querySelectorAll(sel));
+Pi.init({ version: "2.0" });
 
-/* ---------- Local stats (persistent) ---------- */
-let total = parseFloat(localStorage.getItem('ay_total') || '0');
-let donors = parseInt(localStorage.getItem('ay_donors') || '0');
-function renderStats(){
-  $('statTotal').innerText = `${total} π`;
-  $('statDonors').innerText = `${donors}`;
-}
-renderStats();
-
-/* ---------- Language ---------- */
-function setLang(l){
-  if(l==='en'){
-    $('donateHeading').innerText = 'Make a Donation';
-    $('donateDesc').innerText = 'Choose an amount or enter custom amount.';
-    $('donateWithQR').innerText = 'Donate with QR';
-    $('piText').innerText = 'Pi connection checking...';
-    elAll('.donate').forEach(b=>{
-      const a=b.getAttribute('data-amount');
-      if(a) b.innerText = `${a} π`;
-    });
-  } else {
-    $('donateHeading').innerText = 'Bağış Yap';
-    $('donateDesc').innerText = 'Bir miktar seçin veya özel miktar girin.';
-    $('donateWithQR').innerText = 'QR ile Bağış Yap';
-    $('piText').innerText = 'Pi bağlantısı kontrol ediliyor...';
-    elAll('.donate').forEach(b=>{
-      const a=b.getAttribute('data-amount');
-      if(a) b.innerText = `${a} π`;
-    });
-  }
-}
-document.getElementById('lang-tr').addEventListener('click', ()=>{ setLang('tr'); document.getElementById('lang-tr').classList.add('active'); document.getElementById('lang-en').classList.remove('active');});
-document.getElementById('lang-en').addEventListener('click', ()=>{ setLang('en'); document.getElementById('lang-en').classList.add('active'); document.getElementById('lang-tr').classList.remove('active');});
-
-/* ---------- Pi detection & auth ---------- */
-let PI_AVAILABLE = false;
-async function detectPi(){
-  try{
-    if(window.Pi && typeof window.Pi.createPayment === 'function'){
-      PI_AVAILABLE = true;
-      // attempt to authenticate (non-blocking)
-      try{
-        const user = await window.Pi.authenticate(['username']);
-        $('piIcon').innerText = '✔';
-        $('piText').innerText = user && user.user && user.user.username ? `✔ Pi bağlantısı doğrulandı: @${user.user.username}` : '✔ Pi bağlantısı doğrulandı';
-      }catch(e){
-        $('piIcon').innerText = '⚠';
-        $('piText').innerText = 'Pi Browser içinden tam deneyim (oturum gerekebilir).';
-      }
-    } else {
-      PI_AVAILABLE = false;
-      $('piIcon').innerText = '🔌';
-      $('piText').innerText = 'Pi SDK bulunamadı — Pi Browser\'da açınız.';
+async function initPi() {
+    try {
+        const user = await Pi.authenticate(['username'], () => {});
+        document.getElementById("piStatus").innerHTML =
+        "✔ Pi bağlantısı doğrulandı: @" + user.user.username;
+    } catch (e) {
+        document.getElementById("piStatus").innerHTML =
+        "❌ Pi bağlantısı kurulamadı. Lütfen Pi Browser kullanın.";
     }
-  }catch(err){
-    PI_AVAILABLE = false;
-    $('piIcon').innerText = '⚠';
-    $('piText').innerText = 'Pi bağlantısı kontrol edilemedi.';
-  }
-}
-window.addEventListener('load', ()=>{ detectPi(); });
-
-/* ---------- QR helpers ---------- */
-function setPersistentQR(payload){
-  const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(payload)}`;
-  $('qrImg').src = url;
 }
 
-/* ---------- Donation flow ---------- */
-async function finalizeDonation(amount, txId){
-  // update stats
-  total = Math.round((total + Number(amount)) * 100) / 100;
-  donors = donors + 1;
-  localStorage.setItem('ay_total', total);
-  localStorage.setItem('ay_donors', donors);
-  renderStats();
+async function startPayment(amount) {
+    try {
+        await Pi.createPayment({
+            amount: amount,
+            memo: "Ayasofya Bağışı",
+            metadata: { type: "donation" }
+        });
 
-  // Prepare receipt content
-  const date = new Date().toLocaleString();
-  const payload = JSON.stringify({project:'Ayasofya Vakfı', amount, tx: txId, date:new Date().toISOString()});
-  setPersistentQR(payload);
+        document.getElementById("thankYouCard").style.display = "block";
 
-  const r = $('receipt');
-  r.innerHTML = `<div style="font-weight:800; margin-bottom:6px">${(document.getElementById('lang-en')?.classList.contains('active')) ? 'Thank you!' : 'Teşekkürler!'}</div>
-                 <div>${amount} π</div>
-                 <div style="color:var(--muted); margin-top:6px; font-size:13px">${date}</div>
-                 <div style="color:var(--muted); margin-top:6px; font-size:13px">Tx: ${txId}</div>
-                 <div style="margin-top:8px; text-align:center;"><img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(payload)}" alt="QR"></div>
-                 <div style="text-align:right; margin-top:6px"><button class="btn-outline" id="closeReceipt">Kapat</button></div>`;
-  r.style.display = 'block';
-  $('closeReceipt').addEventListener('click', ()=> r.style.display='none');
-}
-
-/* startPayment: uses Pi SDK if available; otherwise uses demo fallback */
-async function startPayment(amount){
-  if(!amount || isNaN(amount)){ alert('Geçerli miktar girin'); return; }
-
-  if(PI_AVAILABLE){
-    try{
-      // createPayment with Pi Browser SDK
-      window.Pi.createPayment({
-        amount: Number(amount),
-        memo: "Ayasofya Vakfı — Donation",
-        metadata: {type:'donation'}
-      },{
-        onReadyForServerApproval(paymentId){
-          console.log('approval requested:', paymentId);
-        },
-        onReadyForServerCompletion(paymentId){
-          console.log('completed', paymentId);
-          finalizeDonation(amount, paymentId || ('pi-' + Date.now()));
-        },
-        onCancel(){
-          alert('Bağış iptal edildi.');
-        },
-        onError(err){
-          console.error('Pi error', err);
-          alert('Ödeme sırasında hata: ' + (err && err.message ? err.message : JSON.stringify(err)));
-        }
-      });
-    }catch(e){
-      console.error('createPayment failed', e);
-      alert('Ödeme başlatılamadı. Lütfen Pi Browser ile deneyiniz.');
+    } catch (e) {
+        alert("Ödeme başlatılamadı. Lütfen Pi Browser’da açın.");
     }
-  } else {
-    // demo fallback — simulate success
-    const fakeTx = 'demo-' + Date.now();
-    setTimeout(()=> finalizeDonation(amount, fakeTx), 900);
-  }
 }
 
-/* ---------- UI wiring ---------- */
-elAll('.donate').forEach(btn=>{
-  btn.addEventListener('click', ()=> {
-    const amount = btn.getAttribute('data-amount');
-    startPayment(amount);
-  });
+document.querySelectorAll(".donate-button").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const amount = btn.getAttribute("data-amount");
+        startPayment(amount);
+    });
 });
 
-$('customBtn').addEventListener('click', ()=>{
-  const input = prompt('Lütfen bağış miktarını girin (Pi)', '1');
-  if(!input) return;
-  const v = parseFloat(input);
-  if(isNaN(v) || v <= 0) return alert('Geçerli bir miktar girin.');
-  startPayment(v);
-});
-
-$('donateWithQR').addEventListener('click', ()=>{
-  // open a modal? for now show alert hint
-  alert('QR ile bağış: QR kodu okutun. Ödeme başlatmak için butona basın veya Pi Browser içinde QR okutun.');
-});
-
-/* close receipt on Esc */
-window.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape') $('receipt').style.display='none';
-});
-
-/* click outside receipt hides it */
-document.addEventListener('click', (e)=>{
-  const r = $('receipt');
-  if(r.style.display==='block' && !r.contains(e.target)) r.style.display='none';
-});
-
-/* expose for console testing (optional) */
-window.AY = { startPayment, finalizeDonation, setPersistentQR, getStats: ()=>({total,donors}) };
-
+initPi();
 </script>
+
 </body>
 </html>
