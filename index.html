@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ayasofya Charity dApp</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
 body { margin:0; padding:0; font-family:'Poppins', sans-serif; background:#0a0a0a; color:#ffa500; text-align:center; }
 .lang-box { margin-top:20px; }
@@ -25,7 +24,8 @@ body { margin:0; padding:0; font-family:'Poppins', sans-serif; background:#0a0a0
 .progress { width:100%; height:12px; background:#333; border-radius:20px; margin-top:18px; }
 .progress-fill { width:0%; height:100%; background:#ffa500; border-radius:20px; }
 .social { margin-top:25px; font-size:32px; display:flex; justify-content:center; flex-wrap:wrap; }
-.social a { margin:6px; text-decoration:none; color:#ffa500; }
+.social a { margin:6px; text-decoration:none; color:#ffa500; transition:0.3s;}
+.social a:hover { color:#ffb733; }
 footer { margin-top:20px; font-size:14px; color:#aaa; }
 footer a { color:#ffa500; text-decoration:none; font-weight:600; }
 </style>
@@ -85,12 +85,12 @@ footer a { color:#ffa500; text-decoration:none; font-weight:600; }
 </div>
 
 <div class="social">
-    <a href="https://tiktok.com/@semenuur" target="_blank">TikTok</a>
-    <a href="https://instagram.com/uursemen08" target="_blank">Instagram</a>
-    <a href="https://youtube.com/@uursemen08" target="_blank">YouTube</a>
+    <a href="https://www.tiktok.com/@semenuur" target="_blank">TikTok</a>
+    <a href="https://www.instagram.com/uursemen08" target="_blank">Instagram</a>
+    <a href="https://www.youtube.com/@uursemen08" target="_blank">YouTube</a>
     <a href="https://x.com/uursemen2" target="_blank">X</a>
-    <a href="https://open.spotify.com" target="_blank">Spotify</a>
-    <a href="https://www.soundcloud.com" target="_blank">SoundCloud</a>
+    <a href="https://open.spotify.com/user/yourusername" target="_blank">Spotify</a>
+    <a href="https://soundcloud.com/yourusername" target="_blank">SoundCloud</a>
 </div>
 
 <footer>© 2025 Ayasofya Charity | Tüm hakları saklıdır</footer>
@@ -132,6 +132,7 @@ const texts = {
     tr:{ title:"Ayasofya Charity", desc:"İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış", donateTitle:"Bağış Yap", qrDesc:"Pi uygulamasında taratıp bağış yapabilirsiniz.", historyTitle:"Bağış Geçmişi", historyText:"Henüz bağış yok.", privacy:"Gizlilik Politikası", kvkk:"KVKK", sendBtn:"Bağışı Gönder" },
     en:{ title:"Ayasofya Charity", desc:"Support those in need — Transparent donations via Pi Network", donateTitle:"Donate", qrDesc:"Scan in Pi app to donate.", historyTitle:"Donation History", historyText:"No donations yet.", privacy:"Privacy Policy", kvkk:"KVKK", sendBtn:"Send Donation" }
 };
+
 function setLanguage(lang){
     document.getElementById('title').innerText=texts[lang].title;
     document.getElementById('desc').innerText=texts[lang].desc;
@@ -147,6 +148,5 @@ function setLanguage(lang){
     else document.querySelector('.lang-btn:nth-child(2)').classList.add('lang-active');
 }
 </script>
-
 </body>
 </html>
