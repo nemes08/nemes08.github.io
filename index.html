@@ -104,10 +104,9 @@ footer a { color:#6a00ff; text-decoration:none; }
 <h2>Bağış Yap</h2>
 <p>Miktar seçin:</p>
 
-<button class="btn" onclick="startPayment(1)">1 Pi</button>
-<button class="btn" onclick="startPayment(5)">5 Pi</button>
-<button class="btn" onclick="startPayment(10)">10 Pi</button>
-
+<button class="donate-button" data-amount="1">1 π</button>
+<button class="donate-button" data-amount="5">5 π</button>
+<button class="donate-button" data-amount="10">10 π</button>
 <div id="qrBox">
     <h3>QR Kod ile Bağış</h3>
     <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=pi://ayasofya.donate" alt="QR Kod">
