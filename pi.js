@@ -1,43 +1,67 @@
-Pi.init({ version: "2.0", sandbox: false });
+// Pi Network SDK başlatma
+Pi.init({
+    version: "2.0",
+    sandbox: false
+});
 
-function startPayment(amount) {
-    Pi.authenticate().then(function(auth) {
+Pi.ready(() => {
+    console.log("✅ Pi SDK hazır");
+    document.getElementById("piStatus").innerText = "✅ Pi bağlantısı hazır!";
+});
 
+// Para transferi fonksiyonu
+async function startPayment(amount) {
+    try {
+        // Kullanıcı doğrulama
+        const auth = await Pi.authenticate();
         console.log("Auth Success:", auth);
 
-        return Pi.createPayment({
-            amount: amount,
+        // Ödeme oluşturma
+        const payment = await Pi.createPayment({
+            amount: parseFloat(amount),
             memo: "Ayasofya Charity Bağışı",
-            metadata: { user: auth.user.username }
+            metadata: { username: auth.user.username }
         });
-
-    }).then(function(payment) {
 
         console.log("Payment Created:", payment);
 
-        return Pi.approvePayment(payment.identifier);
+        // Ödemeyi onaylat
+        const approval = await Pi.approvePayment(payment.identifier);
+        console.log("Payment Approved:", approval);
 
-    }).then(function(result) {
+        alert("🎉 Bağışınız başarıyla gönderildi!");
 
-        console.log("Payment Approved:", result);
+        return approval;
 
-        alert("🎉 Bağışınız alındı, teşekkür ederiz!");
-
-    }).catch(function(error) {
-
+    } catch (error) {
         console.error("Payment Error:", error);
         alert("❌ Ödeme başlatılamadı: " + error.message);
-
-    });
+    }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".donate-button");
+// Bağış butonları
+document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".donate-btn");
 
     buttons.forEach(btn => {
         btn.addEventListener("click", function () {
             const amount = this.getAttribute("data-amount");
-            startPayment(amount);
+            document.getElementById("piValid").innerText =
+                `Seçilen miktar: ${amount} π`;
         });
+    });
+
+    // Gönderme butonu
+    const sendButton = document.getElementById("sendBtn");
+    sendButton.addEventListener("click", () => {
+        const selected = document.getElementById("piValid").innerText;
+        const match = selected.match(/\d+/);
+
+        if (!match) {
+            alert("Lütfen bir miktar seçin!");
+            return;
+        }
+
+        startPayment(match[0]);
     });
 });
