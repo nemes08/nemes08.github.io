@@ -3,242 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ayasofya Charity</title>
-
+<title>Ayasofya Charity dApp</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* GENEL */
-body {
-    margin:0;
-    padding:0;
-    font-family:'Poppins', sans-serif;
-    background:#0a0a0a;
-    color:#ffa500;
-    text-align:center;
-}
-
-/* DİL BUTONLARI */
-.lang-box {
-    margin-top:20px;
-}
-.lang-btn {
-    padding:6px 14px;
-    border-radius:12px;
-    font-size:13px;
-    margin:3px;
-    border:none;
-    cursor:pointer;
-    background:#222;
-    color:#ffa500;
-    transition: 0.3s;
-}
-.lang-active {
-    background:#ffa500;
-    color:#0a0a0a;
-}
-
-/* LOGO ve KALP */
-.logo-container {
-    position: relative;
-    display: inline-block;
-    margin-top:10px;
-}
-.logo {
-    width:200px;
-    border-radius:20px;
-    transition: transform 0.3s ease;
-}
-.logo:hover {
-    transform: scale(1.05) rotate(-2deg);
-}
-.heart {
-    font-size:50px;
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    color:#ffa500;
-    animation: heartbeat 1s infinite;
-}
-
-/* HEARTBEAT ANİMASYONU */
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    25% { transform: scale(1.3); }
-    50% { transform: scale(1); }
-    75% { transform: scale(1.3); }
-}
-
-/* ANA KART */
-.card {
-    width:90%;
-    max-width:450px;
-    margin:20px auto;
-    background:#111;
-    border-radius:18px;
-    padding:20px;
-    box-shadow:0 0 18px rgba(255,165,0,0.2);
-    color:#ffa500;
-}
-
-/* BAĞIŞ BUTONLARI */
-.donate-btn {
-    background:#ffa500;
-    color:#0a0a0a;
-    border:none;
-    padding:12px 26px;
-    margin:6px;
-    border-radius:12px;
-    font-size:17px;
-    font-weight:500;
-    cursor:pointer;
-    transition:0.3s;
-}
-.donate-btn:hover {
-    background:#ffb733;
-}
-
-/* BAĞIŞ GÖNDER BUTONU */
-.send-btn {
-    width:80%;
-    background:#ff8c00;
-    padding:13px;
-    color:#0a0a0a;
-    border:none;
-    border-radius:12px;
-    margin-top:12px;
-    font-size:18px;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.3s;
-}
-.send-btn:hover {
-    background:#ffa500;
-}
-
-/* QR KOD KUTUSU */
-.qr-box {
-    margin-top:18px;
-    padding:15px;
-    background:#222;
-    border-radius:14px;
-    box-shadow:0 0 12px rgba(255,165,0,0.2);
-}
-
-/* İLERLEME BAR */
-.progress {
-    width:100%;
-    height:12px;
-    background:#333;
-    border-radius:20px;
-    margin-top:18px;
-}
-.progress-fill {
-    width:0%;
-    height:100%;
-    background:#ffa500;
-    border-radius:20px;
-}
-
-/* SOSYAL MEDYA */
-.social {
-    margin-top:25px;
-    font-size:32px;
-}
-.social a {
-    margin:6px;
-    text-decoration:none;
-    color:#ffa500;
-}
-
-/* ALT BİLGİ */
-footer {
-    margin-top:20px;
-    font-size:14px;
-    color:#aaa;
-}
-footer a {
-    color:#ffa500;
-    text-decoration:none;
-    font-weight:600;
-}
+body { margin:0; padding:0; font-family:'Poppins', sans-serif; background:#0a0a0a; color:#ffa500; text-align:center; }
+.lang-box { margin-top:20px; }
+.lang-btn { padding:6px 14px; border-radius:12px; font-size:13px; margin:3px; border:none; cursor:pointer; background:#222; color:#ffa500; transition:0.3s;}
+.lang-active { background:#ffa500; color:#0a0a0a; }
+.logo-container { position: relative; display: inline-block; margin-top:10px; }
+.logo { width:200px; border-radius:20px; transition: transform 0.3s ease; }
+.logo:hover { transform: scale(1.05) rotate(-2deg); }
+.heart { font-size:50px; position: absolute; top: -10px; right: -10px; color:#ffa500; animation: heartbeat 1s infinite; }
+@keyframes heartbeat { 0%,100%{transform:scale(1);}25%{transform:scale(1.3);}50%{transform:scale(1);}75%{transform:scale(1.3);} }
+.card { width:90%; max-width:450px; margin:20px auto; background:#111; border-radius:18px; padding:20px; box-shadow:0 0 18px rgba(255,165,0,0.2); color:#ffa500; }
+.donate-btn { background:#ffa500; color:#0a0a0a; border:none; padding:12px 26px; margin:6px; border-radius:12px; font-size:17px; font-weight:500; cursor:pointer; transition:0.3s; }
+.donate-btn:hover { background:#ffb733; }
+.send-btn { width:80%; background:#ff8c00; padding:13px; color:#0a0a0a; border:none; border-radius:12px; margin-top:12px; font-size:18px; cursor:pointer; font-weight:600; transition:0.3s; }
+.send-btn:hover { background:#ffa500; }
+.qr-box { margin-top:18px; padding:15px; background:#222; border-radius:14px; box-shadow:0 0 12px rgba(255,165,0,0.2); }
+.progress { width:100%; height:12px; background:#333; border-radius:20px; margin-top:18px; }
+.progress-fill { width:0%; height:100%; background:#ffa500; border-radius:20px; }
+.social { margin-top:25px; font-size:32px; }
+.social a { margin:6px; text-decoration:none; color:#ffa500; }
+footer { margin-top:20px; font-size:14px; color:#aaa; }
+footer a { color:#ffa500; text-decoration:none; font-weight:600; }
 </style>
 </head>
-
 <body>
 
-<!-- Dil Kutuları -->
 <div class="lang-box">
     <button class="lang-btn lang-active" onclick="setLanguage('tr')">TR</button>
     <button class="lang-btn" onclick="setLanguage('en')">EN</button>
 </div>
 
-<!-- Logo ve Kalp -->
 <div class="logo-container">
     <img src="images/logo.png" class="logo" id="logo">
     <div class="heart" id="heart">💜</div>
 </div>
 
 <h1 id="title">Ayasofya Charity</h1>
-<p id="desc" style="font-size:15px;margin-top:-8px;">
-    İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış
-</p>
+<p id="desc" style="font-size:15px;margin-top:-8px;">İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış</p>
 
-<p id="piStatus" style="margin-top:10px;">🔄 Pi bağlantısı kontrol ediliyor...</p>
+<p id="piStatus">🔄 Pi bağlantısı kontrol ediliyor...</p>
 
-<!-- Bağış Kartı -->
 <div class="card">
+    <h2 id="donateTitle" style="margin-top:0;">Bağış Yap</h2>
+    <p id="piValid" style="font-size:16px;color:#2e7d32;margin-top:-5px;">📗 Valide bağlantı sağlandı!</p>
 
-    <h2 style="margin-top:0;" id="donateTitle">Bağış Yap</h2>
-
-    <p id="piValid" style="font-size:16px;color:#2e7d32;margin-top:-5px;">
-        📗 Valide bağlantı sağlandı!
-    </p>
-
-    <!-- Miktar Butonları -->
     <button class="donate-btn" data-amount="1">π 1 Pi</button>
     <button class="donate-btn" data-amount="5">π 5 Pi</button>
     <button class="donate-btn" data-amount="10">π 10 Pi</button>
 
-    <!-- Gönder -->
     <button class="send-btn" id="sendBtn">Bağışı Gönder</button>
 
-    <!-- QR Kod -->
     <div class="qr-box">
         <h3 style="color:#ffa500;">QR Kod ile Bağış</h3>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=pi://ayasofya.donate"
-             alt="QR Kod" style="width:220px;border-radius:10px;">
-        <p style="font-size:14px;color:#ccc;margin-top:6px;" id="qrDesc">
-            Pi uygulamasında taratıp bağış yapabilirsiniz.
-        </p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=pi://ayasofya.donate" alt="QR Kod" style="width:220px;border-radius:10px;">
+        <p style="font-size:14px;color:#ccc;margin-top:6px;" id="qrDesc">Pi uygulamasında taratıp bağış yapabilirsiniz.</p>
     </div>
 
-    <!-- Toplam -->
     <div style="margin-top:20px; display:flex; justify-content:space-between; font-size:15px;">
-        <span>Toplam: 0 Pi</span>
+        <span id="totalDonations">Toplam: 0 Pi</span>
         <span>Hedef: 100 Pi</span>
     </div>
 
-    <div class="progress">
-        <div class="progress-fill"></div>
-    </div>
+    <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
 
     <div style="margin-top:15px; display:flex; justify-content:space-between; font-size:15px;">
-        <span>Bağış Sayısı: 0</span>
-        <span>Son Bağış: -</span>
+        <span id="donationCount">Bağış Sayısı: 0</span>
+        <span id="lastDonation">Son Bağış: -</span>
     </div>
 
-    <h3 style="margin-top:18px;" id="historyTitle">Bağış Geçmişi</h3>
+    <h3 id="historyTitle" style="margin-top:18px;">Bağış Geçmişi</h3>
     <p style="color:#888;" id="historyText">Henüz bağış yok.</p>
 
     <div style="margin-top:12px; display:flex; justify-content:center; gap:12px;">
         <a href="privacy.html" id="privacyLink">Gizlilik Politikası</a>
         <a href="kvkk.html" id="kvkkLink">KVKK</a>
     </div>
-
 </div>
 
-<!-- Sosyal Medya -->
 <div class="social">
     <a href="https://tiktok.com/@semenuur">🕊️</a>
     <a href="https://instagram.com/uursemen08">📘</a>
@@ -248,53 +93,73 @@ footer a {
     <a href="#">▶️</a>
 </div>
 
-<footer>
-    © 2025 Ayasofya Charity | Tüm hakları saklıdır
-</footer>
+<footer>© 2025 Ayasofya Charity | Tüm hakları saklıdır</footer>
 
+<!-- Pi SDK -->
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
+let piUser = null;
+let donationAmount = 0;
+let totalDonations = 0;
+let donationCount = 0;
+
+// Pi Network connect
+Pi.init({
+    appName: "Ayasofya Charity"
+});
+Pi.ready(function() {
+    document.getElementById('piStatus').innerText = "✅ Pi bağlantısı hazır!";
+});
+
+// Seçilen miktar
+document.querySelectorAll('.donate-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        donationAmount = parseInt(btn.getAttribute('data-amount'));
+        document.getElementById('piValid').innerText = `Seçilen miktar: ${donationAmount} π`;
+    });
+});
+
+// Gönder
+document.getElementById('sendBtn').addEventListener('click', async ()=>{
+    if(!donationAmount) return alert("Önce bir miktar seçin!");
+    try{
+        // Pi transfer (simülasyon, test ortamı)
+        const tx = await Pi.requestTransfer({
+            amount: donationAmount,
+            recipient: "ayasofya.donate",
+            note: "Ayasofya Charity Bağışı"
+        });
+        alert("Bağış gönderildi! Tx: " + tx.txid);
+        // Güncelleme
+        donationCount++;
+        totalDonations += donationAmount;
+        document.getElementById('donationCount').innerText = `Bağış Sayısı: ${donationCount}`;
+        document.getElementById('totalDonations').innerText = `Toplam: ${totalDonations} Pi`;
+        document.getElementById('lastDonation').innerText = `Son Bağış: ${donationAmount} Pi`;
+        donationAmount = 0;
+        document.getElementById('piValid').innerText = "📗 Valide bağlantı sağlandı!";
+    } catch(e){
+        alert("Bağış işlemi başarısız: " + e.message);
+    }
+});
+
 // DİL DESTEĞİ
 const texts = {
-    tr: {
-        title: "Ayasofya Charity",
-        desc: "İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış",
-        donateTitle: "Bağış Yap",
-        qrDesc: "Pi uygulamasında taratıp bağış yapabilirsiniz.",
-        historyTitle: "Bağış Geçmişi",
-        historyText: "Henüz bağış yok.",
-        privacy: "Gizlilik Politikası",
-        kvkk: "KVKK",
-        sendBtn: "Bağışı Gönder"
-    },
-    en: {
-        title: "Ayasofya Charity",
-        desc: "Support those in need — Transparent donations via Pi Network",
-        donateTitle: "Donate",
-        qrDesc: "Scan in Pi app to donate.",
-        historyTitle: "Donation History",
-        historyText: "No donations yet.",
-        privacy: "Privacy Policy",
-        kvkk: "KVKK",
-        sendBtn: "Send Donation"
-    }
+    tr: { title:"Ayasofya Charity", desc:"İhtiyaç sahiplerine destek — Pi Network üzerinden şeffaf bağış", donateTitle:"Bağış Yap", qrDesc:"Pi uygulamasında taratıp bağış yapabilirsiniz.", historyTitle:"Bağış Geçmişi", historyText:"Henüz bağış yok.", privacy:"Gizlilik Politikası", kvkk:"KVKK", sendBtn:"Bağışı Gönder" },
+    en: { title:"Ayasofya Charity", desc:"Support those in need — Transparent donations via Pi Network", donateTitle:"Donate", qrDesc:"Scan in Pi app to donate.", historyTitle:"Donation History", historyText:"No donations yet.", privacy:"Privacy Policy", kvkk:"KVKK", sendBtn:"Send Donation" }
 };
-
 function setLanguage(lang){
-    document.getElementById('title').innerText = texts[lang].title;
-    document.getElementById('desc').innerText = texts[lang].desc;
-    document.getElementById('donateTitle').innerText = texts[lang].donateTitle;
-    document.getElementById('qrDesc').innerText = texts[lang].qrDesc;
-    document.getElementById('historyTitle').innerText = texts[lang].historyTitle;
-    document.getElementById('historyText').innerText = texts[lang].historyText;
-    document.getElementById('privacyLink').innerText = texts[lang].privacy;
-    document.getElementById('kvkkLink').innerText = texts[lang].kvkk;
-    document.getElementById('sendBtn').innerText = texts[lang].sendBtn;
-
-    // Dil butonlarını aktif/pasif yap
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('lang-active');
-    });
-    if(lang === 'tr') document.querySelector('.lang-btn:nth-child(1)').classList.add('lang-active');
+    document.getElementById('title').innerText=texts[lang].title;
+    document.getElementById('desc').innerText=texts[lang].desc;
+    document.getElementById('donateTitle').innerText=texts[lang].donateTitle;
+    document.getElementById('qrDesc').innerText=texts[lang].qrDesc;
+    document.getElementById('historyTitle').innerText=texts[lang].historyTitle;
+    document.getElementById('historyText').innerText=texts[lang].historyText;
+    document.getElementById('privacyLink').innerText=texts[lang].privacy;
+    document.getElementById('kvkkLink').innerText=texts[lang].kvkk;
+    document.getElementById('sendBtn').innerText=texts[lang].sendBtn;
+    document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('lang-active'));
+    if(lang==='tr') document.querySelector('.lang-btn:nth-child(1)').classList.add('lang-active');
     else document.querySelector('.lang-btn:nth-child(2)').classList.add('lang-active');
 }
 </script>
