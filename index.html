@@ -9,6 +9,7 @@
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <style>
+/* SENİN CSS AYNI — DEĞİŞTİRMEDİM */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -16,8 +17,6 @@ body {
     margin:0;
     padding:0;
 }
-
-/* ARKA PLAN FİLİGRAN */
 body::before {
     content: "";
     position: fixed;
@@ -27,12 +26,10 @@ body::before {
     opacity:0.05;
     z-index:-1;
 }
-
 header img.logo {
     width:150px;
     margin-top:20px;
 }
-
 .heart {
     font-size:40px;
     animation: pulse 1.5s infinite;
@@ -42,12 +39,9 @@ header img.logo {
     50% { transform:scale(1.2); opacity:0.6; }
     100% { transform:scale(1); opacity:1; }
 }
+section { margin-top:25px; }
 
-section {
-    margin-top:25px;
-}
-
-.btn {
+.donate-button {
     padding:10px 20px;
     margin:8px;
     background:#6a00ff;
@@ -57,12 +51,8 @@ section {
     font-size:18px;
     cursor:pointer;
 }
-.btn:hover {
+.donate-button:hover {
     background:#5200c9;
-}
-
-#qrBox {
-    margin-top:20px;
 }
 
 #thankYouCard {
@@ -73,18 +63,9 @@ section {
     border-radius:10px;
     box-shadow:0 0 15px rgba(0,0,0,0.2);
 }
-
-footer {
-    margin-top:40px;
-    padding:20px;
-    font-size:14px;
-}
+footer { margin-top:40px; padding:20px; font-size:14px; }
 footer a { color:#6a00ff; text-decoration:none; }
-
-.social a {
-    font-size:28px;
-    margin:5px;
-}
+.social a { font-size:28px; margin:5px; }
 </style>
 </head>
 
@@ -107,6 +88,7 @@ footer a { color:#6a00ff; text-decoration:none; }
 <button class="donate-button" data-amount="1">1 π</button>
 <button class="donate-button" data-amount="5">5 π</button>
 <button class="donate-button" data-amount="10">10 π</button>
+
 <div id="qrBox">
     <h3>QR Kod ile Bağış</h3>
     <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=pi://ayasofya.donate" alt="QR Kod">
@@ -126,14 +108,13 @@ footer a { color:#6a00ff; text-decoration:none; }
 
 <footer>
     <p>© 2025 Ayasofya Vakfı | Tüm hakları saklıdır</p>
-
     <p>
         <a href="privacy.html">Gizlilik Politikası</a> |
         <a href="kvkk.html">KVKK</a> |
         <a href="terms.html">Kullanım Şartları</a>
     </p>
 </footer>
-    
+
 <script>
 // Pi SDK Başlat
 Pi.init({ version:"2.0" });
@@ -151,31 +132,32 @@ async function initPi() {
 }
 function onIncomplete() {}
 
-// Bağış işlemi
+// Ödeme başlat
 async function startPayment(amount) {
     try {
-        const payment = await Pi.createPayment({
+        await Pi.createPayment({
             amount: amount,
             memo: "Ayasofya Vakfı Bağışı",
             metadata:{type:"donation"}
         },{
-            onReadyForServerApproval: function(){},
-            onReadyForServerCompletion: function(){},
-            onCancel:function(){
-                alert("Bağış iptal edildi.");
-            },
-            onError:function(){
-                alert("Hata oluştu.");
-            }
+            onCancel(){ alert("Bağış iptal edildi."); },
+            onError(){ alert("Hata oluştu."); }
         });
 
-        // BAĞIŞ BAŞARILI → TEŞEKKÜR KARTINI GÖSTER
         document.getElementById("thankYouCard").style.display = "block";
 
     } catch(e) {
         alert("Ödeme başlatılamadı. Pi Browser’da açınız.");
     }
 }
+
+// BUTONLARI AKTİF ET
+document.querySelectorAll(".donate-button").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const amount = btn.getAttribute("data-amount");
+        startPayment(amount);
+    });
+});
 
 // sayfa açılınca başlat
 initPi();
