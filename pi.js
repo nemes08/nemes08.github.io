@@ -1,18 +1,43 @@
-// Demo pi.js stub - replace with real Pi integration if available
-async function connectWallet(passive=false){
-    await new Promise(r=>setTimeout(r,300));
-    if(passive) return { publicKey: null };
-    return { publicKey: 'PI' + Math.random().toString(36).slice(2,10).toUpperCase() };
+Pi.init({ version: "2.0", sandbox: false });
+
+function startPayment(amount) {
+    Pi.authenticate().then(function(auth) {
+
+        console.log("Auth Success:", auth);
+
+        return Pi.createPayment({
+            amount: amount,
+            memo: "Ayasofya Charity Bağışı",
+            metadata: { user: auth.user.username }
+        });
+
+    }).then(function(payment) {
+
+        console.log("Payment Created:", payment);
+
+        return Pi.approvePayment(payment.identifier);
+
+    }).then(function(result) {
+
+        console.log("Payment Approved:", result);
+
+        alert("🎉 Bağışınız alındı, teşekkür ederiz!");
+
+    }).catch(function(error) {
+
+        console.error("Payment Error:", error);
+        alert("❌ Ödeme başlatılamadı: " + error.message);
+
+    });
 }
-if(typeof Pi === 'undefined'){
-  window.Pi = {
-    async createPayment(payload, callbacks){
-      const id = 'PAY_' + Math.random().toString(36).slice(2,8).toUpperCase();
-      if(callbacks && callbacks.onReadyForServerApproval) callbacks.onReadyForServerApproval(id);
-      await new Promise(r=>setTimeout(r,900));
-      const tx = 'TX_' + Math.random().toString(36).slice(2,10).toUpperCase();
-      if(callbacks && callbacks.onReadyForServerCompletion) callbacks.onReadyForServerCompletion(id, tx);
-      return { paymentId: id, txid: tx };
-    }
-  }
-}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".donate-button");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", function () {
+            const amount = this.getAttribute("data-amount");
+            startPayment(amount);
+        });
+    });
+});
