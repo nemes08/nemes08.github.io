@@ -10,11 +10,11 @@ async function startPayment(amount) {
     try {
         console.log("⚡ Bağış başlatılıyor...");
 
-        // Kullanıcı doğrulaması
+        // Kullanıcı doğrulama
         const auth = await Pi.authenticate();
         console.log("✔ Auth Başarılı:", auth);
 
-        // Ödeme isteği oluşturma
+        // Ödeme isteği
         const payment = await Pi.createPayment({
             amount: Number(amount),
             memo: "Ayasofya Charity Bağışı",
@@ -24,9 +24,9 @@ async function startPayment(amount) {
             }
         });
 
-        console.log("⏳ Kullanıcı ödeme onayı bekleniyor...");
+        console.log("⏳ Ödeme onayı bekleniyor...");
 
-        // Kullanıcı ödeme onayı
+        // Ödeme onayı
         const approved = await Pi.approvePayment(payment.identifier);
         console.log("✔ Ödeme Onaylandı:", approved);
 
@@ -43,36 +43,26 @@ async function startPayment(amount) {
     }
 }
 
-// Bağış butonlarını aktif hale getirme
-document.addEventListener("DOMContentLoaded", function () {
+// Bağış butonları
+window.donationAmount = 0;
 
-    // DOĞRU SINIF BURASI ("donate-btn")
-    const buttons = document.querySelectorAll(".donate-btn");
+document.addEventListener("DOMContentLoaded", () => {
 
-    buttons.forEach(btn => {
-        btn.addEventListener("click", function () {
-            const amount = this.getAttribute("data-amount");
-            startPayment(amount);
+    // Miktar seçimi
+    document.querySelectorAll(".donate-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            window.donationAmount = btn.getAttribute("data-amount");
         });
     });
 
-    // BAĞIŞ GÖNDER butonu (sendBtn) desteği
+    // Gönder butonu
     const sendBtn = document.getElementById("sendBtn");
     if (sendBtn) {
-        sendBtn.addEventListener("click", function () {
-            const selectedAmount = window.donationAmount || 0;
-            if (!selectedAmount) {
+        sendBtn.addEventListener("click", () => {
+            if (!window.donationAmount) {
                 return alert("Lütfen önce bağış miktarı seçin!");
             }
-            startPayment(selectedAmount);
+            startPayment(window.donationAmount);
         });
     }
-});
-
-// HTML'de seçilen bağış miktarını almak için
-window.donationAmount = 0;
-document.querySelectorAll(".donate-btn").forEach(btn => {
-    btn.addEventListener("click", function () {
-        window.donationAmount = this.getAttribute("data-amount");
-    });
 });
