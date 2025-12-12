@@ -1,57 +1,58 @@
 // ===========================
-// Pi Network Bağış Scripti
+// Ayasofya Charity Pi Donation Script
 // ===========================
 
-// Pi SDK başlat
-Pi.init({
-    version: "2.0",
-    sandbox: false
-});
+// Pi Network SDK hazır mı kontrol et
+function waitForPiSDK() {
+    return new Promise(resolve => {
+        if (window.Pi) return resolve(window.Pi);
+        const check = setInterval(() => {
+            if (window.Pi) {
+                clearInterval(check);
+                resolve(window.Pi);
+            }
+        }, 100);
+    });
+}
 
-// Bağış fonksiyonu
 async function startPayment(amount) {
     try {
-        console.log("⚡ Bağış başlatılıyor...");
+        const Pi = await waitForPiSDK();
 
-        // Kullanıcı doğrulama
-        const auth = await Pi.authenticate();
+        console.log("⚡ Pi SDK yüklendi:", Pi);
+
+        // Kullanıcı doğrulaması
+        const auth = await Pi.authenticate(["username"]);
         console.log("✔ Kullanıcı doğrulandı:", auth);
 
-        // Ödeme isteği oluştur
+        // Ödeme oluştur
         const payment = await Pi.createPayment({
             amount: parseFloat(amount),
-            memo: "Ayasofya Charity Bağışı",
+            memo: "Ayasofya Charity Donation",
             metadata: { username: auth.user.username }
         });
 
         console.log("⏳ Kullanıcı ödeme onayı bekleniyor...");
 
-        // Ödeme onaylama
+        // Kullanıcı ödeme onaylıyor
         const approved = await Pi.approvePayment(payment.identifier);
         console.log("✔ Ödeme onaylandı:", approved);
 
-        alert("🎉 Bağışınız başarıyla alındı. Teşekkür ederiz!");
+        alert("🎉 Bağışınız başarıyla alındı!");
 
     } catch (error) {
-        console.error("❌ Hata:", error);
-
-        let msg = "⚠ Bir hata oluştu.";
-
-        if (error && error.message) {
-            msg = error.message;
-        }
-
-        alert(msg);
+        console.error("❌ Ödeme hatası:", error);
+        alert("⚠ Bağış yapılamadı: " + error.message);
     }
 }
 
-// Sayfa yüklendiğinde bağış butonlarını aktif et
+// Bağış butonlarını aktif et
 document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll(".donate-button");
 
     buttons.forEach(btn => {
         btn.addEventListener("click", function () {
-            const amount = this.getAttribute("data-amount");
+            const amount = this.dataset.amount;
             startPayment(amount);
         });
     });
