@@ -1,68 +1,58 @@
-// Pi Network SDK başlatılıyor
+// ===========================
+// Pi Network Bağış Scripti
+// ===========================
+
+// Pi SDK başlat
 Pi.init({
-    appName: "Ayasofya Charity",
     version: "2.0",
     sandbox: false
 });
 
-// Bağış başlatma fonksiyonu
+// Bağış fonksiyonu
 async function startPayment(amount) {
     try {
         console.log("⚡ Bağış başlatılıyor...");
 
         // Kullanıcı doğrulama
         const auth = await Pi.authenticate();
-        console.log("✔ Auth Başarılı:", auth);
+        console.log("✔ Kullanıcı doğrulandı:", auth);
 
-        // Ödeme isteği
+        // Ödeme isteği oluştur
         const payment = await Pi.createPayment({
-            amount: Number(amount),
+            amount: parseFloat(amount),
             memo: "Ayasofya Charity Bağışı",
-            metadata: {
-                user: auth.user.username,
-                project: "Ayasofya Charity"
-            }
+            metadata: { username: auth.user.username }
         });
 
-        console.log("⏳ Ödeme onayı bekleniyor...");
+        console.log("⏳ Kullanıcı ödeme onayı bekleniyor...");
 
-        // Ödeme onayı
+        // Ödeme onaylama
         const approved = await Pi.approvePayment(payment.identifier);
-        console.log("✔ Ödeme Onaylandı:", approved);
+        console.log("✔ Ödeme onaylandı:", approved);
 
-        alert("🎉 Teşekkür ederiz! Bağış başarıyla alındı.");
+        alert("🎉 Bağışınız başarıyla alındı. Teşekkür ederiz!");
 
     } catch (error) {
-        console.error("❌ Ödeme Hatası:", error);
+        console.error("❌ Hata:", error);
+
+        let msg = "⚠ Bir hata oluştu.";
 
         if (error && error.message) {
-            alert("⚠ Ödeme Başlatılamadı: " + error.message);
-        } else {
-            alert("⚠ Bilinmeyen bir hata oluştu!");
+            msg = error.message;
         }
+
+        alert(msg);
     }
 }
 
-// Bağış butonları
-window.donationAmount = 0;
-
+// Sayfa yüklendiğinde bağış butonlarını aktif et
 document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".donate-button");
 
-    // Miktar seçimi
-    document.querySelectorAll(".donate-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            window.donationAmount = btn.getAttribute("data-amount");
+    buttons.forEach(btn => {
+        btn.addEventListener("click", function () {
+            const amount = this.getAttribute("data-amount");
+            startPayment(amount);
         });
     });
-
-    // Gönder butonu
-    const sendBtn = document.getElementById("sendBtn");
-    if (sendBtn) {
-        sendBtn.addEventListener("click", () => {
-            if (!window.donationAmount) {
-                return alert("Lütfen önce bağış miktarı seçin!");
-            }
-            startPayment(window.donationAmount);
-        });
-    }
 });
