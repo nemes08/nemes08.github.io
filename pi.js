@@ -1,40 +1,24 @@
+// Pi SDK başlat
 Pi.init({
   version: "2.0",
-  sandbox: true
+  sandbox: true // TESTNET
 });
 
-let selectedAmount = null;
+// Bağış fonksiyonu
+async function startPayment(amount) {
+  try {
+    const auth = await Pi.authenticate(["payments"]);
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  // Bağış miktarı butonları
-  document.querySelectorAll(".donate-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      selectedAmount = btn.dataset.amount;
-      alert("Seçilen bağış: " + selectedAmount + " Pi");
+    const payment = await Pi.createPayment({
+      amount: Number(amount),
+      memo: "Ayasofya Charity Bağışı"
     });
-  });
 
-  // Gönder butonu
-  document.getElementById("sendBtn").addEventListener("click", async () => {
-    if (!selectedAmount) {
-      alert("Önce bir bağış miktarı seç");
-      return;
-    }
+    await Pi.approvePayment(payment.identifier);
 
-    try {
-      const auth = await Pi.authenticate(["payments"]);
-      const payment = await Pi.createPayment({
-        amount: Number(selectedAmount),
-        memo: "Ayasofya Charity Bağışı"
-      });
+    alert("🎉 Bağış başarılı, teşekkür ederiz!");
 
-      await Pi.approvePayment(payment.identifier);
-      alert("🎉 Bağış başarılı");
-
-    } catch (e) {
-      alert("❌ Hata: " + e.message);
-    }
-  });
-
-});
+  } catch (e) {
+    alert("❌ Hata: " + e.message);
+  }
+}
