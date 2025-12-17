@@ -150,4 +150,17 @@ body {
   background: #020617;
   font-size: 13px;
   color: #94a3b8;
+  /* 🔥 TÜM GÖRSELLER TIKLAMAYI ENGELLEMESİN */
+img,
+svg,
+.hero img,
+.hero svg,
+.hero::before,
+.hero::after {
+  pointer-events: none !important;
+  .actions,
+.actions button {
+  position: relative;
+  z-index: 9999;
+  pointer-events: auto !important;
 }
