@@ -139,10 +139,11 @@ body {
   color: #94a3b8;
 }
 
-/* TRUST BADGES */
+/* Trust Badges */
 .trust-badges {
-  margin-top: 20px;
+  margin-top: 18px;
   font-size: 14px;
   color: #e0e7ff;
   opacity: 0.9;
+  text-align: center;
 }
