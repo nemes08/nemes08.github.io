@@ -163,4 +163,24 @@ svg,
   position: relative;
   z-index: 9999;
   pointer-events: auto !important;
+
+/* === TIKLAMA SORUNU KESİN ÇÖZÜM === */
+
+.hero {
+  position: relative;
+  z-index: 1;
 }
+
+.actions {
+  position: relative;
+  z-index: 10;
+}
+
+.hero::before,
+.hero img,
+.hero svg {
+  pointer-events: none !important;
+}
+
+  
+
