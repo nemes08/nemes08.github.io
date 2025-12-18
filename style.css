@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.header {
+  padding: 16px 20px;
+  background: #020617;
+}
+
+.logo {
+  font-weight: 700;
+  color: #c7d2fe;
+}
+
+.hero {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #4f46e5, #6d28d9);
+  position: relative;
+  z-index: 1;
+}
+
+.actions {
+  margin-top: 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.actions button {
+  padding: 14px 22px;
+  margin: 8px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.actions button:first-child {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #022c22;
+}
+
+.actions button.secondary {
+  background: #e5e7eb;
+  color: #020617;
+}
+
+.trust-badges {
+  margin-top: 18px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* TIKLAMA KORUMASI */
+.hero::before {
+  content: none;
+}
