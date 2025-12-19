@@ -2,33 +2,44 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pi Trust Market</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Pi SDK -->
+  <!-- Pi SDK (sadece Pi Browser’da aktif olur) -->
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<header class="header">
-  <div class="logo">Pi Trust Market</div>
+<header class="topbar">
+  <div class="brand">Pi Trust Market</div>
 </header>
 
-<section class="hero">
-  <h1>Pi ile Güvenli İlan Platformu</h1>
-  <p>İlan ver, talep oluştur, Pi ile ödeme yap.</p>
+<main class="hero">
+  <h1>Pi Network ile
+    <span>Güvenli Hizmet & İlan</span>
+  </h1>
 
-  <div class="actions">
-    <button onclick="startPayment(0.5)">İlan Ver (0.5 Pi)</button>
-    <button class="secondary" onclick="createRequest()">Talep Oluştur</button>
+  <p>
+    Hizmet sun, talep oluştur, Pi ile şeffaf ve güvenli şekilde işlem yap.
+  </p>
+
+  <div class="cta">
+    <button class="primary" onclick="startPayment(0.5)">İlan Ver · 0.5 π</button>
+    <button class="secondary">Talep Oluştur</button>
   </div>
 
   <div class="trust-badges">
-    🔒 Pi Network uyumlu &nbsp; ⭐ Güvenli &nbsp; 🚫 Yatırım vaadi yok
+    🔒 Pi Network uyumlu &nbsp; • &nbsp;
+    ⭐ Aracılık sistemi &nbsp; • &nbsp;
+    🚫 Yatırım vaadi yok
   </div>
-</section>
+</main>
+
+<footer class="footer">
+  © 2025 Pi Trust Market
+</footer>
 
 <script src="app.js"></script>
 </body>
