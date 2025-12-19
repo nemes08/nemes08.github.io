@@ -1,22 +1,17 @@
-Pi.init({ version: "2.0", sandbox: true });
-
-async function startPayment(amount) {
+function startPayment(amount) {
   if (!window.Pi) {
-    alert("Bu uygulama sadece Pi Browser içinde çalışır.");
+    alert("Bu işlem sadece Pi Browser içinde çalışır.\nTutar: " + amount + " Pi");
     return;
   }
 
-  try {
-    const auth = await Pi.authenticate(["payments"]);
+  Pi.init({ version: "2.0", sandbox: true });
 
-    const payment = await Pi.createPayment({
+  Pi.authenticate(["payments"])
+    .then(() => Pi.createPayment({
       amount: amount,
-      memo: "İlan Yayınlama Ücreti"
-    });
-
-    console.log("Payment created:", payment);
-  } catch (err) {
-    alert("Ödeme iptal edildi veya hata oluştu");
-    console.error(err);
-  }
+      memo: "İlan Yayınlama Bedeli"
+    }))
+    .then(payment => Pi.approvePayment(payment.identifier))
+    .then(() => alert("✅ Ödeme başarılı"))
+    .catch(err => alert("❌ Hata: " + err.message));
 }
