@@ -1,32 +1,9 @@
-// Pi SDK başlat
-Pi.init({
-  version: "2.0",
-  sandbox: true
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("payBtn").addEventListener("click", () => {
+    alert("Buton çalışıyor ✅\n\nBu işlem Pi Browser içinde ödeme başlatır.");
+  });
+
+  document.getElementById("requestBtn").addEventListener("click", () => {
+    alert("Talep oluşturma yakında aktif.");
+  });
 });
-
-// Buton fonksiyonu
-function startPayment(amount) {
-
-  // Pi Browser kontrolü
-  if (!window.Pi) {
-    alert("Bu buton sadece Pi Browser içinde çalışır.");
-    return;
-  }
-
-  Pi.authenticate(["payments"])
-    .then(() => {
-      return Pi.createPayment({
-        amount: Number(amount),
-        memo: "İlan Yayınlama Bedeli"
-      });
-    })
-    .then(payment => {
-      return Pi.approvePayment(payment.identifier);
-    })
-    .then(() => {
-      alert("✅ Ödeme başarılı");
-    })
-    .catch(err => {
-      alert("❌ Hata: " + err.message);
-    });
-}
