@@ -1,39 +1,45 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <title>Pi Trust Market</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
+  Pi.init({
+    version: "2.0",
+    sandbox: true
+  });
 
-  <!-- Pi SDK -->
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  const BACKEND_URL = "https://pi-trust-market-backend.onrender.com";
 
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  async function startPayment(amount) {
+    try {
+      // 🔐 Pi kimlik doğrulama
+      const auth = await Pi.authenticate(["payments"]);
 
-<header class="header">
-  <div class="logo">Pi Trust Market</div>
-</header>
+      // 📡 Backend’e ödeme isteği
+      const res = await fetch(`${BACKEND_URL}/create-payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          amount: Number(amount),
+          memo: "Pi Trust Market Ödeme",
+          uid: auth.user.uid
+        })
+      });
 
-<section class="hero">
-  <h1>Pi Network ile Güvenli Hizmet & İlan</h1>
-  <p>Hizmet sun, talep oluştur, Pi ile güvenli işlem yap.</p>
+      if (!res.ok) {
+        throw new Error("Backend ödeme oluşturamadı");
+      }
 
-  <div class="actions">
-    <button id="payBtn">İlan Ver · 0.5 π</button>
-    <button class="secondary" id="requestBtn">Talep Oluştur</button>
-  </div>
+      const paymentData = await res.json();
 
-  <div class="trust-badges">
-    🔒 Pi Network uyumlu • ⭐ Aracılık sistemi • 🚫 Yatırım vaadi yok
-  </div>
-</section>
+      // 💰 Pi ödeme ekranı
+      const payment = await Pi.createPayment(paymentData);
 
-<footer class="footer">
-  © 2025 Pi Trust Market
-</footer>
+      console.log("Ödeme başarılı:", payment);
+      alert("Ödeme başlatıldı 🚀");
 
-<script src="app.js"></script>
-</body>
-</html>
+    } catch (err) {
+      console.error("Ödeme hatası:", err);
+      alert("Ödeme başlatılamadı ❌");
+    }
+  }
+</script>
