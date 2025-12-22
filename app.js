@@ -1,29 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
+  if (!window.Pi) {
+    alert("Pi Browser ile açmalısın!");
+    return;
+  }
 
-  document.getElementById("payBtn").addEventListener("click", async () => {
-    if (typeof Pi === "undefined") {
-      alert("Bu işlem sadece Pi Browser içinde çalışır.");
-      return;
-    }
-
-    try {
-      await Pi.init({ version: "2.0", sandbox: true });
-
-      const payment = await Pi.createPayment({
-        amount: 0.5,
-        memo: "İlan yayınlama ücreti",
-        metadata: { type: "listing_fee" }
-      });
-
-      alert("Ödeme başlatıldı ✅");
-    } catch (err) {
-      alert("Ödeme iptal edildi veya hata oluştu");
-      console.error(err);
-    }
+  Pi.init({
+    version: "2.0",
+    sandbox: true
   });
 
-  document.getElementById("requestBtn").addEventListener("click", () => {
-    alert("Talep oluşturma yakında aktif.");
-  });
-
+  console.log("Pi SDK yüklendi ✅");
 });
+
+async function pay() {
+  try {
+    const auth = await Pi.authenticate(["payments"]);
+
+    const res = await fetch(
+      "https://pi-trust-market-backend.onrender.com/create-payment",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: 1,
+          memo: "Pi Trust Market Test",
+          uid: auth.user.uid
+        })
+      }
+    );
+
+    const data = await res.json();
+    console.log(data);
+    alert("Ödeme isteği oluşturuldu 🚀");
+
+  } catch (err) {
+    alert("Hata: " + err.message);
+  }
+}
