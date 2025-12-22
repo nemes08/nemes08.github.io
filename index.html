@@ -1,45 +1,24 @@
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-<script>
-  Pi.init({
-    version: "2.0",
-    sandbox: true
-  });
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pi Trust Market</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  const BACKEND_URL = "https://pi-trust-market-backend.onrender.com";
+  <!-- CSS -->
+  <link rel="stylesheet" href="stil.css" />
+</head>
+<body>
 
-  async function startPayment(amount) {
-    try {
-      // 🔐 Pi kimlik doğrulama
-      const auth = await Pi.authenticate(["payments"]);
+  <h1>Pi Trust Market</h1>
+  <p>Pi ile güvenli ödeme</p>
 
-      // 📡 Backend’e ödeme isteği
-      const res = await fetch(`${BACKEND_URL}/create-payment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          amount: Number(amount),
-          memo: "Pi Trust Market Ödeme",
-          uid: auth.user.uid
-        })
-      });
+  <button onclick="pay()">Pi ile Öde</button>
 
-      if (!res.ok) {
-        throw new Error("Backend ödeme oluşturamadı");
-      }
+  <!-- Pi SDK (BU ŞART) -->
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
-      const paymentData = await res.json();
-
-      // 💰 Pi ödeme ekranı
-      const payment = await Pi.createPayment(paymentData);
-
-      console.log("Ödeme başarılı:", payment);
-      alert("Ödeme başlatıldı 🚀");
-
-    } catch (err) {
-      console.error("Ödeme hatası:", err);
-      alert("Ödeme başlatılamadı ❌");
-    }
-  }
-</script>
+  <!-- App JS -->
+  <script src="app.js"></script>
+</body>
+</html>
